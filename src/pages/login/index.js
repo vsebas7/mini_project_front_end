@@ -57,7 +57,7 @@ function LoginPage () {
         const { errors, touched} = formik;
         return (
           <div className="container">
-            <h1>Sign in to continue</h1>
+            <h1>Login to continue</h1>
             <Form>
               <div className="form-row">
                 <label htmlFor="email">Email</label>

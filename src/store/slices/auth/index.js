@@ -86,6 +86,50 @@ export const register = createAsyncThunk(
     }
 )
 
+export const change_password = createAsyncThunk(
+    "auth/change_password",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const response = await axios.get("http://localhost:2000/users" + `password=${payload.password}`)
+
+            // @if data empty
+            if (response.data?.length === 0) {
+                return rejectWithValue({ message : "old password doesn't match." })
+            }
+
+            // @save token to local storage
+            localStorage.setItem("token", response?.data[0]?.token)
+
+            return response.data[0]
+        } catch (error) {
+            console.error(error)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const forgot = createAsyncThunk(
+    "auth/forgot",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const response = await axios.get("http://localhost:2000/users" + `email=${payload.email}`)
+
+            // @if data empty
+            if (response.data?.length === 0) {
+                return rejectWithValue({ message : "email not found." })
+            }
+
+            // @save token to local storage
+            localStorage.setItem("token", response?.data[0]?.token)
+
+            return response.data[0]
+        } catch (error) {
+            console.error(error)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 // @create slice
 const authSlice = createSlice({
     name : "auth",
@@ -145,6 +189,26 @@ const authSlice = createSlice({
             state.token = action.payload?.token            
         },
         [register.rejected] : (state, action) => {
+            state.loading = false
+        },
+        [forgot.pending] : (state, action) => {
+            state.loading = true
+        },
+        [forgot.fulfilled] : (state, action) => {
+            state.loading = false
+            state.email = action.payload?.email
+        },
+        [forgot.rejected] : (state, action) => {
+            state.loading = false
+        },
+        [change_password.pending] : (state, action) => {
+            state.loading = true
+        },
+        [change_password.fulfilled] : (state, action) => {
+            state.loading = false
+            state.password = action.payload?.password
+        },
+        [change_password.rejected] : (state, action) => {
             state.loading = false
         }
     }
