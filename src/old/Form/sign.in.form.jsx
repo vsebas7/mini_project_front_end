@@ -1,12 +1,21 @@
-import { useRef, useState } from "react"
-import { Navigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { login } from "../../store/slices/auth"
+import {React,useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import {loginValidationSchema} from "../../store/slices/auth/validation.js"
-import "../../Form.scss"
+import * as Yup from "yup";
+import YupPassword from 'yup-password';
+import "./Form.scss";
+YupPassword(Yup);
+
+const signInSchema = Yup.object().shape({
+  email: Yup.string().email().required("Email is required"),
+  password: Yup.string()
+  .required("Password is required")
+  .min(6, 'password must contain 6 or more characters with at least one of each: uppercase, special character')
+  .minUppercase(1, 'password must contain at least 1 upper case letter')
+  .minSymbols(1, 'password must contain at least 1 special character'),
+});
 
 
 const initialValuesSignIn = {
@@ -14,47 +23,24 @@ const initialValuesSignIn = {
   password: "",
 };
 
-function LoginPage () {
-    const eye = <FontAwesomeIcon icon={faEye} />;
-    const [passwordShown, setPasswordShown] = useState(false);
-    const togglePasswordVisiblity = () => {
-        setPasswordShown(passwordShown ? false : true);
-    };
-    
-    // @hooks
-    const dispatch = useDispatch()
-    const state = useState()
-    const { token, loading } = useSelector(state => {
-        return {
-            token : state.auth.token,
-            loading : state.auth.loading
-        }
-    })
 
-    // @ref
-    const usernameRef = useRef()
-    const passwordRef = useRef()
 
-    // @event handler
-    const onButtonLogin = () => {
-        const username = usernameRef.current?.value
-        const password = passwordRef.current?.value
-
-        dispatch(login({ username, password }))
-    }
-
-    // @redirect
-    if (token) {
-        return <Navigate to="/" replace/>
-    }
-
-    return (
-        <Formik
-            initialValues={initialValuesSignIn}
-            validationSchema={loginValidationSchema}
-        >
+export const SignInForm = () => {
+  const eye = <FontAwesomeIcon icon={faEye} />;
+  const [passwordShown, setPasswordShown] = useState(false);
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
+  };
+  return (
+    <Formik
+      initialValues={initialValuesSignIn}
+      validationSchema={signInSchema}
+      onSubmit={(values) => {
+        console.log(values);
+      }}
+    >
       {(formik) => {
-        const { errors, touched} = formik;
+        const { errors, touched, isValid, dirty } = formik;
         return (
           <div className="container">
             <h1>Sign in to continue</h1>
@@ -65,7 +51,6 @@ function LoginPage () {
                   type="email"
                   name="email"
                   id="email"
-                  innerRef={usernameRef}
                   className={
                     errors.email && touched.email ? "input-error" : null
                   }
@@ -80,7 +65,6 @@ function LoginPage () {
                     type={passwordShown ? "text" : "password"}
                     name="password"
                     id="password"
-                    innerRef={passwordRef}
                     className={
                       errors.password && touched.password ? "input-error" : null
                     }
@@ -94,8 +78,9 @@ function LoginPage () {
                 />
               </div>
               <button
-                type="button"
-                onClick={onButtonLogin}
+                type="submit"
+                className={!(dirty && isValid) ? "disabled-btn" : ""}
+                disabled={!(dirty && isValid)}
               >
                 Login
               </button>
@@ -104,7 +89,9 @@ function LoginPage () {
         );
       }}
     </Formik>
-    )
-}
+  );
+};
 
-export default LoginPage
+
+
+export default SignInForm;

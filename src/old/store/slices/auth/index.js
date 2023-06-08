@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// @import schema validation
+import { signUpSchema } from "./validation";
 
 // @create async thunk
 export const login = createAsyncThunk(
@@ -53,7 +55,7 @@ export const register = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {
             // @do validation
-            // await registerValidationSchema.validate(payload)
+            await signUpSchema.validate(payload)
 
             // @do validation in remote -> check if username or email already exist
             const response = await axios.get("http://localhost:2000/users" + `?username=${payload.username}&email=${payload.email}`)
@@ -67,7 +69,9 @@ export const register = createAsyncThunk(
                 username : payload.username,
                 email : payload.email,
                 password : payload.password,
-                phone : payload.phone,
+                phobe :payload.phone,
+                role : "user",
+                status : "active",
                 token : Math.random().toString(36).substring(7)
             }
             await axios.post("http://localhost:2000/users", data)
