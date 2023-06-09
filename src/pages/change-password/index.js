@@ -3,7 +3,7 @@ import { useDispatch, useSelector} from "react-redux"
 import { Navigate } from "react-router-dom"
 import { change_password } from "../../store/slices/auth"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {changePasswordSchema} from "../../store/slices/auth/validation.js"
 import * as Yup from "yup";
@@ -34,10 +34,8 @@ function ChangePasswordPage () {
 
     
     const eye = <FontAwesomeIcon icon={faEye} />;
-    const [passwordShown, setPasswordShown] = useState(false);
-    const togglePasswordVisiblity = () => {
-        setPasswordShown(passwordShown ? false : true);
-    };
+    const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
+    const [passwordShown, setPasswordShown] = useState({value:false,field_name:""});
 
     
     // @event handler
@@ -46,7 +44,8 @@ function ChangePasswordPage () {
         //     oldPassword :oldPasswordRef.current?.value,
         //     password : passwordRef.current?.value,
         // }))
-        console.log(oldPasswordRef.current?.value,passwordRef.current?.value)
+        // console.log(oldPasswordRef.current.attributes.name.value)
+        console.log(oldPasswordRef)
     }
 
     // @redirect
@@ -66,16 +65,25 @@ function ChangePasswordPage () {
                 <div className="form-row">
                     <label htmlFor="password">Old Password</label>
                     <div className="form-row-pass">
-                    <Field
-                        type={passwordShown ? "text" : "password"}
-                        name="oldpassword"
-                        id="oldpassword"
-                        innerRef={oldPasswordRef}
-                        className={
-                        errors.oldpassword && touched.oldpassword ? "input-error" : null
-                        }
-                    />
-                    <i className="eye-password" onClick={togglePasswordVisiblity}>{eye}</i>
+                        <Field
+                            type={passwordShown.value && passwordShown.field_name=="oldpassword" ? "text" : "password"}
+                            name="oldpassword"
+                            id="oldpassword"
+                            innerRef={oldPasswordRef}
+                            className={
+                                errors.oldpassword && touched.oldpassword ? "input-error" : null
+                            }
+                        />
+                        <i className="eye-password" 
+                            onClick={()=>{
+                                setPasswordShown({value : !passwordShown.value, field_name :"oldpassword"})
+                            }}
+                            onMouseLeave={()=>{
+                                setPasswordShown({value : passwordShown.value,field_name : ""})
+                            }}
+                        >
+                            {passwordShown.value==true && passwordShown.field_name=="oldpassword" ? eye : eye_slash}
+                        </i>
                     </div>
                     <ErrorMessage
                         name="oldpassword"
@@ -87,7 +95,7 @@ function ChangePasswordPage () {
                     <label htmlFor="password">New Password</label>
                     <div className="form-row-pass">
                     <Field
-                        type={passwordShown ? "text" : "password"}
+                        type={passwordShown.value && passwordShown.field_name=="password" ? "text" : "password"}
                         name="password"
                         id="password"
                         innerRef={passwordRef}
@@ -95,7 +103,16 @@ function ChangePasswordPage () {
                         errors.password && touched.password ? "input-error" : null
                         }
                     />
-                    <i className="eye-password" onClick={togglePasswordVisiblity}>{eye}</i>
+                    <i className="eye-password" 
+                        onClick={()=>{
+                                setPasswordShown({value : !passwordShown.value, field_name:"password"})
+                        }}
+                        onMouseLeave={()=>{
+                            setPasswordShown({value : !passwordShown.value,field_name : ""})
+                        }}
+                    >
+                         {passwordShown.value==true && passwordShown.field_name=="password" ? eye : eye_slash}
+                    </i>
                     </div>
                     <ErrorMessage
                         name="password"
@@ -107,7 +124,7 @@ function ChangePasswordPage () {
                     <label htmlFor="password">Confirm Password</label>
                     <div className="form-row-pass">
                     <Field
-                        type={passwordShown ? "text" : "password"}
+                        type={passwordShown.value && passwordShown.field_name=="confirm" ? "text" : "password"}
                         name="confirm"
                         id="confirm"
                         innerRef={confirmpasswordRef}
@@ -115,7 +132,16 @@ function ChangePasswordPage () {
                         errors.confirm && touched.confirm ? "input-error" : null
                         }
                     />
-                    <i className="eye-password" onClick={togglePasswordVisiblity}>{eye}</i>
+                    <i className="eye-password" 
+                        onClick={()=>{
+                            setPasswordShown({value : !passwordShown.value, field_name:"confirm"})
+                        }}
+                        onMouseLeave={()=>{
+                            setPasswordShown({value : !passwordShown.value,field_name : ""})
+                        }}
+                    >
+                         {passwordShown.value==true && passwordShown.field_name=="confirm" ? eye : eye_slash}
+                    </i>
                     </div>
                     <ErrorMessage
                         name="confirm"

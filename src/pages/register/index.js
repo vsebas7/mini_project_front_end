@@ -3,7 +3,7 @@ import { useDispatch, useSelector} from "react-redux"
 import { Navigate } from "react-router-dom"
 import { register } from "../../store/slices/auth"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {registerValidationSchema} from "../../store/slices/auth/validation.js"
 import * as Yup from "yup";
@@ -38,11 +38,8 @@ function RegisterPage () {
 
     
     const eye = <FontAwesomeIcon icon={faEye} />;
-    const [passwordShown, setPasswordShown] = useState(false);
-    const togglePasswordVisiblity = () => {
-        setPasswordShown(passwordShown ? false : true);
-    };
-
+    const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
+    const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
     
     // @event handler
     const onButtonRegister = () => {
@@ -119,7 +116,7 @@ function RegisterPage () {
                     <label htmlFor="password">Password</label>
                     <div className="form-row-pass">
                     <Field
-                        type={passwordShown ? "text" : "password"}
+                        type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}
                         name="password"
                         id="password"
                         innerRef={passwordRef}
@@ -127,7 +124,16 @@ function RegisterPage () {
                         errors.password && touched.password ? "input-error" : null
                         }
                     />
-                    <i className="eye-password" onClick={togglePasswordVisiblity}>{eye}</i>
+                    <i className="eye-password" 
+                        onClick={()=>{
+                            setPasswordShown({value : !passwordShown.value, field_name : "password" })
+                        }}
+                        onMouseLeave={()=>{
+                            setPasswordShown({value : !passwordShown.value, field_name : "" })
+                        }}
+                    >
+                        {passwordShown.value && passwordShown.field_name == "password" ? eye : eye_slash}
+                    </i>
                     </div>
                     <ErrorMessage
                         name="password"
@@ -139,7 +145,7 @@ function RegisterPage () {
                     <label htmlFor="password">Confirm Password</label>
                     <div className="form-row-pass">
                     <Field
-                        type={passwordShown ? "text" : "password"}
+                        type={passwordShown.value && passwordShown.field_name =="confirm" ? "text" : "password"}
                         name="confirm"
                         id="confirm"
                         innerRef={confirmpasswordRef}
@@ -147,7 +153,16 @@ function RegisterPage () {
                         errors.confirm && touched.confirm ? "input-error" : null
                         }
                     />
-                    <i className="eye-password" onClick={togglePasswordVisiblity}>{eye}</i>
+                    <i className="eye-password" 
+                         onClick={()=>{
+                            setPasswordShown({value : !passwordShown.value, field_name : "confirm" })
+                        }}
+                        onMouseLeave={()=>{
+                            setPasswordShown({value : !passwordShown.value, field_name : "" })
+                        }}
+                    >
+                        {passwordShown.value && passwordShown.field_name =="confirm" ? eye : eye_slash}
+                    </i>
                     </div>
                     <ErrorMessage
                         name="confirm"

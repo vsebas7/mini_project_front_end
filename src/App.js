@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux"
 import { Routes, Route } from "react-router-dom"
 
 // @import page
-import HomePage from "./pages/home"
 import LoginPage from "./pages/login"
 import RegisterPage from "./pages/register"
 import ChangePasswordPage from "./pages/change-password"
@@ -15,6 +14,8 @@ import ProtectedRoute from "./protected.routes"
 // @import action
 import { keepLogin } from "./store/slices/auth"
 import ForgotPasswordPage from "./pages/forgot-password"
+import ProfileUser from "./pages/profile/profile"
+import PublishBlog from "./pages/post_blog"
 
 function App() {
 	// @hooks
@@ -32,7 +33,6 @@ function App() {
 					path="/" 
 					element={
 						<ProtectedRoute>
-							<HomePage />
 						</ProtectedRoute>
 					} 
 				/>
@@ -41,6 +41,8 @@ function App() {
 				<Route path="/change-password" element={<ChangePasswordPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 				<Route path="/reset-password" element={<ResetPasswordPage />} />
+				<Route path="/profile" element={<ProfileUser />} />
+				<Route path="/post-blog" element={<PublishBlog />} />
 			</Routes>
 		</div>
 	);

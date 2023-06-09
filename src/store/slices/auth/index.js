@@ -130,6 +130,31 @@ export const forgot = createAsyncThunk(
     }
 )
 
+export const reset_password = createAsyncThunk(
+    "auth/reset_password",
+    async (payload, { rejectWithValue }) => {
+        try {
+
+            // @save data to database
+            const data = {
+                password : payload.password
+            }
+            await axios.post("https://minpro-blog.purwadhikabootcamp.com/api/auth", data)
+
+            // @save token to local storage
+            localStorage.setItem("token", data.token)
+
+            // @get data user
+            const response2 = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth" + `?token=${data.token}`)
+
+            return response2.data[0]
+        } catch (error) {
+            console.error(error)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 // @create slice
 const authSlice = createSlice({
     name : "auth",
@@ -209,6 +234,16 @@ const authSlice = createSlice({
             state.password = action.payload?.password
         },
         [change_password.rejected] : (state, action) => {
+            state.loading = false
+        },
+        [reset_password.pending] : (state, action) => {
+            state.loading = true
+        },
+        [reset_password.fulfilled] : (state, action) => {
+            state.loading = false
+            state.password = action.payload?.password
+        },
+        [reset_password.rejected] : (state, action) => {
             state.loading = false
         }
     }

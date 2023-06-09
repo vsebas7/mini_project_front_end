@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../store/slices/auth"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {loginValidationSchema} from "../../store/slices/auth/validation.js"
 import "../../Form.scss"
@@ -16,10 +16,8 @@ const initialValuesSignIn = {
 
 function LoginPage () {
     const eye = <FontAwesomeIcon icon={faEye} />;
-    const [passwordShown, setPasswordShown] = useState(false);
-    const togglePasswordVisiblity = () => {
-        setPasswordShown(passwordShown ? false : true);
-    };
+    const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
+    const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
     
     // @hooks
     const dispatch = useDispatch()
@@ -77,7 +75,7 @@ function LoginPage () {
                 <label htmlFor="password">Password</label>
                 <div className="form-row-pass">
                   <Field
-                    type={passwordShown ? "text" : "password"}
+                    type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}
                     name="password"
                     id="password"
                     innerRef={passwordRef}
@@ -85,7 +83,12 @@ function LoginPage () {
                       errors.password && touched.password ? "input-error" : null
                     }
                   />
-                  <i className="eye-password" onClick={togglePasswordVisiblity}>{eye}</i>
+                  <i className="eye-password" 
+                    onClick={()=>{
+                      setPasswordShown({value : !passwordShown.value, field_name : "password"})
+                    }}>
+                      {passwordShown && passwordShown.field_name == "password" ? eye : eye_slash}
+                  </i>
                 </div>
                 <ErrorMessage
                   name="password"

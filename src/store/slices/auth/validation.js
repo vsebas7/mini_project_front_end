@@ -25,9 +25,6 @@ export const loginValidationSchema = Yup.object({
   email: Yup.string().email().required("Email is required"),
   password: Yup.string()
   .required("Password is required")
-  .min(6, 'password must contain 6 or more characters with at least one of each: uppercase, special character')
-  .minUppercase(1, 'password must contain at least 1 upper case letter')
-  .minSymbols(1, 'password must contain at least 1 special character'),
 });
 
 export const forgotValidationSchema = Yup.object({
@@ -56,4 +53,31 @@ export const changePasswordSchema = Yup.object({
   confirm: Yup.string()
     .required("Password is required")
     .oneOf([Yup.ref('password'), null], 'Must match "password" field value'),
+});
+
+export const publishBlogSchema = Yup.object({
+    // title:"",
+    // author: "",
+    // date:"",
+    // picture: "",
+    // category: "",
+    // content:"",
+    // video:"",
+    // keywords:""
+    title: Yup.string()
+    .required("Title is required"),
+    author: Yup.string()
+    .required("Author is required"),
+    date: Yup.string()
+    .required("Date is required"),
+    picture: Yup.string()
+    .required("Picture is required"),
+    category: Yup.string()
+    .required("Category is required"),
+    content: Yup.string()
+    .required("Content is required"),
+    video: Yup.string()
+    .required("Video is required"),
+    keywords: Yup.string()
+    .required("Keywords is required")
 });

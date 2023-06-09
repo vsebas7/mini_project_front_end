@@ -5,9 +5,13 @@ $color-white: #fff;
 $shadow-color: #dedee6;
 $border-radius: 4px;
 
+.default_pic{
+  margin-bottom :0px !important
+}
 
 .container {
   margin-top: 5rem;
+  margin-left: 2rem;
   padding: 3rem 4rem;
   border-radius: $border-radius;
   background: $color-white;
@@ -31,7 +35,7 @@ $border-radius: 4px;
     margin-bottom: 0.5rem;
   }
 
-  input {
+  input,.notlisted, .notlisted-error {
     border: 2px solid rgba($primary-color, 0.8);
     border-radius: $border-radius;
     padding: 0.5rem 1rem;
@@ -48,11 +52,30 @@ $border-radius: 4px;
     width: 100%;
     display: grid;
     margin-bottom: 14px;
-    grid-template-columns: 15fr 1fr;
+    
+    // grid-template-columns: 15fr 1fr;
 
   }
-  i{
-    margin-top:30%
+
+  .eye-password{
+    position: relative;
+    margin-left: auto;
+    margin-right: 1%;
+    margin-top: -5%;
+    cursor: pointer;
+  }
+  @media (max-width: 414px) {
+    .eye-password {
+        position: relative;
+        margin-left: auto;
+        margin-right: 1%;
+        margin-top: -11%;
+      }
+  }
+  
+
+  #email, #phone,#username{
+    margin-right: -6%;
   }
 
   button {
@@ -71,10 +94,10 @@ $border-radius: 4px;
     }
   }
 
-  .input-error {
+  .input-error, .notlisted-error{
     border-color: $error-color;
   }
-
+  
   .error {
     color: $error-color;
     font-size: 1rem;
