@@ -56,27 +56,28 @@ export const register = createAsyncThunk(
             // await registerValidationSchema.validate(payload)
 
             // @do validation in remote -> check if username or email already exist
-            const response = await axios.get("http://localhost:2000/users" + `?username=${payload.username}&email=${payload.email}`)
+            const response = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth" + `?username=${payload.username}&email=${payload.email}`)
             if (response.data?.length > 0) {
                 return rejectWithValue({ message : "username or email already exist." })
             }
 
             // @save data to database
             const data = {
-                uuid : "",
+                // uuid : "",
                 username : payload.username,
                 email : payload.email,
-                password : payload.password,
                 phone : payload.phone,
+                password : payload.password,
+                confirmPassword : payload.confirmPassword,
                 token : Math.random().toString(36).substring(7)
             }
-            await axios.post("http://localhost:2000/users", data)
+            await axios.post("https://minpro-blog.purwadhikabootcamp.com/api/auth", data)
 
             // @save token to local storage
-            localStorage.setItem("token", data.token)
+            // localStorage.setItem("token", data.token)
 
             // @get data user
-            const response2 = await axios.get("http://localhost:2000/users" + `?token=${data.token}`)
+            const response2 = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth" + `?token=${data.token}`)
 
             return response2.data[0]
         } catch (error) {
@@ -119,8 +120,7 @@ export const forgot = createAsyncThunk(
                 return rejectWithValue({ message : "email not found." })
             }
 
-            // @save token to local storage
-            localStorage.setItem("token", response?.data[0]?.token)
+            // @send link to reset password
 
             return response.data[0]
         } catch (error) {

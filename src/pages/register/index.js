@@ -14,8 +14,9 @@ YupPassword(Yup);
 const initialValuesSignUp = {
         username:"",
         email: "",
+        phone:"",
         password: "",
-        phone:""
+        confirmpassword: "",
     };
 
 
@@ -23,8 +24,9 @@ function RegisterPage () {
     // @ref
     const usernameRef = useRef()
     const emailRef = useRef()
-    const passwordRef = useRef()
     const phoneRef = useRef()
+    const passwordRef = useRef()
+    const confirmpasswordRef = useRef()
 
     // @hooks
     const dispatch = useDispatch()
@@ -47,8 +49,9 @@ function RegisterPage () {
         dispatch(register({
             username : usernameRef.current?.value,
             email : emailRef.current?.value,
+            phone : phoneRef.current?.value,
             password : passwordRef.current?.value,
-            phone : phoneRef.current?.value
+            confirmPassword : confirmpasswordRef.current?.value
         }))
     }
 
@@ -59,9 +62,6 @@ function RegisterPage () {
         <Formik
             initialValues={initialValuesSignUp}
             validationSchema={registerValidationSchema}
-            onSubmit={(values) => {
-                console.log(values);
-            }}
         >
         {(formik) => {
             const { errors, touched } = formik;
@@ -98,6 +98,24 @@ function RegisterPage () {
                 </div>
 
                 <div className="form-row">
+                    <label htmlFor="phone">Phone</label>
+                    <Field
+                        type="phone"
+                        name="phone"
+                        id="phone"
+                        innerRef={phoneRef}
+                        className={
+                            errors.phone && touched.phone ? "input-error" : null
+                        }
+                    />
+                    <ErrorMessage
+                        name="phone"
+                        component="span"
+                        className="error"
+                    />
+                </div>
+
+                <div className="form-row">
                     <label htmlFor="password">Password</label>
                     <div className="form-row-pass">
                     <Field
@@ -117,20 +135,22 @@ function RegisterPage () {
                         className="error"
                     />
                 </div>
-
                 <div className="form-row">
-                    <label htmlFor="phone">Phone</label>
+                    <label htmlFor="password">Confirm Password</label>
+                    <div className="form-row-pass">
                     <Field
-                        type="phone"
-                        name="phone"
-                        id="phone"
-                        innerRef={phoneRef}
+                        type={passwordShown ? "text" : "password"}
+                        name="confirm"
+                        id="confirm"
+                        innerRef={confirmpasswordRef}
                         className={
-                            errors.phone && touched.phone ? "input-error" : null
+                        errors.confirm && touched.confirm ? "input-error" : null
                         }
                     />
+                    <i className="eye-password" onClick={togglePasswordVisiblity}>{eye}</i>
+                    </div>
                     <ErrorMessage
-                        name="phone"
+                        name="confirm"
                         component="span"
                         className="error"
                     />

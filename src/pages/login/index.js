@@ -32,15 +32,15 @@ function LoginPage () {
     })
 
     // @ref
-    const usernameRef = useRef()
+    const emailRef = useRef()
     const passwordRef = useRef()
 
     // @event handler
     const onButtonLogin = () => {
-        const username = usernameRef.current?.value
+        const email = emailRef.current?.value
         const password = passwordRef.current?.value
 
-        dispatch(login({ username, password }))
+        dispatch(login({ email, password }))
     }
 
     // @redirect
@@ -65,7 +65,7 @@ function LoginPage () {
                   type="email"
                   name="email"
                   id="email"
-                  innerRef={usernameRef}
+                  innerRef={emailRef}
                   className={
                     errors.email && touched.email ? "input-error" : null
                   }
