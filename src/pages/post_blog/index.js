@@ -50,6 +50,16 @@ function PublishBlog () {
         //     video : videoRef.current?.value,
         //     keyword : keywordRef.current?.value
         // }))
+        console.log(
+            titleRef.current?.value,
+            authorRef.current?.value,
+            dateRef.current?.value,
+            pictureRef.current?.value,
+            categoryRef.current?.value,
+            contentRef.current?.value,
+            videoRef.current?.value,
+            keywordsRef.current?.value
+        )
     }
 
     // @redirect
@@ -124,7 +134,7 @@ function PublishBlog () {
 
                 <div className="form-row">
                     <label htmlFor="picture">Picture</label>
-                    <Field
+                    <input
                         type="file"
                         name="picture"
                         id="picture"
@@ -150,7 +160,7 @@ function PublishBlog () {
                             errors.category && touched.category ? "notlisted-error" : "notlisted"
                         }
                     >
-                        <option className= "null" value="red">Red</option>
+                        <option className= "null" value="red" selected>Red</option>
                         <option value="green">Green</option>
                         <option value="blue">Blue</option>
                     </Field>
@@ -159,8 +169,9 @@ function PublishBlog () {
 
                 <div className="form-row">
                     <label htmlFor="video">Video</label>
-                    <Field
+                    <input
                         type="file"
+                        // accept="video/*"
                         name="video"
                         id="video"
                         innerRef = {videoRef}

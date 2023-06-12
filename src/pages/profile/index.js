@@ -103,8 +103,12 @@ const ProfileUser = () => {
               >
                 Save
               </button>
+              <br/>
+              <br/>
+              <a href='/change-password' >Change Password?</a>
             </Form>
-            <a href='#' >Favorite Blog</a>
+            <br/>
+            <a href='#' >My Favorite Blog</a>
             <a href='#' >My Published Blog</a>
           </div>
         );

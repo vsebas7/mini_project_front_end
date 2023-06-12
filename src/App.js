@@ -14,7 +14,7 @@ import ProtectedRoute from "./protected.routes"
 // @import action
 import { keepLogin } from "./store/slices/auth"
 import ForgotPasswordPage from "./pages/forgot-password"
-import ProfileUser from "./pages/profile/profile"
+import ProfileUser from "./pages/profile"
 import PublishBlog from "./pages/post_blog"
 
 function App() {
