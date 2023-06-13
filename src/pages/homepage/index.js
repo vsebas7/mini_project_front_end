@@ -90,7 +90,7 @@ const Homepage = () => {
                     </div>
                 </div>
 
-                <div className="artboard phone-1">cat2
+                <div className="artboard phone-1" >cat2
                     <div className="card w-96 bg-base-100 shadow-xl image-full">
                         <figure><img src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure>
                         <div className="card-body">

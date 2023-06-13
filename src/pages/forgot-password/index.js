@@ -11,17 +11,14 @@ const initialValuesForgot = {
 };
 
 function ForgotPasswordPage () {
-    
     // @hooks
     const dispatch = useDispatch()
-
     // @ref
     const emailRef = useRef()
     // @event handler
     const onButtonSendLink = () => {
         const email = emailRef.current?.value.toString()
         dispatch(forgot({ email }))
-        // console.log(emailRef.current?.value)
     }
 
     return (
@@ -33,28 +30,31 @@ function ForgotPasswordPage () {
         const { errors, touched} = formik;
         return (
           <div className="container">
-            <h1>Forgot Password</h1>
-            <Form>
-              <div className="form-row">
-                <label htmlFor="email">Email</label>
-                <Field
-                  type="email"
-                  name="email"
-                  id="email"
-                  innerRef={emailRef}
-                  className={
-                    errors.email && touched.email ? "input-error" : null
-                  }
-                />
-                <ErrorMessage name="email" component="span" className="error" />
-              </div>
-              <button
-                type="button"
-                onClick={onButtonSendLink}
-              >
-                Send Reset Password Link
-              </button>
-            </Form>
+            <div className="form card w-96 bg-base-100 shadow-xl">
+              <Form>
+                <h1>Forgot Password</h1>
+                <div className="form-row">
+                  <label htmlFor="email">Email</label>
+                  <Field
+                    type="email"
+                    name="email"
+                    id="email"
+                    innerRef={emailRef}
+                    className={
+                      errors.email && touched.email ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                    }
+                  />
+                  <ErrorMessage name="email" component="span" className="error" />
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-neutral"
+                  onClick={onButtonSendLink}
+                >
+                  Send Reset Password Link
+                </button>
+              </Form>
+            </div>
           </div>
         );
       }}

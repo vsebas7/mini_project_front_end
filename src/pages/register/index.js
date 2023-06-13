@@ -74,121 +74,124 @@ function RegisterPage () {
             const { errors, touched } = formik;
             return (
             <div className="container">
-                <h1>Sign up to continue</h1>
-                <a href="/login">Already have account?</a>
-                <Form>
-                <div className="form-row">
-                    <label htmlFor="username">Username</label>
-                    <Field
-                        type="username"
-                        name="username"
-                        id="username"
-                        innerRef = {usernameRef}
-                        className={
-                            errors.username && touched.username ? "input-error" : null
-                        }
-                    />
-                    <ErrorMessage name="username" component="span" className="error" />
-                </div>
-
-                <div className="form-row">
-                    <label htmlFor="email">Email</label>
-                    <Field
-                        type="email"
-                        name="email"
-                        id="email"
-                        innerRef={emailRef}
-                        className={
-                            errors.email && touched.email ? "input-error" : null
-                        }
-                    />
-                    <ErrorMessage name="email" component="span" className="error" />
-                </div>
-
-                <div className="form-row">
-                    <label htmlFor="phone">Phone</label>
-                    <Field
-                        type="phone"
-                        name="phone"
-                        id="phone"
-                        innerRef={phoneRef}
-                        className={
-                            errors.phone && touched.phone ? "input-error" : null
-                        }
-                    />
-                    <ErrorMessage
-                        name="phone"
-                        component="span"
-                        className="error"
-                    />
-                </div>
-
-                <div className="form-row">
-                    <label htmlFor="password">Password</label>
-                    <div className="form-row-pass">
-                    <Field
-                        type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}
-                        name="password"
-                        id="password"
-                        innerRef={passwordRef}
-                        className={
-                        errors.password && touched.password ? "input-error" : null
-                        }
-                    />
-                    <i className="eye-password" 
-                        onClick={()=>{
-                            setPasswordShown({value : !passwordShown.value, field_name : "password" })
-                        }}
-                        onMouseLeave={()=>{
-                            setPasswordShown({value : !passwordShown.value, field_name : "" })
-                        }}
-                    >
-                        {passwordShown.value && passwordShown.field_name == "password" ? eye_slash : eye}
-                    </i>
+                <div className="form card w-96 bg-base-100 shadow-xl">
+                    <Form>
+                    <h1>Sign up to continue</h1>
+                    <a class="link link-hover" href="/login">Already have account?</a>
+                    <div className="form-row">
+                        <label htmlFor="username">Username</label>
+                        <Field
+                            type="username"
+                            name="username"
+                            id="username"
+                            innerRef = {usernameRef}
+                            className={
+                                errors.username && touched.username ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            }
+                        />
+                        <ErrorMessage name="username" component="span" className="error" />
                     </div>
-                    <ErrorMessage
-                        name="password"
-                        component="span"
-                        className="error"
-                    />
-                </div>
-                <div className="form-row">
-                    <label htmlFor="password">Confirm Password</label>
-                    <div className="form-row-pass">
-                    <Field
-                        type={passwordShown.value && passwordShown.field_name =="confirm" ? "text" : "password"}
-                        name="confirm"
-                        id="confirm"
-                        innerRef={confirmpasswordRef}
-                        className={
-                        errors.confirm && touched.confirm ? "input-error" : null
-                        }
-                    />
-                    <i className="eye-password" 
-                         onClick={()=>{
-                            setPasswordShown({value : !passwordShown.value, field_name : "confirm" })
-                        }}
-                        onMouseLeave={()=>{
-                            setPasswordShown({value : !passwordShown.value, field_name : "" })
-                        }}
-                    >
-                        {passwordShown.value && passwordShown.field_name =="confirm" ? eye_slash : eye}
-                    </i>
-                    </div>
-                    <ErrorMessage
-                        name="confirm"
-                        component="span"
-                        className="error"
-                    />
-                </div>
 
-                <button
-                    type="button"
-                    onClick={onButtonRegister}
-                >
-                    Register
-                </button>
-                </Form>
+                    <div className="form-row">
+                        <label htmlFor="email">Email</label>
+                        <Field
+                            type="email"
+                            name="email"
+                            id="email"
+                            innerRef={emailRef}
+                            className={
+                                errors.email && touched.email ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            }
+                        />
+                        <ErrorMessage name="email" component="span" className="error" />
+                    </div>
+
+                    <div className="form-row">
+                        <label htmlFor="phone">Phone</label>
+                        <Field
+                            type="phone"
+                            name="phone"
+                            id="phone"
+                            innerRef={phoneRef}
+                            className={
+                                errors.phone && touched.phone ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            }
+                        />
+                        <ErrorMessage
+                            name="phone"
+                            component="span"
+                            className="error"
+                        />
+                    </div>
+
+                    <div className="form-row">
+                        <label htmlFor="password">Password</label>
+                        <div className="form-row-pass">
+                        <Field
+                            type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}
+                            name="password"
+                            id="password"
+                            innerRef={passwordRef}
+                            className={
+                            errors.password && touched.password ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            }
+                        />
+                        <i className="eye-password" 
+                            onClick={()=>{
+                                setPasswordShown({value : !passwordShown.value, field_name : "password" })
+                            }}
+                            onMouseLeave={()=>{
+                                setPasswordShown({value : !passwordShown.value, field_name : "" })
+                            }}
+                        >
+                            {passwordShown.value && passwordShown.field_name == "password" ? eye_slash : eye}
+                        </i>
+                        </div>
+                        <ErrorMessage
+                            name="password"
+                            component="span"
+                            className="error"
+                        />
+                    </div>
+                    <div className="form-row">
+                        <label htmlFor="password">Confirm Password</label>
+                        <div className="form-row-pass">
+                        <Field
+                            type={passwordShown.value && passwordShown.field_name =="confirm" ? "text" : "password"}
+                            name="confirm"
+                            id="confirm"
+                            innerRef={confirmpasswordRef}
+                            className={
+                            errors.confirm && touched.confirm ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            }
+                        />
+                        <i className="eye-password" 
+                            onClick={()=>{
+                                setPasswordShown({value : !passwordShown.value, field_name : "confirm" })
+                            }}
+                            onMouseLeave={()=>{
+                                setPasswordShown({value : !passwordShown.value, field_name : "" })
+                            }}
+                        >
+                            {passwordShown.value && passwordShown.field_name =="confirm" ? eye_slash : eye}
+                        </i>
+                        </div>
+                        <ErrorMessage
+                            name="confirm"
+                            component="span"
+                            className="error"
+                        />
+                    </div>
+
+                    <button
+                        type="button"
+                        className="btn btn-neutral"
+                        onClick={onButtonRegister}
+                    >
+                        Register
+                    </button>
+                    </Form>
+                </div>
             </div>
             );
         }}

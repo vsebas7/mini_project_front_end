@@ -115,7 +115,7 @@ export const forgot = createAsyncThunk(
             return response.data
         } catch (error) {
             console.error(error)
-            return rejectWithValue(error.response.data.payload.data)
+            return rejectWithValue(error.response.data)
         }
     }
 )
@@ -262,6 +262,7 @@ const authSlice = createSlice({
         },
         [login.rejected] : (state, action) => {
             state.loading = false
+            alert(action.payload)
         },
         [keepLogin.pending] : (state, action) => {
             state.loading = true
@@ -294,6 +295,7 @@ const authSlice = createSlice({
         },
         [register.rejected] : (state, action) => {
             state.loading = false
+            alert(action.payload)
         },
         [forgot.pending] : (state, action) => {
             state.loading = true
@@ -301,9 +303,11 @@ const authSlice = createSlice({
         [forgot.fulfilled] : (state, action) => {
             state.loading = false
             state.email = action.payload?.email
+            alert(action.payload?.message)
         },
         [forgot.rejected] : (state, action) => {
             state.loading = false
+            alert(action.payload)
         },
         [change_password.pending] : (state, action) => {
             state.loading = true

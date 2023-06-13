@@ -79,85 +79,93 @@ const ProfileUser = () => {
         const { errors, touched,} = formik;
         return (
           <div className="container">
-            <h1>{profile} User Details</h1>
-            <a href='/change-password' >Change Password?</a>
-            <h1 className={file.hidden ? "hidden":"default_pic"}>{profile}</h1>
-            <img src={file.name}/>
-            <br/>
-            <input 
-              className="profile_picture" 
-              ref = {picRef}
-              type="file" 
-              name="profilepic"
-              id="profilepic"
-              onChange={(event)=>{
-                  setFile({name:URL.createObjectURL(event.target.files[0]),hidden : true})
-              }}
-            />
-            <br/>
-            <br/>
-            <Form>
-              <div className="form-row">
-                <label htmlFor="username">Username</label>
-                <Field
-                  type="username"
-                  name="username"
-                  id="username"
-                  placeholder = {username}
-                  innerRef = {usernameRef}
-                  className={
-                    errors.username && touched.username ? "input-error" : null
-                  }
-                />
-                <ErrorMessage name="username" component="span" className="error" />
-              </div>
-
-              <div className="form-row">
-                <label htmlFor="email">Email</label>
-                <Field
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder = {email}
-                  innerRef = {emailRef}
-                  className={
-                    errors.email && touched.email ? "input-error" : null
-                  }
-                />
-                <ErrorMessage name="email" component="span" className="error" />
-              </div>
-              <div className="form-row">
-                <label htmlFor="phone">Phone</label>
-                <Field
-                  type="phone"
-                  name="phone"
-                  id="phone"
-                  placeholder = {phone}
-                  innerRef = {phoneRef}
-                  className={
-                    errors.phone && touched.phone ? "input-error" : null
-                  }
-                />
-                <ErrorMessage
-                  name="phone"
-                  component="span"
-                  className="error"
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={onButtonSaveProfile}
-              >
-                Save
-              </button>
+            <div className="form card w-96 bg-base-100 shadow-xl">
+              <Form>
+              <div class="avatar placeholder">
+                <div class="bg-neutral-focus text-neutral-content rounded-full w-12">
+                  <span>{username?.toUpperCase()}</span>
+                </div>
+              </div> 
+              <h1>{profile ? null :  profile} User Details</h1>
+              <a href='/change-password' >Change Password?</a>
               <br/>
               <br/>
-              
-            </Form>
-            <br/>
-            <a href='#' >My Favorite Blog</a>
-            <a href='#' >My Published Blog</a>
+              <h1 className={file.hidden ? "hidden":"default_pic"}>{profile}</h1>
+              <img src={file.name}/>
+              <br/>
+                <div className="form-row">
+                  <label htmlFor="profilepic">Profile Picture</label>
+                  <input 
+                    className="profilepic file-input file-input-bordered file-input-xxl w-full max-w-xs"
+                    ref = {picRef}
+                    type="file" 
+                    name="profilepic"
+                    id="profilepic"
+                    onChange={(event)=>{
+                        setFile({name:URL.createObjectURL(event.target.files[0]),hidden : true})
+                    }}
+                  />
+                  <br/>
+                  <label htmlFor="username">Username</label>
+                  <Field
+                    type="username"
+                    name="username"
+                    id="username"
+                    placeholder = {username}
+                    innerRef = {usernameRef}
+                    className={
+                      errors.username && touched.username ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                    }
+                  />
+                  <ErrorMessage name="username" component="span" className="error" />
+                </div>
+
+                <div className="form-row">
+                  <label htmlFor="email">Email</label>
+                  <Field
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder = {email}
+                    innerRef = {emailRef}
+                    className={
+                      errors.email && touched.email ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                    }
+                  />
+                  <ErrorMessage name="email" component="span" className="error" />
+                </div>
+                <div className="form-row">
+                  <label htmlFor="phone">Phone</label>
+                  <Field
+                    type="phone"
+                    name="phone"
+                    id="phone"
+                    placeholder = {phone}
+                    innerRef = {phoneRef}
+                    className={
+                      errors.phone && touched.phone ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                    }
+                  />
+                  <ErrorMessage
+                    name="phone"
+                    component="span"
+                    className="error"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  className="btn btn-neutral"
+                  onClick={onButtonSaveProfile}
+                >
+                  Save Changes
+                </button>
+                
+              </Form>
+              <br/>
+              <a href='#' >My Favorite Blog</a>
+              <a href='#' >My Published Blog</a>
+            </div>
           </div>
         );
       }}
