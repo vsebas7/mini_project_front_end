@@ -22,7 +22,7 @@ export const registerValidationSchema = Yup.object({
 });
 
 export const loginValidationSchema = Yup.object({
-  email: Yup.string().email().required("Email is required"),
+  text: Yup.string().required("Input is required"),
   password: Yup.string()
   .required("Password is required")
 });
@@ -56,14 +56,6 @@ export const changePasswordSchema = Yup.object({
 });
 
 export const publishBlogSchema = Yup.object({
-    // title:"",
-    // author: "",
-    // date:"",
-    // picture: "",
-    // category: "",
-    // content:"",
-    // video:"",
-    // keywords:""
     title: Yup.string()
     .required("Title is required"),
     author: Yup.string()
@@ -80,4 +72,21 @@ export const publishBlogSchema = Yup.object({
     .required("Video is required"),
     keywords: Yup.string()
     .required("Keywords is required")
+});
+
+export const editProfileSchema = Yup.object().shape({
+  username : Yup.string().required(),
+  email: Yup.string().email().required(),
+  phone: Yup.string()
+    .required()
+    .matches(/[0-9]/,'phone must be a number')
+    .matches(/0[0-9]/,'phone must start with 0')
+    .min(10,'phone must contain 10 or more digits'),
+  profilepic: Yup
+    .mixed()
+    .test("type", "Only the following formats are accepted: .jpeg, ", (value) => {
+      return value && (
+          value[0].type === "image/jpeg"
+      )
+    })
 });

@@ -11,6 +11,7 @@ import YupPassword from 'yup-password';
 import "../../Form.scss"
 YupPassword(Yup);
 
+const token = localStorage.getItem("token")
 const initialValuesChangePassword = {
         oldPassword : "",
         password: "",
@@ -26,12 +27,6 @@ function ChangePasswordPage () {
 
     // @hooks
     const dispatch = useDispatch()
-    const { token } = useSelector(state => {
-        return {
-            token : state.auth.token
-        }
-    })
-
     
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
@@ -40,16 +35,15 @@ function ChangePasswordPage () {
     
     // @event handler
     const onButtonSavePassword = () => {
-        // dispatch(change_password({
-        //     oldPassword :oldPasswordRef.current?.value,
-        //     password : passwordRef.current?.value,
-        // }))
-        // console.log(oldPasswordRef.current.attributes.name.value)
-        console.log(oldPasswordRef)
+        dispatch(change_password({
+            oldPassword :oldPasswordRef.current?.value,
+            password : passwordRef.current?.value,
+            confirmPassword : confirmpasswordRef.current?.value
+        }))
     }
 
     // @redirect
-    if (token) return <Navigate to="/" replace/>
+    if(token==null)  return <Navigate to="/login" replace/>
 
     return (
         <Formik
@@ -82,7 +76,7 @@ function ChangePasswordPage () {
                                 setPasswordShown({value : passwordShown.value,field_name : ""})
                             }}
                         >
-                            {passwordShown.value==true && passwordShown.field_name=="oldpassword" ? eye : eye_slash}
+                            {passwordShown.value==true && passwordShown.field_name=="oldpassword" ? eye_slash : eye }
                         </i>
                     </div>
                     <ErrorMessage
@@ -111,7 +105,7 @@ function ChangePasswordPage () {
                             setPasswordShown({value : !passwordShown.value,field_name : ""})
                         }}
                     >
-                         {passwordShown.value==true && passwordShown.field_name=="password" ? eye : eye_slash}
+                         {passwordShown.value==true && passwordShown.field_name=="password" ? eye_slash : eye }
                     </i>
                     </div>
                     <ErrorMessage
@@ -140,7 +134,7 @@ function ChangePasswordPage () {
                             setPasswordShown({value : !passwordShown.value,field_name : ""})
                         }}
                     >
-                         {passwordShown.value==true && passwordShown.field_name=="confirm" ? eye : eye_slash}
+                         {passwordShown.value==true && passwordShown.field_name=="confirm" ? eye_slash : eye}
                     </i>
                     </div>
                     <ErrorMessage

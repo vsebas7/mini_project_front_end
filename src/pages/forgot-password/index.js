@@ -1,6 +1,5 @@
-import { useRef, useState } from "react"
-import { Navigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useRef } from "react"
+import { useDispatch } from "react-redux"
 import { forgot } from "../../store/slices/auth"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {forgotValidationSchema} from "../../store/slices/auth/validation.js"
@@ -15,27 +14,14 @@ function ForgotPasswordPage () {
     
     // @hooks
     const dispatch = useDispatch()
-    const state = useState()
-    const { token, loading } = useSelector(state => {
-        return {
-            token : state.auth.token,
-            loading : state.auth.loading
-        }
-    })
 
     // @ref
     const emailRef = useRef()
     // @event handler
     const onButtonSendLink = () => {
-        // const email = emailRef.current?.value
-
-        // dispatch(forgot({ email }))
-        console.log(emailRef.current?.value)
-    }
-
-    // @redirect
-    if (token) {
-        return <Navigate to="/" replace/>
+        const email = emailRef.current?.value.toString()
+        dispatch(forgot({ email }))
+        // console.log(emailRef.current?.value)
     }
 
     return (

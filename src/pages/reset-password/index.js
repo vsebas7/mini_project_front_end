@@ -24,11 +24,6 @@ function ResetPasswordPage () {
 
     // @hooks
     const dispatch = useDispatch()
-    const { token } = useSelector(state => {
-        return {
-            token : state.auth.token
-        }
-    })
 
     
     const eye = <FontAwesomeIcon icon={faEye} />;
@@ -37,14 +32,18 @@ function ResetPasswordPage () {
     
     // @event handler
     const onButtonResetPassword = () => {
-        // dispatch(reset_password({
-        //     password : passwordRef.current?.value,
-        // }))
-        console.log(passwordRef.current?.value)
+        dispatch(reset_password({
+            password : passwordRef.current?.value,
+            confirmPassword : confirmpasswordRef.current?.value
+        }))
     }
 
     // @redirect
-    if (token) return <Navigate to="/" replace/>
+    
+    const token = localStorage.getItem("token")
+    if (token == null) {
+        return <Navigate to="/" replace/>
+    }
 
     return (
         <Formik
@@ -55,7 +54,7 @@ function ResetPasswordPage () {
             const { errors, touched } = formik;
             return (
             <div className="container">
-                <h1>Forgot Password</h1>
+                <h1>Reset Password</h1>
                 <Form>
                 <div className="form-row">
                     <label htmlFor="password">New Password</label>
@@ -77,7 +76,7 @@ function ResetPasswordPage () {
                             setPasswordShown({value : !passwordShown.value, field_name : "" })
                         }}
                     >
-                        {passwordShown.value && passwordShown.field_name == "password" ? eye : eye_slash}
+                        {passwordShown.value && passwordShown.field_name == "password" ? eye_slash : eye}
                     </i>
                     </div>
                     <ErrorMessage
@@ -106,7 +105,7 @@ function ResetPasswordPage () {
                             setPasswordShown({value : !passwordShown.value, field_name : "" })
                         }}
                     >
-                        {passwordShown.value && passwordShown.field_name == "confirm" ? eye : eye_slash}
+                        {passwordShown.value && passwordShown.field_name == "confirm" ? eye_slash : eye}
                     </i>
                     </div>
                     <ErrorMessage

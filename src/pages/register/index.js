@@ -41,19 +41,29 @@ function RegisterPage () {
     const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
     const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
     
+
+    // const username = usernameRef.current?.value;
+    // const email = emailRef.current?.value;
+    // const phone = phoneRef.current?.value;
+    // const password = passwordRef.current?.value;
+    // const confirmPassword = confirmpasswordRef.current?.value
+
     // @event handler
     const onButtonRegister = () => {
         dispatch(register({
-            username : usernameRef.current?.value,
-            email : emailRef.current?.value,
-            phone : phoneRef.current?.value,
-            password : passwordRef.current?.value,
-            confirmPassword : confirmpasswordRef.current?.value
+            username : usernameRef.current?.value.toString(),
+            email : emailRef.current?.value.toString(),
+            phone : phoneRef.current?.value.toString(),
+            password : passwordRef.current?.value.toString(),
+            confirmPassword : confirmpasswordRef.current?.value.toString()
         }))
+        // console.log(
+        //     usernameRef.current?.value.toString()
+        // )
     }
 
     // @redirect
-    if (token) return <Navigate to="/" replace/>
+    if (token) return <Navigate to="/verification" replace/>
 
     return (
         <Formik
@@ -65,6 +75,7 @@ function RegisterPage () {
             return (
             <div className="container">
                 <h1>Sign up to continue</h1>
+                <a href="/login">Already have account?</a>
                 <Form>
                 <div className="form-row">
                     <label htmlFor="username">Username</label>
@@ -132,7 +143,7 @@ function RegisterPage () {
                             setPasswordShown({value : !passwordShown.value, field_name : "" })
                         }}
                     >
-                        {passwordShown.value && passwordShown.field_name == "password" ? eye : eye_slash}
+                        {passwordShown.value && passwordShown.field_name == "password" ? eye_slash : eye}
                     </i>
                     </div>
                     <ErrorMessage
@@ -161,7 +172,7 @@ function RegisterPage () {
                             setPasswordShown({value : !passwordShown.value, field_name : "" })
                         }}
                     >
-                        {passwordShown.value && passwordShown.field_name =="confirm" ? eye : eye_slash}
+                        {passwordShown.value && passwordShown.field_name =="confirm" ? eye_slash : eye}
                     </i>
                     </div>
                     <ErrorMessage

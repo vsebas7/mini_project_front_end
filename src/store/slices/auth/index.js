@@ -1,25 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 // @create async thunk
 export const login = createAsyncThunk(
     "auth/login",
+     
     async (payload, { rejectWithValue }) => {
         try {
-            const response = await axios.get("http://localhost:2000/users" + `?username=${payload.username}&password=${payload.password}`)
-
-            // @if data empty
-            if (response.data?.length === 0) {
-                return rejectWithValue({ message : "username or password does't exist." })
+            const data = {
+                username : payload.username,
+                email : payload.email,
+                phone : payload.phone,
+                password : payload.password,
             }
+            const response = await axios.post("https://minpro-blog.purwadhikabootcamp.com/api/auth/login", data)
 
             // @save token to local storage
-            localStorage.setItem("token", response?.data[0]?.token)
+            localStorage.setItem("token", response.data.token)
+            const token = localStorage.getItem("token")
 
-            return response.data[0]
+            // @get data user
+            const response2 = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+                {headers : {"Authorization":`Bearer ${token}`}}
+            )
+            return response2.data
         } catch (error) {
-            console.error(error)
             return rejectWithValue(error.response.data)
         }
     }
@@ -32,17 +37,12 @@ export const keepLogin = createAsyncThunk(
             // get token from local storage
             const token = localStorage.getItem("token")
 
-            // @if token empty
-            if (!token) {
-                return rejectWithValue({ message : "token not found." })
-            }
-
             // @get data user
-            const response = await axios.get("http://localhost:2000/users" + `?token=${token}`)
-
-            return response.data[0]
+            const response = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+                {headers : {"Authorization":`Bearer ${token}`}}
+            )
+            return response.data
         } catch (error) {
-            console.error(error)
             return rejectWithValue(error.response.data)
         }
     }
@@ -52,36 +52,30 @@ export const register = createAsyncThunk(
     "auth/register",
     async (payload, { rejectWithValue }) => {
         try {
-            // @do validation
-            // await registerValidationSchema.validate(payload)
-
-            // @do validation in remote -> check if username or email already exist
-            const response = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth" + `?username=${payload.username}&email=${payload.email}`)
-            if (response.data?.length > 0) {
-                return rejectWithValue({ message : "username or email already exist." })
-            }
 
             // @save data to database
             const data = {
-                // uuid : "",
-                username : payload.username,
+                username : payload.username ,
                 email : payload.email,
                 phone : payload.phone,
                 password : payload.password,
                 confirmPassword : payload.confirmPassword,
-                token : Math.random().toString(36).substring(7)
             }
-            await axios.post("https://minpro-blog.purwadhikabootcamp.com/api/auth", data)
+            const response = await axios.post("https://minpro-blog.purwadhikabootcamp.com/api/auth/",data)
 
             // @save token to local storage
-            // localStorage.setItem("token", data.token)
+            localStorage.setItem("token", response.data.token)
 
+            const token = localStorage.getItem("token")
+            
             // @get data user
-            const response2 = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth" + `?token=${data.token}`)
+            const response2 = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth/",
+                {headers : {"Authorization":`Bearer ${token}`}}
+            )
 
-            return response2.data[0]
+            return response2.data,response.data
         } catch (error) {
-            console.error(error)
+            console.log(error.response.data)
             return rejectWithValue(error.response.data)
         }
     }
@@ -91,17 +85,18 @@ export const change_password = createAsyncThunk(
     "auth/change_password",
     async (payload, { rejectWithValue }) => {
         try {
-            const response = await axios.get("http://localhost:2000/users" + `password=${payload.password}`)
-
-            // @if data empty
-            if (response.data?.length === 0) {
-                return rejectWithValue({ message : "old password doesn't match." })
+            const token = localStorage.getItem("token")
+            const data = {
+                currentPassword : payload.oldPassword,
+                password : payload.password,
+                confirmPassword : payload.confirmPassword
             }
-
-            // @save token to local storage
-            localStorage.setItem("token", response?.data[0]?.token)
-
-            return response.data[0]
+            
+            const response = await axios.patch("https://minpro-blog.purwadhikabootcamp.com/api/auth/changePass/",
+                {headers : {"Authorization":`Bearer ${token}`}},
+                data
+            )
+            return response.data
         } catch (error) {
             console.error(error)
             return rejectWithValue(error.response.data)
@@ -113,19 +108,14 @@ export const forgot = createAsyncThunk(
     "auth/forgot",
     async (payload, { rejectWithValue }) => {
         try {
-            const response = await axios.get("http://localhost:2000/users" + `email=${payload.email}`)
-
-            // @if data empty
-            if (response.data?.length === 0) {
-                return rejectWithValue({ message : "email not found." })
+            const data = {
+                email : payload.email
             }
-
-            // @send link to reset password
-
-            return response.data[0]
+            const response = await axios.put("https://minpro-blog.purwadhikabootcamp.com/api/auth/forgotPass",data)
+            return response.data
         } catch (error) {
             console.error(error)
-            return rejectWithValue(error.response.data)
+            return rejectWithValue(error.response.data.payload.data)
         }
     }
 )
@@ -135,19 +125,102 @@ export const reset_password = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {
 
+            const token = localStorage.getItem("token")
             // @save data to database
             const data = {
-                password : payload.password
+                password : payload.password,
+                confirmPassword : payload.confirmPassword
             }
-            await axios.post("https://minpro-blog.purwadhikabootcamp.com/api/auth", data)
+            const response = await axios.patch("https://minpro-blog.purwadhikabootcamp.com/api/auth", 
+                {headers : {"Authorization":`Bearer ${token}`}},    
+                data
+            )
 
-            // @save token to local storage
-            localStorage.setItem("token", data.token)
+            return response.data
+            
+        } catch (error) {
+            console.error(error)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 
+
+export const verify_account = createAsyncThunk(
+    "auth/verification",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem("token")
+            await axios.patch(`https://minpro-blog.purwadhikabootcamp.com/api/auth/verify/`,
+                {headers : {"Authorization":`Bearer ${token}`}},
+            )
+            // return response.data
+        } catch (error) {
+            console.error(error)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const changeUsername = createAsyncThunk(
+    "auth/changeUsername",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const data ={
+                currentUsername : payload.currentUsername,
+                newUsername : payload.newUsername,
+                token : payload.token
+            }
             // @get data user
-            const response2 = await axios.get("https://minpro-blog.purwadhikabootcamp.com/api/auth" + `?token=${data.token}`)
+            const response = await axios.patch("https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername/",
+                {headers : {"Authorization":`Bearer ${data.token}`}},
+                data
+            )
+            return response.data
+        } catch (error) {
+            console.error(error)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 
-            return response2.data[0]
+export const changeEmail = createAsyncThunk(
+    "auth/changeEmail",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const data ={
+                currentEmail : payload.currentEmail,
+                newEmail : payload.newEmail,
+                token : payload.token
+            }
+            // @get data user
+            const response = await axios.patch("https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername/",
+                {headers : {"Authorization":`Bearer ${data.token}`}},
+                data
+            )
+            return response.data
+        } catch (error) {
+            console.error(error)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const changePhone = createAsyncThunk(
+    "auth/changePhone",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const data ={
+                currentPhone : payload.currentPhone,
+                newPhone : payload.newPhone,
+                token : payload.token
+            }
+            // @get data user
+            const response = await axios.patch("https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername/",
+                {headers : {"Authorization":`Bearer ${data.token}`}},
+                data
+            )
+            return response.data
         } catch (error) {
             console.error(error)
             return rejectWithValue(error.response.data)
@@ -163,9 +236,13 @@ const authSlice = createSlice({
         id : null,
         username : null,
         password : null,
+        phone : null,
         email : null,
-        role : null,
-        token : null
+        token : null,
+        isVerified :false,
+        imgProfile :null,
+        isLogin : false,
+        isRegistered : false
     },
     reducers : {
 
@@ -176,12 +253,12 @@ const authSlice = createSlice({
         },
         [login.fulfilled] : (state, action) => {
             state.loading = false
-            state.id = action.payload?.id
             state.username = action.payload?.username
             state.password = action.payload?.password
-            state.email = action.payload?.email
-            state.role = action.payload?.role
-            state.token = action.payload?.token            
+            state.email = action.payload?.email 
+            state.phone = action.paylaod?.phone
+            state.token = action.payload?.token
+            state.isLogin = true
         },
         [login.rejected] : (state, action) => {
             state.loading = false
@@ -195,8 +272,10 @@ const authSlice = createSlice({
             state.username = action.payload?.username
             state.password = action.payload?.password
             state.email = action.payload?.email
-            state.role = action.payload?.role
-            state.token = action.payload?.token            
+            state.phone = action.payload?.phone
+            state.token = localStorage.getItem("token")     
+            state.imgProfile = action.payload?.imgProfile    
+            state.isLogin = true  
         },
         [keepLogin.rejected] : (state, action) => {
             state.loading = false
@@ -206,12 +285,12 @@ const authSlice = createSlice({
         },
         [register.fulfilled] : (state, action) => {
             state.loading = false
-            state.id = action.payload?.id
             state.username = action.payload?.username
-            state.password = action.payload?.password
             state.email = action.payload?.email
-            state.role = action.payload?.role
-            state.token = action.payload?.token            
+            state.password = action.payload?.password
+            state.phone = action.payload?.phone
+            state.token = action.payload?.token
+            state.isRegistered = true
         },
         [register.rejected] : (state, action) => {
             state.loading = false
@@ -244,6 +323,30 @@ const authSlice = createSlice({
             state.password = action.payload?.password
         },
         [reset_password.rejected] : (state, action) => {
+            state.loading = false
+        },
+        [verify_account.pending] : (state, action) => {
+            state.loading = true
+        },
+        [verify_account.fulfilled] : (state, action) => {
+            state.loading = false
+            state.isVerified = true
+            state.token = action.payload?.token
+        },
+        [verify_account.rejected] : (state, action) => {
+            state.loading = false
+        },
+        [changeUsername.pending] : (state, action) => {
+            state.loading = true
+        },
+        [changeUsername.fulfilled] : (state, action) => {
+            state.loading = false
+            state.username = action.payload?.username
+            state.email = action.payload?.email
+            state.phone = action.payload?.phone
+            state.password = action.payload?.password
+        },
+        [changeUsername.rejected] : (state, action) => {
             state.loading = false
         }
     }

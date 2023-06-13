@@ -19,6 +19,9 @@ $border-radius: 4px;
     color: $text-color;
     margin-bottom: 2rem;
   }
+  form{
+    width: 500px;
+  }
 
   label,
   input {
@@ -31,7 +34,7 @@ $border-radius: 4px;
   }
 
   .profile_picture{
-    width: 45%;
+    width: 75%;
   }
 
   input,.notlisted, .notlisted-error {
@@ -57,7 +60,7 @@ $border-radius: 4px;
     position: relative;
     margin-left: auto;
     margin-right: 4%;
-    margin-top: -16%;
+    margin-top: -7%;
     cursor: pointer;
   }
   @media (max-width: 414px) {
@@ -94,4 +97,21 @@ $border-radius: 4px;
     font-size: 1rem;
     margin-top: 0.3rem;
   }
+  a{
+    align-self: self-start;
+    padding-left: 5.5rem;
+  }
+}
+
+.homepage{
+  padding-left: 10px;
+  padding-top: 10px;
+
+  .category-blog{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px
+  
+  }
+
 }

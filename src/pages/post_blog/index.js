@@ -53,10 +53,10 @@ function PublishBlog () {
         console.log(
             titleRef.current?.value,
             authorRef.current?.value,
+            contentRef.current?.value,
             dateRef.current?.value,
             pictureRef.current?.value,
             categoryRef.current?.value,
-            contentRef.current?.value,
             videoRef.current?.value,
             keywordsRef.current?.value
         )
@@ -138,7 +138,7 @@ function PublishBlog () {
                         type="file"
                         name="picture"
                         id="picture"
-                        innerRef = {pictureRef}
+                        ref = {pictureRef}
                         className={
                             errors.picture && touched.picture ? "input-error" : null
                         }
@@ -155,7 +155,7 @@ function PublishBlog () {
                         as="select"
                         name="category"
                         id="category"
-                        innerRef = {authorRef}
+                        innerRef = {categoryRef}
                         className={
                             errors.category && touched.category ? "notlisted-error" : "notlisted"
                         }
@@ -174,7 +174,7 @@ function PublishBlog () {
                         // accept="video/*"
                         name="video"
                         id="video"
-                        innerRef = {videoRef}
+                        ref = {videoRef}
                         className={
                             errors.video && touched.video ? "input-error" : null
                         }
