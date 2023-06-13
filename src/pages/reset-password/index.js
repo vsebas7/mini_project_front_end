@@ -1,36 +1,35 @@
 import { useRef, useState } from "react"
 import { useDispatch, useSelector} from "react-redux"
 import { Navigate } from "react-router-dom"
-import { reset_password } from "../../store/slices/auth"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { reset_password } from "../../store/slices/auth/slices"
 import {resetPasswordValidationSchema} from "../../store/slices/auth/validation.js"
-import * as Yup from "yup";
-import YupPassword from 'yup-password';
-import "../../Form.scss"
-YupPassword(Yup);
 
-const initialValuesResetPassword = {
-        password: "",
-        confirm:""
-    };
+import "../../Form.scss"
 
 
 function ResetPasswordPage () {
-    // @ref
+
     const passwordRef = useRef()
     const confirmpasswordRef = useRef()
 
-    // @hooks
+
     const dispatch = useDispatch()
+    const { id } = useSelector(state => {
+        return {
+            id : state.auth.id,
+            // password : state.auth.password
+        }
+    })
 
     
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash =<FontAwesomeIcon icon={faEyeSlash} />;
     const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
     
-    // @event handler
+
     const onButtonResetPassword = () => {
         dispatch(reset_password({
             password : passwordRef.current?.value,
@@ -39,15 +38,12 @@ function ResetPasswordPage () {
     }
 
     // @redirect
-    
-    const token = localStorage.getItem("token")
-    if (token == null) {
-        return <Navigate to="/" replace/>
-    }
-
+    // if(id){
+    //     return <Navigate to="/login" replace/>
+    // }
     return (
         <Formik
-            initialValues={initialValuesResetPassword}
+            initialValues={{ password: "", confirm:""}}
             validationSchema={resetPasswordValidationSchema}
         >
         {(formik) => {

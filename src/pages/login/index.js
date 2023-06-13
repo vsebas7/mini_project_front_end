@@ -1,31 +1,30 @@
 import { React, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Navigate } from "react-router-dom";
-import { login } from "../../store/slices/auth"
+import { Navigate, useNavigate } from "react-router-dom";
+import { login } from "../../store/slices/auth/slices"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {loginValidationSchema} from "../../store/slices/auth/validation.js"
 import "../../Form.scss"
 
-
-const initialValuesSignIn = {
-  text: "",
-  password: "",
-};
-
 function LoginPage () {
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
     const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
-    // @hooks
-    const dispatch = useDispatch()
     
-    // @ref
+    const dispatch = useDispatch()
+    const navigate =  useNavigate()
+
+    const { id } = useSelector(state => {
+      return {
+          id : state.auth.id,
+      }
+    })
+
     const textRef = useRef()
     const passwordRef = useRef()
-
-    // @event handler
+    
     const onButtonLogin = () => {
       const input = textRef.current?.value
       const email_pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
@@ -40,10 +39,16 @@ function LoginPage () {
 
       dispatch(login({ username, email, phone, password }))
     }
+    
+    
+    // @redirect
+    if (id) {
+        return <Navigate to="/profile" replace/>
+    }
 
     return (
         <Formik
-            initialValues={initialValuesSignIn}
+            initialValues={{text : "" , password : ""}}
             validationSchema={loginValidationSchema}
         >
       {(formik) => {
@@ -100,8 +105,8 @@ function LoginPage () {
                   Login
                 </button>
               </Form>
-              <a class="link link-hover" href="/register">Sign Up</a>
-              <a class="link link-hover" href="/forgot-password">Forgot Password</a>
+              <a className="link link-hover" href="/register">Sign Up</a>
+              <a className="link link-hover" href="/forgot-password">Forgot Password</a>
               <br/>
             </div>
           </div>

@@ -1,21 +1,15 @@
 import { useRef } from "react"
 import { useDispatch } from "react-redux"
-import { forgot } from "../../store/slices/auth"
+import { forgot } from "../../store/slices/auth/slices"
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import {forgotValidationSchema} from "../../store/slices/auth/validation.js"
+import { forgotValidationSchema } from "../../store/slices/auth/validation.js"
 import "../../Form.scss"
 
-
-const initialValuesForgot = {
-  email: "",
-};
-
 function ForgotPasswordPage () {
-    // @hooks
     const dispatch = useDispatch()
-    // @ref
+
     const emailRef = useRef()
-    // @event handler
+
     const onButtonSendLink = () => {
         const email = emailRef.current?.value.toString()
         dispatch(forgot({ email }))
@@ -23,7 +17,7 @@ function ForgotPasswordPage () {
 
     return (
         <Formik
-            initialValues={initialValuesForgot}
+            initialValues={{email: ""}}
             validationSchema={forgotValidationSchema}
         >
       {(formik) => {
@@ -51,7 +45,7 @@ function ForgotPasswordPage () {
                   className="btn btn-neutral"
                   onClick={onButtonSendLink}
                 >
-                  Send Reset Password Link
+                  Send Link Reset Password 
                 </button>
               </Form>
             </div>

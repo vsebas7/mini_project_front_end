@@ -75,18 +75,10 @@ export const publishBlogSchema = Yup.object({
 });
 
 export const editProfileSchema = Yup.object().shape({
-  username : Yup.string().required(),
-  email: Yup.string().email().required(),
+  username : Yup.string(),
+  email: Yup.string().email(),
   phone: Yup.string()
-    .required()
     .matches(/[0-9]/,'phone must be a number')
     .matches(/0[0-9]/,'phone must start with 0')
     .min(10,'phone must contain 10 or more digits'),
-  profilepic: Yup
-    .mixed()
-    .test("type", "Only the following formats are accepted: .jpeg, ", (value) => {
-      return value && (
-          value[0].type === "image/jpeg"
-      )
-    })
 });

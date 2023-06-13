@@ -1,15 +1,14 @@
 import { useRef, useState } from "react"
 import { useDispatch, useSelector} from "react-redux"
 import { Navigate } from "react-router-dom"
-import { register } from "../../store/slices/auth"
+import { register } from "../../store/slices/auth/slices"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {registerValidationSchema} from "../../store/slices/auth/validation.js"
-import * as Yup from "yup";
-import YupPassword from 'yup-password';
+
 import "../../Form.scss"
-YupPassword(Yup);
+
 
 const initialValuesSignUp = {
         username:"",
@@ -21,18 +20,19 @@ const initialValuesSignUp = {
 
 
 function RegisterPage () {
-    // @ref
+
     const usernameRef = useRef()
     const emailRef = useRef()
     const phoneRef = useRef()
     const passwordRef = useRef()
     const confirmpasswordRef = useRef()
 
-    // @hooks
+
     const dispatch = useDispatch()
-    const { token } = useSelector(state => {
+    const { id, isVerified } = useSelector(state => {
         return {
-            token : state.auth.token
+            id : state.auth.id,
+            isVerified : state.auth.isVerified
         }
     })
 
@@ -40,15 +40,8 @@ function RegisterPage () {
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
     const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
+
     
-
-    // const username = usernameRef.current?.value;
-    // const email = emailRef.current?.value;
-    // const phone = phoneRef.current?.value;
-    // const password = passwordRef.current?.value;
-    // const confirmPassword = confirmpasswordRef.current?.value
-
-    // @event handler
     const onButtonRegister = () => {
         dispatch(register({
             username : usernameRef.current?.value.toString(),
@@ -57,13 +50,11 @@ function RegisterPage () {
             password : passwordRef.current?.value.toString(),
             confirmPassword : confirmpasswordRef.current?.value.toString()
         }))
-        // console.log(
-        //     usernameRef.current?.value.toString()
-        // )
     }
 
     // @redirect
-    if (token) return <Navigate to="/verification" replace/>
+    if (id && isVerified == true) return <Navigate to="/" replace/>
+    if (isVerified == false  && id != null) return <Navigate to="/verification" replace/>
 
     return (
         <Formik

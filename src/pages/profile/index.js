@@ -3,16 +3,10 @@ import { Navigate } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import YupPassword from 'yup-password';
 import "../../Form.scss"
 import { editProfileSchema } from "../../store/slices/auth/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { changeEmail, changePhone, changeUsername } from "../../store/slices/auth";
-YupPassword(Yup);
-
-
-
+import { changeEmail, changePhone, changeUsername } from "../../store/slices/auth/slices";
 
 const ProfileUser = () => {
   const dispatch = useDispatch()
@@ -20,48 +14,45 @@ const ProfileUser = () => {
   let profile = <FontAwesomeIcon icon={faUser} />
   
   const [file, setFile] = useState({name:"",hidden:false});
-  const {username, email, phone, imgProfile} = useSelector(state=>{
+  const {id,username, email, phone, imgProfile} = useSelector(state=>{
     return {
+      id : state.auth.id,
       username : state.auth.username,
       phone : state.auth.phone,
       email : state.auth.email,
       imgProfile : state.auth.imgProfile,
     }
   })
-
-  const token = localStorage.getItem("token")
-  
+ 
   const usernameRef = useRef()
   const emailRef = useRef()
   const phoneRef = useRef()
   const picRef = useRef()
 
   // @redirect
-  if (token == null) {
-    return <Navigate to="/" replace/>
+  if (id == null) {
+    return <Navigate to="/login" replace/>
   }
     
   // @event handler
   const onButtonSaveProfile = () => {
-    if({username} != usernameRef) {
+    console.log(usernameRef.current.value)
+    if(usernameRef.current.value != {username} && usernameRef.current.value != "") {
       dispatch(changeUsername({
         currentUsername : username,
-        newUsername : usernameRef.current?.value.toString() ? username : usernameRef.current?.value.toString(),
-        token : token
+        newUsername : usernameRef.current.value,
       }))
     }
-    if({email} != emailRef){
+    if(emailRef.current.value != {email} && emailRef.current.value != ""){
       dispatch(changeEmail({
         currentEmail : email,
-        newEmail : emailRef.current?.value.toString() ? email : emailRef.current?.value.toString(),
-        token : token
+        newEmail : emailRef.current.value,
       }))
     }
-    if({phone} != phoneRef){
+    if(phoneRef.current.value != {phone} && phoneRef.current.value != ""){
       dispatch(changePhone({
         currentPhone : phone,
-        newPhone : phoneRef.current?.value.toString() ? phone : phoneRef.current?.value.toString(),
-        token : token
+        newPhone : phoneRef.current.value,
       }))
     } 
   }
@@ -83,7 +74,7 @@ const ProfileUser = () => {
               <Form>
               <div class="avatar placeholder">
                 <div class="bg-neutral-focus text-neutral-content rounded-full w-12">
-                  <span>{username?.toUpperCase()}</span>
+                  <span>{username[0]?.toUpperCase()}</span>
                 </div>
               </div> 
               <h1>{profile ? null :  profile} User Details</h1>
