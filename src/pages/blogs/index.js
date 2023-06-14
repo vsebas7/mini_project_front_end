@@ -1,28 +1,36 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getArticles } from "../../store/slices/blogs/slices"
+import { getArticles} from "../../store/slices/blogs/slices"
+import { getCategories } from "../../store/slices/blogs/getCategory/slices"
 
 import Navbar from "../../components/navbar"
 
 // @local component
 import RenderBlogCards from "./component.card"
 import Pagination from "./component.pagination"
+import RenderCategoryBlogs from "./categoryBlogs"
 
 function BlogsPage () {
     // @state and hooks
     const dispatch = useDispatch()
-    const { currentPage, totalPage, articles } = useSelector(state => {
+    const { isLoading, currentPage, totalPage, articles} = useSelector(state => {
         return {
-            // loading : state.blogs.isLoading,
+            loading : state.blogs.isLoading,
             articles : state.blogs.articles,
             currentPage : state.blogs.currentPage,
             totalPage : state.blogs.totalPage,
         }
     })
 
-    // @side-effect
+    const { categories} = useSelector(state => {
+        return {
+            categories : state.category.categories,
+        }
+    })
+
     useEffect(() => {
         dispatch(getArticles({ id_cat : 3, page : 1, sort : "ASC" }))
+        dispatch(getCategories())
     }, [])
 
     // @event handler
@@ -52,6 +60,7 @@ function BlogsPage () {
                 />
             </div>
             <RenderBlogCards articles={articles} />
+            <RenderCategoryBlogs categories={categories} />
         </div>
     )
 }

@@ -33,8 +33,11 @@ function ChangePasswordPage () {
         }))
     }
 
-    // @redirect
-    // if(id)  return <Navigate to="/login" replace/>
+    console.log(`change password ${id}`)
+    
+    if (id == null) {
+    return <Navigate to="/login" replace/>
+  }
 
     return (
             <Formik

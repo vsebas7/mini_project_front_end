@@ -18,7 +18,7 @@ export const getArticles = createAsyncThunk(
             return data
         } catch (error) {
             console.error(error)
-            Toast.error("Error : something went wrong.")
+            Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
     }

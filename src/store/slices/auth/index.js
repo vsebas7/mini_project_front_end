@@ -128,10 +128,10 @@ const authSlice = createSlice({
             })
         },
         [changeUsername.rejected] : (state, action) => {
-            state.loading = false
+            state.isKeepLoginLoading = false
         },
         [changeEmail.pending] : (state, action) => {
-            state.loading = true
+            state.isKeepLoginLoading = true
         },
         [changeEmail.fulfilled] : (state, action) => {
             state = Object.assign(state, {
@@ -140,10 +140,10 @@ const authSlice = createSlice({
             })
         },
         [changeEmail.rejected] : (state, action) => {
-            state.loading = false
+            state.isKeepLoginLoading = false
         },
         [changePhone.pending] : (state, action) => {
-            state.loading = true
+            state.isKeepLoginLoading = true
         },
         [changePhone.fulfilled] : (state, action) => {
             state = Object.assign(state, {
@@ -152,10 +152,10 @@ const authSlice = createSlice({
             })
         },
         [changePhone.rejected] : (state, action) => {
-            state.loading = false
+            state.isKeepLoginLoading = false
         },
         [changePass.pending] : (state, action) => {
-            state.loading = true
+            state.isKeepLoginLoading = true
         },
         [changePass.fulfilled] : (state, action) => {
             state = Object.assign(state, {
@@ -171,11 +171,16 @@ const authSlice = createSlice({
             state.isKeepLoginLoading = false
         },
         [uploadProfilePic.pending] : (state, action) => {
-            state.isUpdateProfilePicLoading = true
+            state = Object.assign(state, {
+                isUpdateProfilePicLoading : true,
+                imgProfile : null
+            })
         },
         [uploadProfilePic.fulfilled] : (state, action) => {
-            state.isUpdateProfilePicLoading = false
-            state.imgProfile = action.payload
+            state = Object.assign(state, {
+                sisUpdateProfilePicLoading : false,
+                imgProfile : action.payload
+            })
         },
         [uploadProfilePic.rejected] : (state, action) => {
             state.isUpdateProfilePicLoading = false

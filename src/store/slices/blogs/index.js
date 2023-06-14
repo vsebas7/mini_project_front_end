@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // @import async thunk
-import { getArticles } from "./slices"
+import { getArticles, getCategories } from "./slices"
 
 const INITIAL_STATE = {
     articles : [],
     totalPage : 1,
     currentPage : 1,
+    categories :[],
     isLoading : false,  
 }
 
