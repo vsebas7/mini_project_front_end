@@ -4,13 +4,14 @@ import {
     login,
     keepLogin,
     register,
-    verify_account,
+    verification,
     forgot,
     reset_password,
     changeUsername,
     changePhone,
     changeEmail,
     changePass,
+    uploadProfilePic
 } from "./slices"
 
 const INITIAL_STATE = {
@@ -22,6 +23,7 @@ const INITIAL_STATE = {
     isVerified : false,
     isLoginLoading : false,
     isKeepLoginLoading : false,
+    isUpdateProfilePicLoading : false,
 }
 
 // @create slice
@@ -83,14 +85,14 @@ const authSlice = createSlice({
         [register.rejected] : (state, action) => {
             state.isKeepLoginLoading = false
         },
-        [verify_account.pending] : (state, action) => {
+        [verification.pending] : (state, action) => {
             state.isKeepLoginLoading = true
         },
-        [verify_account.fulfilled] : (state, action) => {
+        [verification.fulfilled] : (state, action) => {
             state.isKeepLoginLoading = false
             state.isVerified = true
         },
-        [verify_account.rejected] : (state, action) => {
+        [verification.rejected] : (state, action) => {
             state.isKeepLoginLoading = false
         },
         [forgot.pending] : (state, action) => {
@@ -152,6 +154,32 @@ const authSlice = createSlice({
         [changePhone.rejected] : (state, action) => {
             state.loading = false
         },
+        [changePass.pending] : (state, action) => {
+            state.loading = true
+        },
+        [changePass.fulfilled] : (state, action) => {
+            state = Object.assign(state, {
+                id : "",
+                username : "",
+                email : "",
+                phone : "",
+                isKeepLoginLoading : false,
+                password : ""
+            })
+        },
+        [changePass.rejected] : (state, action) => {
+            state.isKeepLoginLoading = false
+        },
+        [uploadProfilePic.pending] : (state, action) => {
+            state.isUpdateProfilePicLoading = true
+        },
+        [uploadProfilePic.fulfilled] : (state, action) => {
+            state.isUpdateProfilePicLoading = false
+            state.imgProfile = action.payload
+        },
+        [uploadProfilePic.rejected] : (state, action) => {
+            state.isUpdateProfilePicLoading = false
+        }
 
         
     }

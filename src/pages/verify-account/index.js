@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import "../../Form.scss"
-import { verify_account } from "../../store/slices/auth/slices"
+import { verification } from "../../store/slices/auth/slices"
 
 
 
@@ -18,7 +18,7 @@ function VerifyAccountPage () {
 
     // @event handler
     const onButtonVerify = () => {
-      dispatch(verify_account())
+      dispatch(verification())
     }
     // @redirect
     if (id && isVerified) {

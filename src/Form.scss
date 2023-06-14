@@ -103,10 +103,4 @@ $border-radius: 4px;
 .homepage{
   padding-left: 10px;
   padding-top: 10px;
-
-  .category-blog{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px
-  }
 }

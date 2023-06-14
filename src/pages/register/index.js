@@ -53,16 +53,15 @@ function RegisterPage () {
     }
 
     // @redirect
-    if (id && isVerified == true) return <Navigate to="/" replace/>
-    if (isVerified == false  && id != null) return <Navigate to="/verification" replace/>
+    // if (id && isVerified == true) return <Navigate to="/" replace/>
+    // if (isVerified == false  && id != null) return <Navigate to="/verification" replace/>
 
     return (
         <Formik
             initialValues={initialValuesSignUp}
             validationSchema={registerValidationSchema}
         >
-        {(formik) => {
-            const { errors, touched } = formik;
+        {({ errors, touched }) => {
             return (
             <div className="container">
                 <div className="form card w-96 bg-base-100 shadow-xl">

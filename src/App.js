@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"
 import { Toaster } from "react-hot-toast"
 import ProtectedRoute from "./protected.routes"
@@ -11,21 +11,31 @@ import VerifyAccountPage from "./pages/verify-account"
 import ForgotPasswordPage from "./pages/forgot-password"
 import ResetPasswordPage from "./pages/reset-password"
 import ProfileUser from "./pages/profile"
-// import ChangePasswordPage from "./pages/change-password"
+import ChangePasswordPage from "./pages/change-password"
+import BlogsPage from "./pages/blogs"
+// import Homepage from "./pages/homepage"
 
 
 
 // import PublishBlog from "./pages/post_blog"
-// import Homepage from "./pages/homepage"
 
 function App() {
-	// @hooks
 	const dispatch = useDispatch()
+	const { isKeepLoginLoading } = useSelector(state => {
+		return {
+			isKeepLoginLoading : state.auth?.isKeepLoginLoading
+		}
+	})
 
-	// @side effect
 	useEffect(() => {
 		dispatch(keepLogin())
 	}, [])
+
+	if (isKeepLoginLoading) return (
+		<div className="h-screen w-screen flex flex-row align-bottom justify-center">
+			<span className="loading loading-spinner loading-md"></span>
+		</div>
+	)
 
 	return (
 		<div className="h-screen w-screen bg-white">
@@ -37,15 +47,16 @@ function App() {
 						</ProtectedRoute>
 					} 
 				/>
+				{/* <Route path="/home" element={<Homepage />} /> */}
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/verification" element={<VerifyAccountPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 				<Route path="/reset-password" element={<ResetPasswordPage />} />
 				<Route path="/profile" element={<ProfileUser />} />
-				{/* <Route path="/change-password" element={<ChangePasswordPage />} /> */}
+				<Route path="/change-password" element={<ChangePasswordPage />} />
+				<Route path="/blogs" element={<BlogsPage />} />
 				{/* <Route path="/post-blog" element={<PublishBlog />} /> */}
-				{/* <Route path="/home" element={<Homepage />} /> */}
 			</Routes>
 			<Toaster/>
 		</div>

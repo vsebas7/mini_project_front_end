@@ -20,8 +20,7 @@ function ForgotPasswordPage () {
             initialValues={{email: ""}}
             validationSchema={forgotValidationSchema}
         >
-      {(formik) => {
-        const { errors, touched} = formik;
+      {({ errors, touched}) => {
         return (
           <div className="container">
             <div className="form card w-96 bg-base-100 shadow-xl">

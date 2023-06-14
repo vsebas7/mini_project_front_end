@@ -26,8 +26,8 @@ export const keepLogin = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {
             // get token from local storage
-            const response = await api.get("/auth")
-            return response.data
+            const {data} = await api.get("/auth")
+            return data
         } catch (error) {
             return rejectWithValue(error.response.data)
         }
@@ -38,7 +38,7 @@ export const register = createAsyncThunk(
     "auth/register",
     async (payload, { rejectWithValue }) => {
         try {
-            const {data} = await api.post("https://minpro-blog.purwadhikabootcamp.com/api/auth/",payload)
+            const {data} = await api.post("/auth/",payload)
 
             // @save token to local storage
             localStorage.setItem("token", data?.token)
@@ -52,7 +52,7 @@ export const register = createAsyncThunk(
     }
 )
 
-export const verify_account = createAsyncThunk(
+export const verification = createAsyncThunk(
     "auth/verification",
     async (payload, { rejectWithValue }) => {
         try {
@@ -61,7 +61,7 @@ export const verify_account = createAsyncThunk(
             )
             Toast.success(data.message)
         } catch (error) {
-            console.error(error)
+            console.error(error.reponse.data)
             Toast.error(error.reponse.data)
             return rejectWithValue(error.response.data)
         }
@@ -76,7 +76,7 @@ export const forgot = createAsyncThunk(
             Toast.success(data.message) 
         } catch (error) {
             console.error(error)
-            Toast.error(error.response.data)
+            Toast.error("Failed to verify account")
             return rejectWithValue(error.response.data)
         }
     }
@@ -161,6 +161,7 @@ export const changePass = createAsyncThunk(
                 payload
             )
             Toast.success(data.message) 
+            localStorage.removeItem("token")
             return data
         } catch (error) {
             console.error(error)
@@ -170,54 +171,19 @@ export const changePass = createAsyncThunk(
     }
 )
 
-
-
-
-
-
-
-
-
-// export const changeEmail = createAsyncThunk(
-//     "auth/changeEmail",
-//     async (payload, { rejectWithValue }) => {
-//         try {
-//             const data ={
-//                 currentEmail : payload.currentEmail,
-//                 newEmail : payload.newEmail,
-//                 token : payload.token
-//             }
-//             // @get data user
-//             const response = await api.patch("https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername/",
-//                 {headers : {"Authorization":`Bearer ${data.token}`}},
-//                 data
-//             )
-//             return response.data
-//         } catch (error) {
-//             console.error(error)
-//             return rejectWithValue(error.response.data)
-//         }
-//     }
-// )
-
-// export const changePhone = createAsyncThunk(
-//     "auth/changePhone",
-//     async (payload, { rejectWithValue }) => {
-//         try {
-//             const data ={
-//                 currentPhone : payload.currentPhone,
-//                 newPhone : payload.newPhone,
-//                 token : payload.token
-//             }
-//             // @get data user
-//             const response = await api.patch("https://minpro-blog.purwadhikabootcamp.com/api/auth/changeUsername/",
-//                 {headers : {"Authorization":`Bearer ${data.token}`}},
-//                 data
-//             )
-//             return response.data
-//         } catch (error) {
-//             console.error(error)
-//             return rejectWithValue(error.response.data)
-//         }
-//     }
-// )
+export const uploadProfilePic = createAsyncThunk(
+    "auth/uploadProfilePic",
+    async (payload, { rejectWithValue }) => {
+        try {            
+            const {data} = await api.post("/profile/single-uploaded",
+                payload
+            )
+            Toast.success("Image Profile Uploaded") 
+            return data?.imgProfile
+        } catch (error) {
+            console.error(error)
+            Toast.error(error.response.data)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)

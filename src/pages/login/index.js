@@ -1,6 +1,6 @@
 import { React, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { login } from "../../store/slices/auth/slices"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -9,18 +9,17 @@ import {loginValidationSchema} from "../../store/slices/auth/validation.js"
 import "../../Form.scss"
 
 function LoginPage () {
+  
+  const dispatch = useDispatch()
+  const { id } = useSelector(state => {
+    return {
+      id : state.auth.id,
+    }
+  })
+
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
     const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
-    
-    const dispatch = useDispatch()
-    const navigate =  useNavigate()
-
-    const { id } = useSelector(state => {
-      return {
-          id : state.auth.id,
-      }
-    })
 
     const textRef = useRef()
     const passwordRef = useRef()
@@ -51,15 +50,14 @@ function LoginPage () {
             initialValues={{text : "" , password : ""}}
             validationSchema={loginValidationSchema}
         >
-      {(formik) => {
-        const { errors, touched} = formik;
+      {({ errors, touched}) => {
         return (
           <div className="container">
             <div className="form card w-96 bg-base-100 shadow-xl">
               <Form>
               <h1>Login to continue</h1>
                 <div className="form-row">
-                  <label htmlFor="text">Email/Username/Phone</label>
+                  <label>Email/Username/Phone</label>
                   <Field
                     type="text"
                     name="text"
@@ -73,7 +71,7 @@ function LoginPage () {
                 </div>
 
                 <div className="form-row">
-                  <label htmlFor="password">Password</label>
+                  <label>Password</label>
                   <div className="form-row-pass">
                     <Field
                       type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}

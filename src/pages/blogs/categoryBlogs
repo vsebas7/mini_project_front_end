@@ -1,0 +1,23 @@
+function CategoryBlogs ({
+    name = "",
+}) {
+    return (
+        <option>{name}</option>
+    )
+}
+
+
+export default function RenderCategoryBlogs ({
+    articles = [],
+}) {
+    return articles.map((article, index) => {
+        return (
+            <select className="select select-bordered w-full max-w-xs">
+            <option disabled selected>Select Category</option>
+            <BlogCard key={article.id}
+                name={article.name}
+            />
+            </select>
+        )
+    })
+}
