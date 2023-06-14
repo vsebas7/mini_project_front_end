@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getArticles} from "../../store/slices/blogs/slices"
 import { getCategories } from "../../store/slices/blogs/getCategory/slices"
@@ -21,26 +21,45 @@ function BlogsPage () {
             totalPage : state.blogs.totalPage,
         }
     })
-
+    
     const { categories} = useSelector(state => {
         return {
             categories : state.category.categories,
         }
     })
-
+    const [valueCategory, setValue] = useState({id:"",name:""});
+    
     useEffect(() => {
-        dispatch(getArticles({ id_cat : 3, page : 1, sort : "ASC" }))
+        dispatch(getArticles({
+            id_cat : "", 
+            page : 1,
+            sort : "ASC" 
+        }))
         dispatch(getCategories())
     }, [])
-
+    
     // @event handler
     const onChangePagination = (type) => {
         dispatch(getArticles({ 
-            id_cat : 3, 
+            id_cat : valueCategory.id , 
             page : type === "prev" ? currentPage - 1 : currentPage + 1, 
             sort : "ASC" 
         }))
     }
+    
+    
+    const handleChange = (e) => {
+        setValue({
+            id:e.target.selectedOptions[0].className, 
+            name:e.target.value 
+        })
+        dispatch(getArticles({
+            id_cat : e.target.selectedOptions[0].className,
+            page : 1,
+            sort : "ASC" 
+        }))
+    };
+
 
     // @render loading
     // if (loading) return (
@@ -52,6 +71,15 @@ function BlogsPage () {
     return (
         <div className="w-full h-full px-40 py-10 flex flex-row flex-wrap gap-5 justify-between ">
             <Navbar />
+            <select 
+                value={valueCategory.name} 
+                onChange={handleChange}
+                className="select select-bordered w-full max-w-xs"
+            >
+                <option selected >Select Category</option> 
+                <option value="allCategory">All Category</option>
+                <RenderCategoryBlogs categories={categories} />
+            </select>
             <div className="flex flex-row w-full h-auto justify-end">
                 <Pagination 
                     onChangePagination={onChangePagination}
@@ -60,7 +88,6 @@ function BlogsPage () {
                 />
             </div>
             <RenderBlogCards articles={articles} />
-            <RenderCategoryBlogs categories={categories} />
         </div>
     )
 }

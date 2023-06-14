@@ -3,11 +3,7 @@ function CategoryBlogs ({
     name = "",
 }) {
     return (
-        <div className="card w-96 bg-base-100 shadow-xl">
-            <div className="card-body items-center text-center text-ellipsis">
-                <h2 className="card-title">{name}</h2>
-            </div>
-        </div>
+        <option className={id.toString()} value={name}>{name}</option>
     )
 }
 
@@ -18,6 +14,7 @@ export default function RenderCategoryBlogs ({
     return categories.map((category, index) => {
         return (
             <CategoryBlogs key={category.id}
+                id={category.id}
                 name={category.name}
             />
         )
