@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getArticles} from "../../store/slices/blogs/slices"
 import { getCategories } from "../../store/slices/blogs/getCategory/slices"
+import { getFavBlogs } from "../../store/slices/blogs/favBlogs/slices"
+import { getLikedArticles } from "../../store/slices/blogs/myLikedArticles/slices"
 
 import Navbar from "../../components/navbar"
 
@@ -9,7 +11,7 @@ import RenderFavoriteBlogs from "./components/favoriteBlogs"
 import RenderCategoryBlogs from "./components/categoryBlogs"
 import Pagination from "./components/pagination"
 import RenderBlogCards from "./components/listArticles"
-import { getFavBlogs } from "../../store/slices/blogs/favBlogs/slices"
+import RenderLikedBlogCards from "./components/userLikedBlog"
 
 function BlogsPage () {
 
@@ -20,6 +22,14 @@ function BlogsPage () {
             articles : state.blogs.articles,
             currentPage : state.blogs.currentPage,
             totalPage : state.blogs.totalPage,
+        }
+    })
+
+    const { loadingLikedArticles, likedArticles, currentLikedPages} = useSelector(state => {
+        return {
+            loadingLikedArticles : state.liked.isLoading,
+            likedArticles : state.liked.likedArticles,
+            currentLikedPages : state.liked.currentPage
         }
     })
     
@@ -36,6 +46,8 @@ function BlogsPage () {
     })
 
     const [valueCategory, setValue] = useState({id:"",name:""});
+    const [pageshow, changePage] = useState("");
+
     
     useEffect(() => {
         dispatch(getArticles({
@@ -45,6 +57,9 @@ function BlogsPage () {
         }))
         dispatch(getCategories())
         dispatch(getFavBlogs())
+        dispatch(getLikedArticles({
+            page : 1
+        }))
     }, [])
     
     // @event handler
@@ -55,19 +70,33 @@ function BlogsPage () {
             sort : "ASC" 
         }))
     }
+
+    const onLikedArticles = (type) => {
+        dispatch(getLikedArticles({ 
+            page : type === "prev" ? currentLikedPages - 1 : currentLikedPages + 1, 
+        }))
+    }
     
     
-    const handleChange = (e) => {
+    const handleChange = (event) => {
         setValue({
-            id:e.target.selectedOptions[0].className, 
-            name:e.target.value 
+            id:event.target.selectedOptions[0].className, 
+            name:event.target.value 
         })
         dispatch(getArticles({
-            id_cat : e.target.selectedOptions[0].className,
+            id_cat : event.target.selectedOptions[0].className,
             page : 1,
             sort : "ASC" 
         }))
+        dispatch(getLikedArticles({
+            page : 1
+        }))
     };
+
+    const switchPage = (event) =>{
+        console.log(event.target.nextSibling.className)
+        // changePage(event.)
+    }
 
 
     // @render loading
@@ -86,10 +115,9 @@ function BlogsPage () {
                     <RenderFavoriteBlogs favorites={favorites}/>
                 </div>
             </div>
-
             <div className="flex flex-row flex-wrap gap-5 justify-between py-20">
                 <h2>List Blogs</h2>
-                <div className="flex flex-row w-full h-auto gap-5 justify-between">
+                <div className="flex flex-row w-full h-auto gap-5 justify-start">
                 <select 
                     value={valueCategory.name} 
                     onChange={handleChange}
@@ -106,8 +134,55 @@ function BlogsPage () {
                 </div>
                 <RenderBlogCards articles={articles} />
             </div>
+            
+            {/* <label className="swap">
+                <input 
+                    type="checkbox" 
+                    onChange={switchPage}
+                />
+                <div className="swap-on">
+                    Switch to see My Favorite Articles
+                </div>
+                <div className="swap-off">
+                    Switch to see All Articles
+                </div>
+            </label> */}
+            <div class="flex flex-col w-full lg:flex-row h-3/4 mt-8 pb-10 ">
+                    <h2>Favorite Blogs by All User</h2>
+                <div class="grid flex-grow-0 card rounded-box place-items-end h-auto space-y-4 carousel carousel-vertical">
+                    <RenderFavoriteBlogs favorites={favorites}/>
+                </div> 
+                
+                <div class="divider lg:divider-horizontal"></div> 
+                    <h2>My Liked Blogs</h2>
+                <div class="grid flex-grow card w-auto h-auto carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 justify-between py-5">
+                    <RenderLikedBlogCards likedArticles={likedArticles}/>
+                </div>
+                    <Pagination 
+                        onChangePagination={onLikedArticles}
+                        disabledPrev={currentLikedPages === 1}
+                        disabledNext={likedArticles.length == 0}
+                    />
+            </div>
+
+            {/* <div className="flex flex-row flex-wrap gap-5 justify-between py-20 ">
+                <h2>My List Blogs</h2>
+                <div className="flex flex-row w-full h-auto gap-5 justify-start">
+                    <Pagination 
+                        className = ""
+                        onChangePagination={onLikedArticles}
+                        disabledPrev={currentLikedPages === 1}
+                        disabledNext={likedArticles.length == 0}
+                    />
+                </div>
+                    <RenderLikedBlogCards likedArticles={likedArticles}/>
+            </div> */}
+
+            
+            
 
         </div>
+        
     )
 }
 

@@ -5,6 +5,7 @@ import authReducer from "./slices/auth"
 import blogsReducer from "./slices/blogs"
 import categoryReducer from "./slices/blogs/getCategory"
 import favBlogsReducer from "./slices/blogs/favBlogs"
+import likedReducer from "./slices/blogs/myLikedArticles"
 
 // @create store
 const store = configureStore({
@@ -13,6 +14,7 @@ const store = configureStore({
         blogs : blogsReducer,
         category : categoryReducer,
         favorites : favBlogsReducer,
+        liked : likedReducer
     },
 })
 

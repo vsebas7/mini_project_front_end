@@ -11,7 +11,7 @@ export const getArticles = createAsyncThunk(
             const PARAMETER = `id_cat=${id_cat}&sort=${sort}&page=${page}`
 
             const { data } = await api.get("/blog?" + encodeURI(PARAMETER))
-
+    
             return data
             
         } catch (error) {

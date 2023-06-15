@@ -1,6 +1,4 @@
 export default function Pagination ({
-    // onClickPrev = () => {},
-    // onClickNext = () => {},
     disabledPrev = false,
     disabledNext = false,
     onChangePagination = (type = "next") => {},

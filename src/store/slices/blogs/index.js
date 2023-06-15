@@ -7,7 +7,6 @@ const INITIAL_STATE = {
     articles : [],
     totalPage : 1,
     currentPage : 1,
-    categories :[],
     isLoading : false,  
 }
 
