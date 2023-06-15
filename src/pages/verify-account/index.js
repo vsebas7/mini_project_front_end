@@ -16,12 +16,11 @@ function VerifyAccountPage () {
         }
     })
 
-    // @event handler
     const onButtonVerify = () => {
       dispatch(verification())
     }
-    // @redirect
-    if (id && isVerified) {
+    
+    if ( isVerified) {
       return <Navigate to="/profile" replace/>
     }
     

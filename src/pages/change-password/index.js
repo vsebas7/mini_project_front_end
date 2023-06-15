@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import { useDispatch, useSelector} from "react-redux"
-import { Navigate } from "react-router-dom"
+import { Navigate,useNavigate } from "react-router-dom"
 import { changePass } from "../../store/slices/auth/slices"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -11,9 +11,10 @@ import "../../Form.scss"
 function ChangePasswordPage () {
     
     const dispatch = useDispatch()
-    const { id } = useSelector(state => {
+    const navigate = useNavigate()
+    const { isLogin } = useSelector(state => {
         return {
-            id : state.auth.id,
+            isLogin : state.auth.isLogin,
         }
     })
 
@@ -33,11 +34,11 @@ function ChangePasswordPage () {
         }))
     }
 
-    console.log(`change password ${id}`)
+    console.log(`change password ${isLogin}`)
     
-    if (id == null) {
-    return <Navigate to="/login" replace/>
-  }
+    // if (isLogin) {
+    //     return <Navigate to="/login" replace/>
+    // }
 
     return (
             <Formik
@@ -50,7 +51,7 @@ function ChangePasswordPage () {
                 <div className="form card w-96 bg-base-100 shadow-xl">
                     <Form>
                     <h1>Change Password</h1>
-                    <div className="form-row">
+                    <div className="form-row mt-7">
                         <label>Old Password</label>
                         <div className="form-row-pass">
                             <Field
@@ -59,7 +60,7 @@ function ChangePasswordPage () {
                                 id="oldpassword"
                                 innerRef={oldPasswordRef}
                                 className={
-                                    errors.oldpassword && touched.oldpassword ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                                    errors.oldpassword && touched.oldpassword ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                                 }
                             />
                             <i className="eye-password" 
@@ -88,7 +89,7 @@ function ChangePasswordPage () {
                             id="password"
                             innerRef={passwordRef}
                             className={
-                            errors.password && touched.password ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            errors.password && touched.password ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <i className="eye-password" 
@@ -117,7 +118,7 @@ function ChangePasswordPage () {
                             id="confirm"
                             innerRef={confirmpasswordRef}
                             className={
-                            errors.confirm && touched.confirm ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            errors.confirm && touched.confirm ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <i className="eye-password" 
@@ -137,14 +138,23 @@ function ChangePasswordPage () {
                             className="error"
                         />
                     </div>
-
-                    <button
-                        type="button"
-                        className="btn btn-neutral"
-                        onClick={onButtonSavePassword}
-                    >
-                        Change Password
-                    </button>
+                    
+                    <div className="flex justify-between">
+                        <button
+                            type="button"
+                            className="btn btn-ghost "
+                            onClick={()=>navigate("/profile")}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-neutral"
+                            onClick={onButtonSavePassword}
+                        >
+                            Save
+                        </button>
+                    </div>
                     </Form>
                 </div>
             </div>

@@ -17,10 +17,9 @@ function ResetPasswordPage () {
 
 
     const dispatch = useDispatch()
-    const { id } = useSelector(state => {
+    const { isResetPassword } = useSelector(state => {
         return {
-            id : state.auth.id,
-            // password : state.auth.password
+            isResetPassword : state.auth.isResetPassword,
         }
     })
 
@@ -38,9 +37,9 @@ function ResetPasswordPage () {
     }
 
     // @redirect
-    // if(id){
-    //     return <Navigate to="/login" replace/>
-    // }
+    if(!isResetPassword){
+        return <Navigate to="/login" replace/>
+    }
     return (
         <Formik
             initialValues={{ password: "", confirm:""}}

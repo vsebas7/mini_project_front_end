@@ -21,11 +21,24 @@ export const login = createAsyncThunk(
     }
 )
 
+
+export const logout = createAsyncThunk(
+    "auth/logout",
+    async (payload, { rejectWithValue }) => {
+        try {
+            localStorage.removeItem("token")
+
+            return {}
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error)
+        }
+    }
+)
+
 export const keepLogin = createAsyncThunk(
     "auth/keepLogin",
     async (payload, { rejectWithValue }) => {
         try {
-            // get token from local storage
             const {data} = await api.get("/auth")
             return data
         } catch (error) {
@@ -40,7 +53,6 @@ export const register = createAsyncThunk(
         try {
             const {data} = await api.post("/auth/",payload)
 
-            // @save token to local storage
             localStorage.setItem("token", data?.token)
             Toast.success(data?.message)
             return data?.data
@@ -56,9 +68,7 @@ export const verification = createAsyncThunk(
     "auth/verification",
     async (payload, { rejectWithValue }) => {
         try {
-            const {data} = await api.patch("/auth/verify",
-                {},
-            )
+            const {data} = await api.patch("/auth/verify",{},)
             Toast.success(data.message)
         } catch (error) {
             console.error(error.reponse.data)
@@ -86,9 +96,7 @@ export const reset_password = createAsyncThunk(
     "auth/reset_password",
     async (payload, { rejectWithValue }) => {
         try {
-            const {data} = await api.patch("/auth/resetPass", 
-                payload
-            )
+            const {data} = await api.patch("/auth/resetPass",payload)
             Toast.success(data.message) 
             localStorage.removeItem("token")
         } catch (error) {
@@ -104,11 +112,7 @@ export const changeUsername = createAsyncThunk(
     "auth/changeUsername",
     async (payload, { rejectWithValue }) => {
         try {
-            
-            // @get data user
-            const {data} = await api.patch("/auth/changeUsername",
-                payload
-            )
+            const {data} = await api.patch("/auth/changeUsername",payload)
             Toast.success("Change username success") 
             return data
         } catch (error) {
@@ -123,9 +127,7 @@ export const changeEmail = createAsyncThunk(
     "auth/changeEmail",
     async (payload, { rejectWithValue }) => {
         try {            
-            const {data} = await api.patch("auth/changeEmail",
-                payload
-            )
+            const {data} = await api.patch("auth/changeEmail",payload)
             Toast.success("Change email address success") 
             return data
         } catch (error) {
@@ -140,9 +142,7 @@ export const changePhone = createAsyncThunk(
     "auth/changePhone",
     async (payload, { rejectWithValue }) => {
         try {            
-            const {data} = await api.patch("auth/changePhone",
-                payload
-            )
+            const {data} = await api.patch("auth/changePhone",payload)
             Toast.success("Change phone number success") 
             return data
         } catch (error) {
@@ -157,9 +157,7 @@ export const changePass = createAsyncThunk(
     "auth/changePass",
     async (payload, { rejectWithValue }) => {
         try {            
-            const {data} = await api.patch("auth/changePass",
-                payload
-            )
+            const {data} = await api.patch("auth/changePass",payload)
             Toast.success(data.message) 
             localStorage.removeItem("token")
             return data
@@ -175,9 +173,7 @@ export const uploadProfilePic = createAsyncThunk(
     "auth/uploadProfilePic",
     async (payload, { rejectWithValue }) => {
         try {            
-            const {data} = await api.post("/profile/single-uploaded",
-                payload
-            )
+            const {data} = await api.post("/profile/single-uploaded",payload)
             Toast.success("Image Profile Uploaded") 
             return data?.imgProfile
         } catch (error) {

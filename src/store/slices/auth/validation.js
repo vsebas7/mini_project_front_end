@@ -47,12 +47,13 @@ export const changePasswordSchema = Yup.object({
     .required("Password is required"),
   password: Yup.string()
     .required("Password is required")
+    .notOneOf([Yup.ref('oldpassword')],"New and Current Password can't be the same")
     .min(6, 'password must contain 6 or more characters with at least one of each: uppercase, special character')
     .minUppercase(1, 'password must contain at least 1 upper case letter')
     .minSymbols(1, 'password must contain at least 1 special character'),
   confirm: Yup.string()
     .required("Password is required")
-    .oneOf([Yup.ref('password'), null], 'Must match "password" field value'),
+    .oneOf([Yup.ref('password'), null], 'Must match "New Password" field value'),
 });
 
 export const publishBlogSchema = Yup.object({

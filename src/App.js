@@ -50,9 +50,9 @@ function App() {
 				{/* <Route path="/home" element={<Homepage />} /> */}
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />
-				<Route path="/verification" element={<VerifyAccountPage />} />
+				<Route path="/verification/:token" element={<VerifyAccountPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
-				<Route path="/reset-password" element={<ResetPasswordPage />} />
+				<Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 				<Route path="/profile" element={<ProfileUser />} />
 				<Route path="/change-password" element={<ChangePasswordPage />} />
 				<Route path="/blogs" element={<BlogsPage />} />

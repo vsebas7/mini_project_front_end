@@ -1,6 +1,6 @@
-import { React, useEffect, useRef, useState } from "react"
+import { React, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { login } from "../../store/slices/auth/slices"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -11,9 +11,13 @@ import "../../Form.scss"
 function LoginPage () {
   
   const dispatch = useDispatch()
-  const { id } = useSelector(state => {
+  const navigate = useNavigate()
+  const { id,loading,isResetPassword,isLogin } = useSelector(state => {
     return {
       id : state.auth.id,
+      loading : state.auth.isLoginLoading,
+      isResetPassword : state.auth.isResetPassword,
+      isLogin : state.auth.isLogin
     }
   })
 
@@ -41,7 +45,7 @@ function LoginPage () {
     
     
     // @redirect
-    if (id) {
+    if (isResetPassword || isLogin  ) {
         return <Navigate to="/profile" replace/>
     }
 
@@ -50,13 +54,13 @@ function LoginPage () {
             initialValues={{text : "" , password : ""}}
             validationSchema={loginValidationSchema}
         >
-      {({ errors, touched}) => {
+      {({ errors, touched,isSubmitting}) => {
         return (
           <div className="container">
             <div className="form card w-96 bg-base-100 shadow-xl">
               <Form>
               <h1>Login to continue</h1>
-                <div className="form-row">
+                <div className="form-row mt-7">
                   <label>Email/Username/Phone</label>
                   <Field
                     type="text"
@@ -64,7 +68,7 @@ function LoginPage () {
                     id="text"
                     innerRef={textRef}
                     className={
-                      errors.text && touched.text ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                      errors.text && touched.text ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                     }
                   />
                   <ErrorMessage name="text" component="span" className="error" />
@@ -79,7 +83,7 @@ function LoginPage () {
                       id="password"
                       innerRef={passwordRef}
                       className={
-                        errors.password && touched.password ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                        errors.password && touched.password ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                       }
                     />
                     <i className="eye-password" 
@@ -95,15 +99,25 @@ function LoginPage () {
                     className="error"
                   />
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-neutral"
-                  onClick={onButtonLogin}
-                >
-                  Login
-                </button>
+                <div className="flex justify-between">
+                  <button
+                    type="button"
+                    className="btn btn-neutral"
+                    disabled={isSubmitting || loading}
+                    onClick={onButtonLogin}
+                  >
+                    { isSubmitting || loading ?  <span className="loading loading-spinner"></span> : null }
+                    Login
+                  </button>
+                  <button
+                      type="button"
+                      className="btn btn-ghost "
+                      onClick={()=>navigate("/register")}
+                  >
+                      Register
+                  </button>
+                </div>
               </Form>
-              <a className="link link-hover" href="/register">Sign Up</a>
               <a className="link link-hover" href="/forgot-password">Forgot Password</a>
               <br/>
             </div>

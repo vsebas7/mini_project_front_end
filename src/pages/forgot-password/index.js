@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch,useSelector } from "react-redux"
 import { forgot } from "../../store/slices/auth/slices"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { forgotValidationSchema } from "../../store/slices/auth/validation.js"
@@ -7,6 +7,11 @@ import "../../Form.scss"
 
 function ForgotPasswordPage () {
     const dispatch = useDispatch()
+    const { isForgotLoading } = useSelector(state => {
+        return {
+          isForgotLoading : state.auth.isForgotLoading,
+        }
+    })
 
     const emailRef = useRef()
 
@@ -20,13 +25,13 @@ function ForgotPasswordPage () {
             initialValues={{email: ""}}
             validationSchema={forgotValidationSchema}
         >
-      {({ errors, touched}) => {
+      {({ errors, touched, isSubmitting}) => {
         return (
           <div className="container">
-            <div className="form card w-96 bg-base-100 shadow-xl">
+            <div className="form card w-4/12 bg-base-100 shadow-xl">
               <Form>
                 <h1>Forgot Password</h1>
-                <div className="form-row">
+                <div className="form-row mt-7">
                   <label htmlFor="email">Email</label>
                   <Field
                     type="email"
@@ -34,7 +39,7 @@ function ForgotPasswordPage () {
                     id="email"
                     innerRef={emailRef}
                     className={
-                      errors.email && touched.email ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                      errors.email && touched.email ? "input-error input input-md w-full" : "input input-bordered input-md w-full"
                     }
                   />
                   <ErrorMessage name="email" component="span" className="error" />
@@ -42,8 +47,10 @@ function ForgotPasswordPage () {
                 <button
                   type="button"
                   className="btn btn-neutral"
+                  disabled={isSubmitting || isForgotLoading}
                   onClick={onButtonSendLink}
                 >
+                  { isSubmitting || isForgotLoading ?  <span className="loading loading-spinner"></span> : null }
                   Send Link Reset Password 
                 </button>
               </Form>

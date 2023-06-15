@@ -29,10 +29,10 @@ function RegisterPage () {
 
 
     const dispatch = useDispatch()
-    const { id, isVerified } = useSelector(state => {
+    const { id, isRegisterLoading } = useSelector(state => {
         return {
             id : state.auth.id,
-            isVerified : state.auth.isVerified
+            isRegisterLoading : state.auth.isRegisterLoading
         }
     })
 
@@ -53,58 +53,57 @@ function RegisterPage () {
     }
 
     // @redirect
-    // if (id && isVerified == true) return <Navigate to="/" replace/>
-    // if (isVerified == false  && id != null) return <Navigate to="/verification" replace/>
+    if (id) return <Navigate to="/blogs" replace/>
 
     return (
         <Formik
             initialValues={initialValuesSignUp}
             validationSchema={registerValidationSchema}
         >
-        {({ errors, touched }) => {
+        {({ errors, touched, isSubmitting }) => {
             return (
             <div className="container">
-                <div className="form card w-96 bg-base-100 shadow-xl">
+                <div className="form card w-4/12 bg-base-100 shadow-xl">
                     <Form>
                     <h1>Sign up to continue</h1>
                     <a class="link link-hover" href="/login">Already have account?</a>
-                    <div className="form-row">
-                        <label htmlFor="username">Username</label>
+                    <div className="form-row mt-5">
+                        <label >Username</label>
                         <Field
                             type="username"
                             name="username"
                             id="username"
                             innerRef = {usernameRef}
                             className={
-                                errors.username && touched.username ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                                errors.username && touched.username ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <ErrorMessage name="username" component="span" className="error" />
                     </div>
 
                     <div className="form-row">
-                        <label htmlFor="email">Email</label>
+                        <label >Email</label>
                         <Field
                             type="email"
                             name="email"
                             id="email"
                             innerRef={emailRef}
                             className={
-                                errors.email && touched.email ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                                errors.email && touched.email ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <ErrorMessage name="email" component="span" className="error" />
                     </div>
 
                     <div className="form-row">
-                        <label htmlFor="phone">Phone</label>
+                        <label >Phone</label>
                         <Field
                             type="phone"
                             name="phone"
                             id="phone"
                             innerRef={phoneRef}
                             className={
-                                errors.phone && touched.phone ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                                errors.phone && touched.phone ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <ErrorMessage
@@ -115,7 +114,7 @@ function RegisterPage () {
                     </div>
 
                     <div className="form-row">
-                        <label htmlFor="password">Password</label>
+                        <label >Password</label>
                         <div className="form-row-pass">
                         <Field
                             type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}
@@ -123,7 +122,7 @@ function RegisterPage () {
                             id="password"
                             innerRef={passwordRef}
                             className={
-                            errors.password && touched.password ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            errors.password && touched.password ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <i className="eye-password" 
@@ -144,7 +143,7 @@ function RegisterPage () {
                         />
                     </div>
                     <div className="form-row">
-                        <label htmlFor="password">Confirm Password</label>
+                        <label >Confirm Password</label>
                         <div className="form-row-pass">
                         <Field
                             type={passwordShown.value && passwordShown.field_name =="confirm" ? "text" : "password"}
@@ -152,7 +151,7 @@ function RegisterPage () {
                             id="confirm"
                             innerRef={confirmpasswordRef}
                             className={
-                            errors.confirm && touched.confirm ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            errors.confirm && touched.confirm ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <i className="eye-password" 
@@ -176,8 +175,10 @@ function RegisterPage () {
                     <button
                         type="button"
                         className="btn btn-neutral"
+                        disabled={isSubmitting || isRegisterLoading}
                         onClick={onButtonRegister}
                     >
+                        { isSubmitting || isRegisterLoading ?  <span className="loading loading-spinner"></span> : null }
                         Register
                     </button>
                     </Form>

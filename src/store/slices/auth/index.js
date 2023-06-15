@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
     login,
+    logout,
     keepLogin,
     register,
     verification,
@@ -15,15 +16,18 @@ import {
 } from "./slices"
 
 const INITIAL_STATE = {
-    id : null,
-    username: "",
     email: "",
     phone : "",
     imgProfile : null,
     isVerified : false,
+    isLogin : false,
+    isResetPassword : false,
+    isRegisterLoading : false,
     isLoginLoading : false,
     isKeepLoginLoading : false,
+    isForgotLoading : false,
     isUpdateProfilePicLoading : false,
+    isLogoutLoading : false,
 }
 
 // @create slice
@@ -45,11 +49,24 @@ const authSlice = createSlice({
                 phone : action.payload?.phone,
                 imgProfile : action.payload?.imgProfile,
                 isVerified : action.payload?.isVerified,
+                isLogin : true,
                 isLoginLoading : false,
             })
         },
         [login.rejected] : (state, action) => {
-            state.isLoginLoading = false
+            state = Object.assign(state, {
+                isLoginLoading : false,
+                isLogin : false,
+            })
+        },
+        [logout.pending] : (state, action) => {
+            state.isLogoutLoading = true
+        },
+        [logout.fulfilled] : (state, action) => {
+            state = Object.assign(state, INITIAL_STATE)         
+        },
+        [logout.rejected] : (state, action) => {
+            state.isLogoutLoading = false
         },
         [keepLogin.pending] : (state, action) => {
             state.isKeepLoginLoading = true
@@ -63,14 +80,18 @@ const authSlice = createSlice({
                 password : action.payload?.password,
                 imgProfile : action.payload?.imgProfile,
                 isVerified : action.payload?.isVerified,
+                isLogin : true,
                 isKeepLoginLoading : false,
             })
         },
         [keepLogin.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state = Object.assign(state, {
+                isKeepLoginLoading : false,
+                isLogin : false,
+            })
         },
         [register.pending] : (state, action) => {
-            state.isKeepLoginLoading = true
+            state.isRegisterLoading = true
         },
         [register.fulfilled] : (state, action) => {
             state = Object.assign(state, {
@@ -80,43 +101,49 @@ const authSlice = createSlice({
                 phone : action.payload?.phone,
                 isVerified : false,
                 isKeepLoginLoading : false,
+                isRegisterLoading : false,
             })
         },
         [register.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state = Object.assign(state, {
+                isRegisterLoading : false,
+                isLogin : false,
+            })
         },
         [verification.pending] : (state, action) => {
-            state.isKeepLoginLoading = true
+            state.isRegisterLoading = true
         },
         [verification.fulfilled] : (state, action) => {
-            state.isKeepLoginLoading = false
-            state.isVerified = true
+            state = Object.assign(state, {
+                isRegisterLoading : false,
+                isVerified : true,
+                isLogin : false,
+            })
         },
         [verification.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state = Object.assign(state, {
+                isRegisterLoading : false,
+                isVerified : false,
+                isLogin : false,
+            })
         },
         [forgot.pending] : (state, action) => {
-            state.isKeepLoginLoading = true
+            state.isForgotLoading = true
         },
         [forgot.fulfilled] : (state, action) => {
-            state = Object.assign(state, {
-                isKeepLoginLoading : false,
-                password : "",
-            })
+            state.isForgotLoading = false
         },
         [forgot.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state.isForgotLoading = false
         },
         [reset_password.pending] : (state, action) => {
-            state.isKeepLoginLoading = true
+            state.isResetPassword = false
         },
         [reset_password.fulfilled] : (state, action) => {
-            state = Object.assign(state, {
-                isKeepLoginLoading : false,
-            })
+            state.isResetPassword = true
         },
         [reset_password.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state.isResetPassword = false
         },
         [changeUsername.pending] : (state, action) => {
             state.loading = true
@@ -155,7 +182,7 @@ const authSlice = createSlice({
             state.isKeepLoginLoading = false
         },
         [changePass.pending] : (state, action) => {
-            state.isKeepLoginLoading = true
+            state.isResetPassword = false
         },
         [changePass.fulfilled] : (state, action) => {
             state = Object.assign(state, {
@@ -163,12 +190,12 @@ const authSlice = createSlice({
                 username : "",
                 email : "",
                 phone : "",
-                isKeepLoginLoading : false,
+                isResetPassword : true,
                 password : ""
             })
         },
         [changePass.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state.isResetPassword = false
         },
         [uploadProfilePic.pending] : (state, action) => {
             state = Object.assign(state, {

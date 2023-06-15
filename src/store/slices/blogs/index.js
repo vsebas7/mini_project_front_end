@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // @import async thunk
-import { getArticles, getCategories } from "./slices"
+import { getArticles, likeArticle } from "./slices"
 
 const INITIAL_STATE = {
     articles : [],
@@ -27,6 +27,15 @@ const blogsSlice = createSlice({
             })
         },
         [getArticles.rejected] : (state, action) => {
+            state.isLoading = false
+        },
+        [likeArticle.pending] : (state, action) => {
+            state.isLoading = true
+        },
+        [likeArticle.fulfilled] : (state, action) => {
+            state.isLoading = false
+        },
+        [likeArticle.rejected] : (state, action) => {
             state.isLoading = false
         }
     }
