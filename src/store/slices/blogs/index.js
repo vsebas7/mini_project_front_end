@@ -5,6 +5,8 @@ import { getArticles, likeArticle } from "./slices"
 
 const INITIAL_STATE = {
     articles : [],
+    allArticles:[],
+    filteredArticles:[],
     totalPage : 1,
     currentPage : 1,
     isLoading : false,  
@@ -20,9 +22,11 @@ const blogsSlice = createSlice({
         [getArticles.fulfilled] : (state, action) => {
             state = Object.assign(state, {
                 isLoading : false,
-                articles : action.payload?.result,
-                totalPage : action.payload?.page,
-                currentPage : action.payload?.blogPage,
+                articles : action.payload?.data.result,
+                totalPage : action.payload?.data.page,
+                currentPage : action.payload?.data.blogPage,
+                allArticles : action.payload?.response,
+                filteredArticles : action.payload?.outputFilter
             })
         },
         [getArticles.rejected] : (state, action) => {

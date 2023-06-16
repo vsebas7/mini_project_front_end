@@ -259,7 +259,7 @@ const ProfileUser = () => {
                   
                 </Form>
                 <br/>
-                <a href='#' >My Favorite Blog</a>
+                
               </div>
             </div>
           </div>

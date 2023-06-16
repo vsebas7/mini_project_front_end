@@ -22,6 +22,7 @@ export default function Navbar () {
 					</div>
 				</label>
 				<ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-10">
+					<li><a className="cursor-pointer" href='/myblogs'>My Blogs</a></li>
 					<li><a className="cursor-pointer" onClick={() =>{navigate("/profile")}}>Profile</a></li>
 					<li><a className="cursor-pointer" onClick={() => dispatch(logout())}>Logout</a></li>
 				</ul>

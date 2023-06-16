@@ -1,11 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
 import { likeArticle } from "../../../store/slices/blogs/slices"
+import dateFormat from 'dateformat'
 
 function BlogCard ({
     title = "",
     content = "",
     thumbnail = "",
-    BlogId= "",
+    BlogId = "",
+    author ="", 
+    createdAt ="",
 }) {
     const dispatch = useDispatch()
     const likeButton = ()=>{
@@ -44,12 +47,16 @@ function BlogCard ({
         //     </div>
         // </div>
 
-        <div className="card card-side bg-base-100 shadow-xl w-fit">
-            <figure className="w-2/4">
-                <img src={process.env.REACT_APP_IMAGE_URL + thumbnail} className="rounded-lg object-scale-down " />
+        <div className="card card-side bg-base-100 shadow-xl w-[100%]">
+            <figure className="object-scale-down w-[30%] p-5">
+                <img 
+                    src={process.env.REACT_APP_IMAGE_URL + thumbnail} 
+                    className="rounded-lg" 
+                />
             </figure>
             <div className="card-body">
                 <h2 className="card-title">{title}</h2>
+                <h5>by {author} | { dateFormat(createdAt, "dd mmmm yyyy")}</h5>
                 <p>{content}</p>
                 <div className="card-actions justify-end">
                     <div 
@@ -107,6 +114,8 @@ export default function RenderBlogCards ({
                 content={article.content}
                 thumbnail={article.imageURL}
                 BlogId = {article.id}
+                author = {article.User.username}
+                createdAt = {article.createdAt}
             />
         )
     })

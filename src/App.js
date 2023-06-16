@@ -13,6 +13,7 @@ import ResetPasswordPage from "./pages/reset-password"
 import ProfileUser from "./pages/profile"
 import ChangePasswordPage from "./pages/change-password"
 import BlogsPage from "./pages/blogs"
+import MyBlogsPage from "./pages/blogs/myArticles"
 // import Homepage from "./pages/homepage"
 
 
@@ -56,6 +57,7 @@ function App() {
 				<Route path="/profile" element={<ProfileUser />} />
 				<Route path="/change-password" element={<ChangePasswordPage />} />
 				<Route path="/blogs" element={<BlogsPage />} />
+				<Route path="/myblogs" element ={<MyBlogsPage/>} />
 				{/* <Route path="/post-blog" element={<PublishBlog />} /> */}
 			</Routes>
 			<Toaster/>
