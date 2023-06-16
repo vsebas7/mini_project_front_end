@@ -1,16 +1,16 @@
-import { Navigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import "../../Form.scss"
 import { verification } from "../../store/slices/auth/slices"
+import "../../Form.scss"
 
 
 
 function VerifyAccountPage () {    
     // @hooks
     const dispatch = useDispatch()
-    const { id, isVerified, email } = useSelector(state => {
+    const navigate = useNavigate()
+    const { isVerified, email } = useSelector(state => {
         return {
-            id : state.auth.id,
             email : state.auth.email,
             isVerified : state.auth.isVerified
         }
@@ -26,14 +26,16 @@ function VerifyAccountPage () {
     
     return (
       <div className="container">
-
         <h1>Verification Account</h1>
         <p> Click button bellow to verify this {email} account</p>
         <br/>
         <button
           type="button"
           className="btn btn-neutral"
-          onClick={onButtonVerify}
+          onClick={()=>{
+            onButtonVerify()
+            navigate("/login")
+          }}
         >
           Verify My Account
         </button>

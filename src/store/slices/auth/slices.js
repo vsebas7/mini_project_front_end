@@ -11,6 +11,7 @@ export const login = createAsyncThunk(
             const {data} = await api.post("/auth/login", payload)
             // @save token to local storage
             localStorage.setItem("token", data?.token)
+            localStorage.setItem("id", data?.isAccountExist?.id)
             Toast.success("login success")
             return data?.isAccountExist
         } catch (error) {
@@ -27,6 +28,7 @@ export const logout = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {
             localStorage.removeItem("token")
+            localStorage.removeItem("id")
 
             return {}
         } catch (error) {
@@ -52,8 +54,8 @@ export const register = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {
             const {data} = await api.post("/auth/",payload)
-
             localStorage.setItem("token", data?.token)
+            localStorage.setItem("id", data?.isAccountExist?.id)
             Toast.success(data?.message)
             return data?.data
         } catch (error) {
@@ -99,6 +101,7 @@ export const reset_password = createAsyncThunk(
             const {data} = await api.patch("/auth/resetPass",payload)
             Toast.success(data.message) 
             localStorage.removeItem("token")
+            localStorage.removeItem("id")
         } catch (error) {
             console.error(error)
             Toast.error(error.response.data)
@@ -160,6 +163,7 @@ export const changePass = createAsyncThunk(
             const {data} = await api.patch("auth/changePass",payload)
             Toast.success(data.message) 
             localStorage.removeItem("token")
+            localStorage.removeItem("id")
             return data
         } catch (error) {
             console.error(error)

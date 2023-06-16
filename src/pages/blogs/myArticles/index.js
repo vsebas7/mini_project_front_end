@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
@@ -7,19 +7,19 @@ import { getLikedArticles } from "../../../store/slices/blogs/myLikedArticles/sl
 import RenderMyBlogCards from "./listMyArticles"
 import RenderLikedBlogCards from "../components/userLikedBlog"
 import Pagination from "../components/pagination"
-
-import Navbar from "../../../components/navbar"
+import { useNavigate } from "react-router-dom"
 
 
 function MyBlogsPage () {
 
     const dispatch = useDispatch()
-    const { filteredArticles, likedArticles, currentLikedPages,username } = useSelector(state => {
+    const navigate = useNavigate()
+
+    const { filteredArticles, likedArticles, currentLikedPages } = useSelector(state => {
         return {
             filteredArticles : state.blogs.filteredArticles,
             likedArticles : state.liked.likedArticles,
             currentLikedPages : state.liked.currentPage,
-            username : state.auth.username
         }
     })
 
@@ -32,14 +32,13 @@ function MyBlogsPage () {
     const writeIcon = <FontAwesomeIcon icon={faPenToSquare} />
 
     useEffect(() => {
+        dispatch(getLikedArticles({
+            page : 1
+        }))
         dispatch(getArticles({
             id_cat : "", 
             page : 1,
-            sort : "ASC",
-            username :{username}
-        }))
-        dispatch(getLikedArticles({
-            page : 1
+            sort : "ASC"
         }))
     }, [])
 
@@ -51,8 +50,7 @@ function MyBlogsPage () {
     // )
 
     return (
-        <div className="w-full h-full px-40 py-10">
-            <Navbar/>
+        <div >
             <div className="flex flex-row flex-wrap gap-5 py-10">
                 <h1>My Published Blogs</h1>  
 
@@ -60,13 +58,18 @@ function MyBlogsPage () {
                     filteredArticles.length == 0 
                     ? 
                         <div className="flex flex-col w-full">
-                            <button className="btn btn-ghost btn-lg justify-center w-[25%]">Please Publish a Article</button>
+                            <a 
+                                className="btn btn-ghost btn-lg justify-center w-[25%]"
+                                href="/post-blog"
+                            >
+                                Please Publish a Article
+                            </a>
                         </div>
                     :   
                         <div className="overflow-x-auto">
-                        <p>
+                        <a href="/post-blog">
                             Publish a New Article {writeIcon}
-                        </p> 
+                        </a> 
                             <table className="table">
                                 <thead>
                                 <tr>
@@ -85,7 +88,7 @@ function MyBlogsPage () {
                 }
                 <div class="flex flex-col w-full lg:flex-row h-1/2 mt-8 pb-10 ">                
                     <div class="flex flex-grow-0 card w-auto carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 py-5">
-                        <h2>My Liked Blogs</h2>
+                        <h2>My Favorite Blogs</h2>
                         <Pagination 
                             onChangePagination={onLikedArticles}
                             disabledPrev={currentLikedPages === 1}

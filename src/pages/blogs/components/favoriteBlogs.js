@@ -2,7 +2,6 @@ function FavoriteBlogs ({
     title = "",
     total_fav = "",
     category = "",
-    author = "",
 }) {
     return (
         <div className="carousel-item p-4 space-x-4 bg-base-100 rounded-box shadow-xl" >
@@ -15,9 +14,6 @@ function FavoriteBlogs ({
                 <h2 className="card-title">
                     {title}
                 </h2>
-                <p>
-                    by {author}
-                </p>
                 <div class="badge badge-neutral">
                     Total Likes : {total_fav}
                 </div>
@@ -35,7 +31,6 @@ export default function RenderFavoriteBlogs ({
                 title={favorite.title}
                 total_fav={favorite.total_fav}
                 category={favorite.Category.name}
-                author={favorite.Likes[0].User.username}
             />
         )
     })

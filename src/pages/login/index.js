@@ -46,7 +46,7 @@ function LoginPage () {
     
     // @redirect
     if (isResetPassword || isLogin  ) {
-        return <Navigate to="/profile" replace/>
+        return <Navigate to="/" replace/>
     }
 
     return (
@@ -56,8 +56,8 @@ function LoginPage () {
         >
       {({ errors, touched,isSubmitting}) => {
         return (
-          <div className="container">
-            <div className="form card w-96 bg-base-100 shadow-xl">
+          <div className="container ">
+            <div className="form card w-4/12 bg-base-100 shadow-xl py-4">
               <Form>
               <h1>Login to continue</h1>
                 <div className="form-row mt-7">
@@ -90,7 +90,7 @@ function LoginPage () {
                       onClick={()=>{
                         setPasswordShown({value : !passwordShown.value, field_name : "password"})
                       }}>
-                        {passwordShown.value && passwordShown.field_name == "password" ? eye : eye_slash}
+                        {passwordShown.value && passwordShown.field_name == "password" ? eye_slash : eye}
                     </i>
                   </div>
                   <ErrorMessage

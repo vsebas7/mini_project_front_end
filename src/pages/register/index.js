@@ -5,18 +5,17 @@ import { register } from "../../store/slices/auth/slices"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import {registerValidationSchema} from "../../store/slices/auth/validation.js"
-
+import { registerValidationSchema } from "../../store/slices/auth/validation.js"
 import "../../Form.scss"
 
 
 const initialValuesSignUp = {
-        username:"",
-        email: "",
-        phone:"",
-        password: "",
-        confirmpassword: "",
-    };
+    username:"",
+    email: "",
+    phone:"",
+    password: "",
+    confirmpassword: "",
+}
 
 
 function RegisterPage () {
@@ -53,7 +52,7 @@ function RegisterPage () {
     }
 
     // @redirect
-    if (id) return <Navigate to="/blogs" replace/>
+    if (id) return <Navigate to="/" replace/>
 
     return (
         <Formik
@@ -63,7 +62,7 @@ function RegisterPage () {
         {({ errors, touched, isSubmitting }) => {
             return (
             <div className="container">
-                <div className="form card w-4/12 bg-base-100 shadow-xl">
+                <div className="form card w-4/12 bg-base-100 shadow-xl py-4">
                     <Form>
                     <h1>Sign up to continue</h1>
                     <a class="link link-hover" href="/login">Already have account?</a>

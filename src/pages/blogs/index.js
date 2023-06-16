@@ -4,14 +4,10 @@ import { getArticles} from "../../store/slices/blogs/slices"
 import { getCategories } from "../../store/slices/blogs/getCategory/slices"
 import { getFavBlogs } from "../../store/slices/blogs/favBlogs/slices"
 import { getLikedArticles } from "../../store/slices/blogs/myLikedArticles/slices"
-
-import Navbar from "../../components/navbar"
-
 import RenderFavoriteBlogs from "./components/favoriteBlogs"
 import RenderCategoryBlogs from "./components/categoryBlogs"
 import Pagination from "./components/pagination"
 import RenderBlogCards from "./components/listArticles"
-import RenderLikedBlogCards from "./components/userLikedBlog"
 
 function BlogsPage () {
 
@@ -23,14 +19,6 @@ function BlogsPage () {
             currentPage : state.blogs.currentPage,
             totalPage : state.blogs.totalPage,
             username : state.auth.username
-        }
-    })
-
-    const { loadingLikedArticles, likedArticles, currentLikedPages} = useSelector(state => {
-        return {
-            loadingLikedArticles : state.liked.isLoading,
-            likedArticles : state.liked.likedArticles,
-            currentLikedPages : state.liked.currentPage
         }
     })
     
@@ -47,14 +35,12 @@ function BlogsPage () {
     })
 
     const [valueCategory, setValue] = useState({id:"",name:""});
-    const [pageshow, changePage] = useState("");
-
     
     useEffect(() => {
         dispatch(getArticles({
             id_cat : "", 
             page : 1,
-            sort : "ASC",
+            sort : "DESC",
             username : {username}
         }))
         dispatch(getCategories())
@@ -64,21 +50,14 @@ function BlogsPage () {
         }))
     }, [])
     
-    // @event handler
+    
     const onChangePagination = (type) => {
         dispatch(getArticles({ 
             id_cat : valueCategory.id , 
             page : type === "prev" ? currentPage - 1 : currentPage + 1, 
-            sort : "ASC" 
+            sort : "DESC" 
         }))
-    }
-
-    const onLikedArticles = (type) => {
-        dispatch(getLikedArticles({ 
-            page : type === "prev" ? currentLikedPages - 1 : currentLikedPages + 1, 
-        }))
-    }
-    
+    }    
     
     const handleChange = (event) => {
         setValue({
@@ -88,29 +67,22 @@ function BlogsPage () {
         dispatch(getArticles({
             id_cat : event.target.selectedOptions[0].className,
             page : 1,
-            sort : "ASC" 
+            sort : "DESC" 
         }))
         dispatch(getLikedArticles({
             page : 1
         }))
-    };
-
-    const switchPage = (event) =>{
-        console.log(event.target.nextSibling.className)
-        // changePage(event.)
     }
 
-
     // @render loading
-    // if ({loading}) return (
-    //     <div className="h-screen w-screen flex flex-row align-bottom justify-center">
-    //         <span className="loading loading-dots loading-lg"></span>
-    //     </div>
-    // )
+    if (loading) return (
+        <div className="h-screen w-screen flex flex-row align-bottom justify-center">
+            <span className="loading loading-dots loading-lg"></span>
+        </div>
+    )
 
     return (
-        <div className="w-full h-full px-40 py-10">
-            <Navbar />
+        <div>
             <div className="flex flex-row flex-wrap gap-5 rounded">
                 <h1 className="place-content-center">Popular Blogs</h1>
                 <div className="carousel carousel-center p-4 space-x-4 bg-neutral rounded-box">

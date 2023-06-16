@@ -4,7 +4,6 @@ import { Routes, Route } from "react-router-dom"
 import { Toaster } from "react-hot-toast"
 import ProtectedRoute from "./protected.routes"
 import { keepLogin } from "./store/slices/auth/slices"
-
 import LoginPage from "./pages/login"
 import RegisterPage from "./pages/register"
 import VerifyAccountPage from "./pages/verify-account"
@@ -14,11 +13,12 @@ import ProfileUser from "./pages/profile"
 import ChangePasswordPage from "./pages/change-password"
 import BlogsPage from "./pages/blogs"
 import MyBlogsPage from "./pages/blogs/myArticles"
-// import Homepage from "./pages/homepage"
+import PublishBlog from "./pages/post_blog"
+import Navbar from "./components/navbar"
+import NotFoundPage from "./pages/not-found"
 
 
 
-// import PublishBlog from "./pages/post_blog"
 
 function App() {
 	const dispatch = useDispatch()
@@ -37,28 +37,52 @@ function App() {
 			<span className="loading loading-spinner loading-md"></span>
 		</div>
 	)
-
+	
 	return (
-		<div className="h-screen w-screen bg-white">
+		<div className="w-full h-full px-40 py-10">
+            <Navbar/>
 			<Routes>
 				<Route 
-					path="/" 
+					path="/profile" 
 					element={
 						<ProtectedRoute>
+							<ProfileUser />
 						</ProtectedRoute>
 					} 
 				/>
-				{/* <Route path="/home" element={<Homepage />} /> */}
+				<Route 
+					path="/change-password" 
+					element={
+						<ProtectedRoute>
+							<ChangePasswordPage />
+						</ProtectedRoute>
+					} 
+				/>
+				<Route 
+					path="/post-blog" 
+					element={
+						<ProtectedRoute>
+							<PublishBlog />
+						</ProtectedRoute>
+					} 
+				/>
+				<Route 
+					path="/myblogs" 
+					element={
+						<ProtectedRoute>
+							<MyBlogsPage />
+						</ProtectedRoute>
+					} 
+				/>
+				<Route path="/" element={<BlogsPage />} />
+				{/* <Route path="/post-blog" element={<PublishBlog />} /> */}
+				<Route path="*" element={<NotFoundPage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/verification/:token" element={<VerifyAccountPage />} />
+				<Route path="/verification-change-email/:token" element={<VerifyAccountPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 				<Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-				<Route path="/profile" element={<ProfileUser />} />
-				<Route path="/change-password" element={<ChangePasswordPage />} />
-				<Route path="/blogs" element={<BlogsPage />} />
-				<Route path="/myblogs" element ={<MyBlogsPage/>} />
-				{/* <Route path="/post-blog" element={<PublishBlog />} /> */}
 			</Routes>
 			<Toaster/>
 		</div>

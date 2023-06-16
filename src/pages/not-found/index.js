@@ -4,7 +4,7 @@ function NotFoundPage () {
     return (
         <figure>
             <div class="sad-mac"></div>
-            <figcaption>
+            <figcaption class="content-center justify-center h-[500px]">
                 <span class="sr-text">Error 404: Not Found</span>
                 <span class="e"></span>
                 <span class="r"></span>

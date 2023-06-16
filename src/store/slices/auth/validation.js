@@ -59,14 +59,14 @@ export const changePasswordSchema = Yup.object({
 export const publishBlogSchema = Yup.object({
     title: Yup.string()
     .required("Title is required"),
-    author: Yup.string()
-    .required("Author is required"),
+    country: Yup.string()
+    .required("Country is required"),
     date: Yup.string()
     .required("Date is required"),
     picture: Yup.string()
     .required("Picture is required"),
-    category: Yup.string()
-    .required("Category is required"),
+    category: Yup.string(),
+    // .required("Category is required"),
     content: Yup.string()
     .required("Content is required"),
     video: Yup.string()

@@ -1,4 +1,8 @@
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { deleteBlog, getArticles } from "../../../store/slices/blogs/slices"
+
+
 
 
 function MyBlogCard ({
@@ -10,9 +14,16 @@ function MyBlogCard ({
 }) {
 
     const dispatch = useDispatch()
+    const [deleting,deleteConfirm] = useState(false)
+
     const onButtonDelete = ()=>{
-        const BlogIdLiked = {BlogId}
-        // dispatch(likeArticle(BlogIdLiked))
+        // const BlogIdLiked = {BlogId}
+        dispatch(deleteBlog(BlogId))
+        dispatch(getArticles({
+            id_cat : "", 
+            page : 1,
+            sort : "ASC"
+        }))
     }
     const{isLogin} = useSelector(state =>{
         return{
@@ -41,40 +52,39 @@ function MyBlogCard ({
             
             <td>{category}</td>
             
-            <th>
+            <th className="break-all w-[10%]" >
                 <button 
-                    className="btn btn-outline btn-error btn-xs"
-                    // onClick={onButtonDelete}
+                    className={`btn btn-outline btn-error btn-xs  ${deleting ? "hidden" : ""}`} 
+                    onClick={()=>deleteConfirm(true)}
                 >
                     Delete
                 </button>
+                <div className={`${!deleting ? "hidden" : ""}`} >
+                    <p>
+                        Delete this Blog?    
+                    </p>
+                    <br/>
+                    <button 
+                        className="btn btn-error btn-xs pr-2"
+                        onClick={()=>{
+                            onButtonDelete(BlogId)
+                            deleteConfirm(false)
+                        }}
+                    >
+                        Confirm
+                    </button>
+
+                    <button 
+                        className="link link-hover pl-2"
+                        onClick={()=>deleteConfirm(false)}
+                    >
+                        Cancel
+                    </button>
+                </div>
             </th>
         </tr>
-                
-
-        // <div className="card w-96 bg-base-100 shadow-xl">
-        //     <figure className="px-10 pt-10">
-        //         <img src={process.env.REACT_APP_IMAGE_URL + thumbnail} className="rounded-xl object-cover " />
-        //     </figure>
-        //     <div className="card-body w-auto items-center text-center break-all">
-        //         <h2 className="card-title">{title}</h2>
-        //         <div>
-        //         <p className= "break-all">{content}</p>
-        //         <p className= "text-clip overflow-hidden ...">{category}</p>
-        //         <p className= "text-clip overflow-hidden ...">{BlogId}</p>
-        //         </div>
-        //         <div className="card-actions">
-        //         </div>
-        //     </div>
-        // </div>
     )
 }
-
-
-
-
-
-
 
 export default function RenderMyBlogCards ({
     filteredArticles = [],
