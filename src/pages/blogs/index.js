@@ -6,31 +6,23 @@ import { getFavBlogs } from "../../store/slices/blogs/favBlogs/slices"
 import { getLikedArticles } from "../../store/slices/blogs/myLikedArticles/slices"
 import RenderFavoriteBlogs from "./components/favoriteBlogs"
 import RenderCategoryBlogs from "./components/categoryBlogs"
-import Pagination from "./components/pagination"
 import RenderBlogCards from "./components/listArticles"
+import RenderTop3Articles from "./components/top3Articles"
+import Pagination from "./components/pagination"
+import Footer from "../../components/footer"
 
 function BlogsPage () {
-
     const dispatch = useDispatch()
-    const { loading, currentPage, totalPage, articles,username} = useSelector(state => {
+    const { loading, currentPage, totalPage, articles, username, categories ,favorites, top3s} = useSelector(state => {
         return {
             loading : state.blogs.isLoading,
             articles : state.blogs.articles,
             currentPage : state.blogs.currentPage,
             totalPage : state.blogs.totalPage,
-            username : state.auth.username
-        }
-    })
-    
-    const { categories } = useSelector(state => {
-        return {
+            username : state.auth.username,
             categories : state.category.categories,
-        }
-    })
-
-    const { favorites } = useSelector(state => {
-        return {
             favorites : state.favorites.favorites,
+            top3s :state.favorites.top3
         }
     })
 
@@ -44,7 +36,7 @@ function BlogsPage () {
             username : {username}
         }))
         dispatch(getCategories())
-        dispatch(getFavBlogs())
+        dispatch(getFavBlogs(" "))
         dispatch(getLikedArticles({
             page : 1
         }))
@@ -72,79 +64,71 @@ function BlogsPage () {
         dispatch(getLikedArticles({
             page : 1
         }))
+        dispatch(getFavBlogs({
+            cat_name:event.target.value
+        }))
     }
 
-    // @render loading
     if (loading) return (
         <div className="h-screen w-screen flex flex-row align-bottom justify-center">
             <span className="loading loading-dots loading-lg"></span>
         </div>
     )
+    console.log(valueCategory.name)
 
     return (
         <div>
-            <div className="flex flex-row flex-wrap gap-5 rounded">
-                <h1 className="place-content-center">Popular Blogs</h1>
+            <div className="flex flex-col gap-5 rounded">
+                <h1 className="text-bold text-[28pt] place-self-center flex-wrap"> Top 10 Popular Articles </h1>
                 <div className="carousel carousel-center p-4 space-x-4 bg-neutral rounded-box">
                     <RenderFavoriteBlogs favorites={favorites}/>
                 </div>
             </div>
             
-            <div className="flex flex-row flex-wrap gap-5 justify-between py-20">
-                <h2 id="listblog">List Blogs</h2>
-                <div className="flex flex-row w-full h-auto gap-5 justify-start">
-                <select 
-                    value={valueCategory.name} 
-                    onChange={handleChange}
-                    className="select select-bordered w-full max-w-xs"
-                >
-                    <option selected value="allCategory">All Category</option>
-                    <RenderCategoryBlogs categories={categories} />
-                </select>
-                    <Pagination 
-                        onChangePagination={onChangePagination}
-                        disabledPrev={currentPage === 1}
-                        disabledNext={currentPage >= totalPage}
-                    />
+            <div className="flex flex-col flex-wrap gap-5 justify-between py-20">
+                    <h2 className="text-bold text-[25pt] place-self-center flex-wrap">List of All Articles</h2>
+                <div className="flex flex-col place-self-center w-[35vw] flex-wrap">
+                    <div className="flex flex-row w-full h-auto gap-5 justify-start">
+                        <select 
+                            value={valueCategory.name} 
+                            onChange={handleChange}
+                            className="select select-bordered w-full max-w-xs"
+                        >
+                            <option selected value="allCategory">All Category</option>
+                            <RenderCategoryBlogs categories={categories} />
+                        </select>
+                        <div className="flex-grow pb-5">
+                            <Pagination 
+                                onChangePagination={onChangePagination}
+                                disabledPrev={currentPage === 1}
+                                disabledNext={currentPage >= totalPage}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <RenderBlogCards articles={articles} />
-                <Pagination 
-                    onChangePagination={onChangePagination}
-                    disabledPrev={currentPage === 1}
-                    disabledNext={currentPage >= totalPage}
-                />
+                <div class="flex flex-col w-full lg:flex-row h-full mt-8 pb-2 ">                
+                    <div class="flex flex-grow-0 card w-[350px] carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 py-5">
+                        <a className="text-bold text-[18pt]">
+                            {
+                                valueCategory?.name == "allCategory" || valueCategory.name == "" 
+                                ? "Popular Article(s) by Category Will Appear Here" 
+                                : `Top 3 Popular Articles by Category of ${valueCategory.name}`
+                            } 
+                        </a>
+                        <RenderTop3Articles top3s={top3s}/>
+                    </div>
+                    <div class="divider lg:divider-horizontal"></div> 
+                    <div class="grid flex-grow card w-[100%] h-full carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 justify-between py-5">
+                        <RenderBlogCards articles={articles} />
+                        <Pagination 
+                            onChangePagination={onChangePagination}
+                            disabledPrev={currentPage === 1}
+                            disabledNext={currentPage >= totalPage}
+                        />
+                    </div>
+                </div>
             </div>
-
-            {/* <div class="flex flex-col w-full lg:flex-row h-3/4 mt-8 pb-10 ">
-                    <h2>Favorite Blogs by All User</h2>
-                <div class="grid flex-grow-0 card rounded-box place-items-end h-auto space-y-4 carousel carousel-vertical">
-                    <RenderFavoriteBlogs favorites={favorites}/>
-                </div> 
-                
-                <div class="divider lg:divider-horizontal"></div> 
-                    <h2>My Liked Blogs</h2>
-                <div class="grid flex-grow card w-auto h-auto carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 justify-between py-5">
-                    <RenderLikedBlogCards likedArticles={likedArticles}/>
-                </div>
-                    <Pagination 
-                        onChangePagination={onLikedArticles}
-                        disabledPrev={currentLikedPages === 1}
-                        disabledNext={likedArticles.length == 0}
-                    />
-            </div> */}
-
-            {/* <div className="flex flex-row flex-wrap gap-5 justify-between py-20 ">
-                <h2>My List Blogs</h2>
-                <div className="flex flex-row w-full h-auto gap-5 justify-start">
-                    <Pagination 
-                        className = ""
-                        onChangePagination={onLikedArticles}
-                        disabledPrev={currentLikedPages === 1}
-                        disabledNext={likedArticles.length == 0}
-                    />
-                </div>
-                    <RenderLikedBlogCards likedArticles={likedArticles}/>
-            </div> */}
+            <Footer />
         </div>
         
     )
