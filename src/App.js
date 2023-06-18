@@ -17,9 +17,6 @@ import PublishBlog from "./pages/post_blog"
 import Navbar from "./components/navbar"
 import NotFoundPage from "./pages/not-found"
 
-
-
-
 function App() {
 	const dispatch = useDispatch()
 	const { isKeepLoginLoading } = useSelector(state => {
@@ -39,22 +36,22 @@ function App() {
 	)
 	
 	return (
-		<div className="w-full h-full px-40 py-10">
+		<div className=" w-full h-[900px] px-40">
             <Navbar/>
 			<Routes>
-				<Route 
-					path="/profile" 
-					element={
-						<ProtectedRoute>
-							<ProfileUser />
-						</ProtectedRoute>
-					} 
-				/>
 				<Route 
 					path="/change-password" 
 					element={
 						<ProtectedRoute>
 							<ChangePasswordPage />
+						</ProtectedRoute>
+					} 
+				/>
+				<Route 
+					path="/myblogs" 
+					element={
+						<ProtectedRoute>
+							<MyBlogsPage />
 						</ProtectedRoute>
 					} 
 				/>
@@ -67,15 +64,14 @@ function App() {
 					} 
 				/>
 				<Route 
-					path="/myblogs" 
+					path="/profile" 
 					element={
 						<ProtectedRoute>
-							<MyBlogsPage />
+							<ProfileUser />
 						</ProtectedRoute>
 					} 
 				/>
 				<Route path="/" element={<BlogsPage />} />
-				{/* <Route path="/post-blog" element={<PublishBlog />} /> */}
 				<Route path="*" element={<NotFoundPage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />
@@ -83,6 +79,7 @@ function App() {
 				<Route path="/verification-change-email/:token" element={<VerifyAccountPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 				<Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+				{/* <Route path="/profile" element={<ProfileUser />} /> */}
 			</Routes>
 			<Toaster/>
 		</div>

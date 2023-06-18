@@ -37,9 +37,9 @@ function ResetPasswordPage () {
     }
 
     // @redirect
-    if(!isResetPassword){
-        return <Navigate to="/login" replace/>
-    }
+    // if(!isResetPassword){
+    //     return <Navigate to="/login" replace/>
+    // }
     return (
         <Formik
             initialValues={{ password: "", confirm:""}}
@@ -48,10 +48,10 @@ function ResetPasswordPage () {
         {({ errors, touched }) => {
             return (
             <div className="container">
-                <div className="form card w-96 bg-base-100 shadow-xl">
+                <div className="form card w-4/12 bg-base-100 shadow-xl">
                     <Form>
                     <h1>Reset Password</h1>
-                    <div className="form-row">
+                    <div className="form-row pt-5">
                         <label htmlFor="password">New Password</label>
                         <div className="form-row-pass">
                         <Field
@@ -60,7 +60,7 @@ function ResetPasswordPage () {
                             id="password"
                             innerRef={passwordRef}
                             className={
-                            errors.password && touched.password ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            errors.password && touched.password ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <i className="eye-password" 
@@ -89,7 +89,7 @@ function ResetPasswordPage () {
                             id="confirm"
                             innerRef={confirmpasswordRef}
                             className={
-                            errors.confirm && touched.confirm ? "input-error input input-md w-full max-w-xs" : "input input-bordered input-md w-full max-w-xs"
+                            errors.confirm && touched.confirm ? "input-error input input-md w-full " : "input input-bordered input-md w-full "
                             }
                         />
                         <i className="eye-password" 
@@ -112,7 +112,7 @@ function ResetPasswordPage () {
 
                     <button
                         type="button"
-                        className="btn btn-neutral"
+                        className="btn btn-neutral" 
                         onClick={onButtonResetPassword}
                     >
                         Reset Password

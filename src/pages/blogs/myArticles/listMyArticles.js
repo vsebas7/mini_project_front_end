@@ -2,9 +2,6 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { deleteBlog, getArticles } from "../../../store/slices/blogs/slices"
 
-
-
-
 function MyBlogCard ({
     title = "",
     content = "",
@@ -17,7 +14,6 @@ function MyBlogCard ({
     const [deleting,deleteConfirm] = useState(false)
 
     const onButtonDelete = ()=>{
-        // const BlogIdLiked = {BlogId}
         dispatch(deleteBlog(BlogId))
         dispatch(getArticles({
             id_cat : "", 

@@ -8,6 +8,7 @@ import RenderMyBlogCards from "./listMyArticles"
 import RenderLikedBlogCards from "../components/userLikedBlog"
 import Pagination from "../components/pagination"
 import { useNavigate } from "react-router-dom"
+import Footer from "../../../components/footer"
 
 
 function MyBlogsPage () {
@@ -50,58 +51,71 @@ function MyBlogsPage () {
     // )
 
     return (
-        <div >
-            <div className="flex flex-row flex-wrap gap-5 py-10">
-                <h1>My Published Blogs</h1>  
-
-                {
-                    filteredArticles.length == 0 
-                    ? 
-                        <div className="flex flex-col w-full">
-                            <a 
-                                className="btn btn-ghost btn-lg justify-center w-[25%]"
-                                href="/post-blog"
-                            >
-                                Please Publish a Article
-                            </a>
-                        </div>
-                    :   
-                        <div className="overflow-x-auto">
-                        <a href="/post-blog">
-                            Publish a New Article {writeIcon}
-                        </a> 
-                            <table className="table">
-                                <thead>
-                                <tr>
-                                    <th>Thumbnail</th>
-                                    <th>Title</th>
-                                    <th>Content</th>
-                                    <th>Category</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <RenderMyBlogCards filteredArticles={filteredArticles}/>
-                                </tbody>
-                            </table>
-                        </div>
-                }
-                <div class="flex flex-col w-full lg:flex-row h-1/2 mt-8 pb-10 ">                
-                    <div class="flex flex-grow-0 card w-auto carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 py-5">
-                        <h2>My Favorite Blogs</h2>
-                        <Pagination 
-                            onChangePagination={onLikedArticles}
-                            disabledPrev={currentLikedPages === 1}
-                            disabledNext={likedArticles.length == 0}
-                        />
+        <div className="flex flex-col flex-wrap gap-5 pt-10 w-full">
+            <a className="text-bold text-[20pt]">My Published Blogs</a>  
+            {
+                filteredArticles.length == 0 
+                ? 
+                    <div className="flex flex-col w-full">
+                        <a 
+                            className="btn btn-ghost btn-lg justify-center w-[25%] place-self-center"
+                            href="/post-blog"
+                        >
+                            Please Publish a Article
+                        </a>
                     </div>
-                    <div class="divider lg:divider-horizontal"></div> 
-                    <div class="grid flex-grow card w-[100%] h-[430px] carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 justify-between py-5">
+                :   
+                    <div className="overflow-x-auto">
+                    <a 
+                        href="/post-blog"
+                        className="text-[14pt]"
+                    >
+                        Publish a New Article {writeIcon}
+                    </a> 
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                <th>Thumbnail</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Category</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <RenderMyBlogCards filteredArticles={filteredArticles}/>
+                            </tbody>
+                        </table>
+                    </div>
+            }
+            <div class="flex flex-col w-full lg:flex-row h-1/2 mt-8 pb-2 ">                
+                <div class="flex flex-grow-0 card w-auto carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 py-5">
+                    <a className="text-bold text-[18pt] place-self-center">My Favorite Blogs</a>
+                    <Pagination 
+                        onChangePagination={onLikedArticles}
+                        disabledPrev={currentLikedPages === 1}
+                        disabledNext={likedArticles.length == 0}
+                    />
+                </div>
+                <div class="divider lg:divider-horizontal"></div> 
+                <div class="grid flex-grow card w-[100%] h-[460px] carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 justify-between py-5">
+                    {
+                        likedArticles.length == 0 
+                        ? 
+                            <div className="h-full w-full text-center">
+                                <a 
+                                    className="text-[30px] w-full"
+                                    href="/"
+                                >
+                                    Your Favorite Article(s) will appear here after you like an articles
+                                </a>
+                            </div>
+                        :   
                         <RenderLikedBlogCards likedArticles={likedArticles}/>
-                    </div>
-                    
+                    }
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }

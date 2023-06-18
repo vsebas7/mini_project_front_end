@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector} from "react-redux"
 import { Navigate, useNavigate } from "react-router-dom"
+import {useDropzone} from 'react-dropzone';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {publishBlogSchema} from "../../store/slices/auth/validation.js"
 import { getCategories } from "../../store/slices/blogs/getCategory/slices.js";
 import { getArticles, postBlog } from "../../store/slices/blogs/slices.js";
 import RenderCategoryBlogs from "../blogs/components/categoryBlogs.js";
-import Navbar from "../../components/navbar"
 import "../../Form.scss"
 
 
@@ -35,9 +35,10 @@ function PublishBlog () {
 
     const [valueCategory, setValue] = useState({id:"",name:""});
 
-    const { categories } = useSelector(state => {
+    const { categories, isLogin } = useSelector(state => {
         return {
             categories : state.category.categories,
+            isLogin : state.auth.isLogin
         }
     })
 
@@ -46,7 +47,6 @@ function PublishBlog () {
     }, [])
 
     const handleChange = (event) => {
-        console.log(event.target.selectedOptions[0].className)
         setValue({
             id:event.target.selectedOptions[0].className, 
             name:event.target.value 
@@ -79,9 +79,27 @@ function PublishBlog () {
             page : 1,
             sort : "ASC"
         }))
+    } 
+
+    const onDrop = (acceptedFiles,FileRejection) => {
+        FileRejection.length == 0 
+        ?
+        setFile(acceptedFiles[0])
+        :
+        setFile(FileRejection[0].errors[0])
     }
 
-    
+    const {getInputProps , open} = useDropzone({onDrop , 
+        maxFiles:1 , 
+        accept : {'image/*' : ['.jpg','.jpeg','.webp','.png']} ,
+        maxSize :1000000,
+        noClick : true ,
+        noKeyboard : true
+    }) 
+
+    const onButtonCancelUpload = () =>{
+        setFile([])
+      }
 
     return (
         <Formik
@@ -142,39 +160,34 @@ function PublishBlog () {
                             <ErrorMessage name="content" component="span" className="error" />
                         </div>
 
-                        {/* <div className="form-row">
-                            <label >Date</label>
-                            <Field
-                                type="date"
-                                name="date"
-                                id="date"
-                                innerRef = {dateRef}
-                                className={
-                                    errors.date && touched.date 
-                                    ? "input-error input input-md w-full" 
-                                    : "input input-bordered input-md w-full"
+                        <div className="form-row ">
+                            <label>Picture</label>      
+                            <div 
+                                className={`flex file-input-bordered file-input-md h-auto py-5 border-2 ${file.name == null && touched.picture ? "input-error" :"border-cyan-800" }  w-full rounded-md break-all`}
+                            >
+                                <input {...getInputProps({name : 'image'})}/>
+                                <a 
+                                    onClick={open} 
+                                    className='link link-hover text-amber-950 font-semibold rounded-lg w-auto ml-2 text-[12pt] flex-grow'
+                                >
+                                    {
+                                        file?.name
+                                        ? file.name 
+                                        : "Choose a file"
+                                    }
+                                </a>
+                                <button
+                                    className={`btn btn-square btn-outline p-0 ${!(file.name == null) ? "" : "hidden"}`} 
+                                      onClick={onButtonCancelUpload}
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>             
+                            </div>
+                                {
+                                    file.name == null && touched.picture
+                                    ? <span className="error">Picture is required</span>
+                                    : null
                                 }
-                            />
-                            <ErrorMessage name="date" component="span" className="error" />
-                        </div> */}
-
-                        <div className="form-row">
-                            <label>Picture</label>
-                            <input
-                                type="file"
-                                name="picture"
-                                id="picture"
-                                ref = {pictureRef}
-                                className={
-                                    errors.picture && touched.picture 
-                                    ? "input-error file-input file-input-bordered file-input-md w-full" 
-                                    : "file-input-bordered file-input-md w-full"
-                                }
-                                onChange={(event)=>{
-                                    setFile(event.target.files[0])
-                                }} 
-                            />
-                            <ErrorMessage name="picture" component="span" className="error" />
                         </div>
 
                         <div className="form-row">
@@ -202,26 +215,6 @@ function PublishBlog () {
                             }
                         </div>
 
-                        {/* <div className="form-row">
-                            <label >Video</label>
-                            <input
-                                type="file"
-                                // accept="video/*"
-                                name="video"
-                                id="video"
-                                ref = {videoRef}
-                                className={
-                                    errors.video && touched.video 
-                                    ? "input-error file-input file-input-bordered file-input-xxl w-full" 
-                                    : "file-input-bordered file-input-xxl w-full"
-                                }
-                                onChange={(event)=>{
-                                    setFile({name:URL.createObjectURL(event.target.files[0]),hidden : true})
-                                }} 
-                            />
-                            <ErrorMessage name="video" component="span" className="error" />
-                        </div> */}
-
                         <div className="form-row">
                             <label htmlFor="keywords">Keywords</label>
                             <Field
@@ -239,14 +232,29 @@ function PublishBlog () {
                         </div>
 
                         <button 
-                            className={`btn btn-neutral`} 
+                            className={
+                                `btn btn-neutral 
+                                ${
+                                    (
+                                        titleRef.current?.value == "" || 
+                                        countryRef.current?.value == "" || 
+                                        contentRef.current?.value == "" || 
+                                        pictureRef.current?.value == "" ||
+                                        valueCategory.name == "Select a Category" ||
+                                        keywordsRef.current?.value == ""
+                                    )
+                                    ? "btn-disabled btn-ghost" 
+                                    : ""
+                                }
+                                `
+                            } 
                             onClick={()=>{
                                 window.modalConfirmation.showModal()
                                 onButtonPublishBlog()
                             }}
                         >
                             Save Changes
-                            </button>
+                        </button>
                             <dialog id="modalConfirmation" className="modal">
                             <Form method="dialog" className="modal-box">
                                 <h3 className="font-bold text-lg">Confirmation!</h3>
@@ -266,14 +274,7 @@ function PublishBlog () {
                                 </button>
                                 </div>
                             </Form>
-                            </dialog>           
-                        {/* <button
-                            type="button"
-                            className="btn btn-neutral"
-                            onClick={onButtonPublishBlog}
-                        >
-                            Publish Blog
-                        </button> */}
+                            </dialog>
                         </Form>
                     </div>
                 </div>

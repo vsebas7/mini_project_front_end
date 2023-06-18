@@ -8,20 +8,31 @@ export default function Navbar () {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const userAvatar = <FontAwesomeIcon icon={faUser} />
-	const { isLogin } = useSelector(state => {
+	const { isLogin, username } = useSelector(state => {
         return {
-            isLogin : state.auth.isLogin
+            isLogin : state.auth.isLogin,
+			username : state.auth.username
         }
     })
 
 	return (
 		<div className="navbar bg-base-100">
-			<div className="flex-1">
-				<a className="btn btn-ghost normal-case text-xl" onClick={() =>{navigate("/")}}>Blogs</a>
+			<div className={`${!isLogin ? "flex-grow" : "w-[85%]" }`}>
+				<a className="link link-hover normal-case text-[35pt]" onClick={() =>{navigate("/")}}>Vsebas7 Blogs</a>
 			</div>
-			<div className="flex-none">
+			<div className="flex">
+				{!isLogin 
+					?""
+					:
+						<div className="text-xl pr-5">
+							{username}
+						</div>
+				}
 				<div className="dropdown dropdown-end">
-					<label tabIndex={0} className="btn btn-ghost btn-circle avatar placeholder">
+					<label 
+						tabIndex={0} 
+						className="flex flex-col btn btn-ghost btn-circle avatar placeholder"
+					>
 						<div className="bg-neutral-focus text-neutral-content rounded-full w-12">
 							<span>{userAvatar}</span>
 						</div>
@@ -29,8 +40,8 @@ export default function Navbar () {
 					{!isLogin 
 						?
 						<ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-10">
-							<li><a className="cursor-pointer" onClick={() =>{navigate("/Login")}}>Login</a></li>
-							<li><a className="cursor-pointer" onClick={() =>{navigate("/Register")}}>Register</a></li>
+							<li><a className="cursor-pointer" onClick={() =>{navigate("/login")}}>Login</a></li>
+							<li><a className="cursor-pointer" onClick={() =>{navigate("/register")}}>Register</a></li>
 						</ul>
 						:
 						<ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-10">

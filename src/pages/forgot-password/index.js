@@ -46,7 +46,14 @@ function ForgotPasswordPage () {
                 </div>
                 <button
                   type="button"
-                  className="btn btn-neutral"
+                  className={
+                    `btn btn-neutral 
+                    ${(emailRef.current?.value == "")
+                        ? "btn-disabled btn-ghost" 
+                        : ""
+                    }
+                    `
+                } 
                   disabled={isSubmitting || isForgotLoading}
                   onClick={onButtonSendLink}
                 >

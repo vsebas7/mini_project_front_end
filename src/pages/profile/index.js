@@ -1,13 +1,11 @@
-import {React,useState,useRef, } from "react";
+import {React,useState,useRef, useEffect, } from "react";
 import {useDropzone} from 'react-dropzone';
-import { Navigate,useNavigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { editProfileSchema } from "../../store/slices/auth/validation";
-import { useDispatch, useSelector } from "react-redux";
-import { changeEmail, changePhone, changeUsername, uploadProfilePic } from "../../store/slices/auth/slices";
+import { editProfileSchema } from "../../store/slices/auth/validation"
+import { useDispatch, useSelector } from "react-redux"
+import { changeEmail, changePhone, changeUsername, keepLogin, uploadProfilePic } from "../../store/slices/auth/slices"
 import bgimage from '../../assets/image.svg'
-import Navbar from "../../components/navbar";
-
 import "../../Form.scss"
 
 const ProfileUser = () => {
@@ -56,10 +54,10 @@ const ProfileUser = () => {
   const emailRef = useRef()
   const phoneRef = useRef()
 
-  if (!isLogin) {
-    return <Navigate to="/login" replace/>
-  }
-    
+  // if (!isLogin) {
+  //   return <Navigate to="/login" replace/>
+  // }
+  
   const onButtonSaveProfile = () => {
     if(usernameRef.current.value != {username} && usernameRef.current.value != "") {
       dispatch(changeUsername({
@@ -83,8 +81,8 @@ const ProfileUser = () => {
       dispatch(uploadProfilePic(formData))
     }
     onButtonCancelUpload()
-    window.modalConfirmation.close()
-    navigate("/")
+    navigate("/","replace")
+    // dispatch(keepLogin())
   }
     
     return (
@@ -98,7 +96,7 @@ const ProfileUser = () => {
     >
       {({ errors, touched,}) => {
         return (
-          <div className="container">
+          <div className="container pb-8">
             <div className="form card w-4/12 bg-base-100 shadow-xl">
               <Form >
               <h1>User Details</h1>
@@ -108,15 +106,15 @@ const ProfileUser = () => {
                 </div>
               </div>
               <br/>
-                <div className="form-row">
-                  <div className="flex flex-row gap-5 justify-center align-middle">
+                <div className="form-row flex-wrap">
+                  <div className="flex flex-row flex-wrap gap-5 justify-center align-middle">
                     <button 
-                      className="btn justify-center" 
+                      className="btn justify-center break-all" 
                       onClick={()=>window.modalUploadImageProfile.showModal()}>
                         {file?.name ? file.name : "Upload Profile Picture"} 
                     </button> 
                     <button
-                      className={`btn btn-square btn-outline flex-none ${file?.name ? "" : "hidden"}`} 
+                      className={`btn btn-square btn-outline ${file?.name ? "" : "hidden"}`} 
                       onClick={onButtonCancelUpload}
                       >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -132,7 +130,7 @@ const ProfileUser = () => {
                       </div>
                       {file?.name 
                         ? 
-                        <div className="stats shadow">
+                        <div className="stats shadow ">
                             <div className="stat">
                               <div className="stat-title">{file.name}</div>
                             </div>                            
@@ -227,7 +225,20 @@ const ProfileUser = () => {
                 </div>
                 <div className="flex justify-between">
                   <button 
-                    className={`btn btn-neutral`} 
+                    className={
+                      `btn btn-neutral 
+                      ${
+                          (
+                              usernameRef.current?.value == "" &&
+                              emailRef.current?.value == "" && 
+                              phoneRef.current?.value == "" && 
+                              file?.name == null
+                          )
+                          ? "btn-disabled btn-ghost" 
+                          : ""
+                      }
+                      `
+                  } 
                     onClick={()=>window.modalConfirmation.showModal()}
                   >
                     Save Changes

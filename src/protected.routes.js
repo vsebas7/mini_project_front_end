@@ -12,5 +12,5 @@ export default function ProtectedRoute ({
     
     const id = localStorage.getItem("token")
 
-    return isLogin ? children : <Navigate to="/login" replace/>
+    return id ? children : <Navigate to="/login" replace/>
 }

@@ -5,7 +5,9 @@ import { getFavBlogs } from "./slices"
 
 const INITIAL_STATE = {
     favorites : [],
-    isLoading : false,  
+    isLoading : false, 
+    filtered :[],
+    top3 : []
 }
 
 const favBlogsSlice = createSlice({
@@ -18,7 +20,9 @@ const favBlogsSlice = createSlice({
         [getFavBlogs.fulfilled] : (state, action) => {
             state = Object.assign(state, {
                 isLoading : false,
-                favorites : action.payload?.result,
+                favorites : action.payload?.responseFavBlogs,
+                filtered : action.payload?.responseFiltered?.result,
+                top3 : action.payload?.outputFilterFavBlogs
             })
         },
         [getFavBlogs.rejected] : (state, action) => {

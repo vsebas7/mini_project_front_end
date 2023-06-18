@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api.instance"
 import Toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
+
 
 // @create async thunk
 export const login = createAsyncThunk(
@@ -29,7 +31,6 @@ export const logout = createAsyncThunk(
         try {
             localStorage.removeItem("token")
             localStorage.removeItem("id")
-
             return {}
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error)
@@ -102,6 +103,7 @@ export const reset_password = createAsyncThunk(
             Toast.success(data.message) 
             localStorage.removeItem("token")
             localStorage.removeItem("id")
+            return <Navigate to="/login" replace/>
         } catch (error) {
             console.error(error)
             Toast.error(error.response.data)
@@ -115,9 +117,9 @@ export const changeUsername = createAsyncThunk(
     "auth/changeUsername",
     async (payload, { rejectWithValue }) => {
         try {
-            const {data} = await api.patch("/auth/changeUsername",payload)
+            await api.patch("/auth/changeUsername",payload)
             Toast.success("Change username success") 
-            return data
+            return payload
         } catch (error) {
             console.error(error)
             Toast.error(error.response.data)
@@ -145,9 +147,9 @@ export const changePhone = createAsyncThunk(
     "auth/changePhone",
     async (payload, { rejectWithValue }) => {
         try {            
-            const {data} = await api.patch("auth/changePhone",payload)
+            await api.patch("auth/changePhone",payload)
             Toast.success("Change phone number success") 
-            return data
+            return payload
         } catch (error) {
             console.error(error)
             Toast.error(error.response.data)
@@ -179,7 +181,7 @@ export const uploadProfilePic = createAsyncThunk(
         try {            
             const {data} = await api.post("/profile/single-uploaded",payload)
             Toast.success("Image Profile Uploaded") 
-            return data?.imgProfile
+            return data
         } catch (error) {
             console.error(error)
             Toast.error(error.response.data)

@@ -10,7 +10,7 @@ export const getArticles = createAsyncThunk(
 
             const { id_cat, page, sort} = payload
             
-            const id = localStorage.getItem("id")
+            const id = localStorage.getItem("id")        
             
             const PARAMETER = `id_cat=${id_cat}&sort=${sort}&page=${page}`
 

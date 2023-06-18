@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
-import { useDispatch, useSelector} from "react-redux"
-import { Navigate,useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { changePass } from "../../store/slices/auth/slices"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -12,11 +12,7 @@ function ChangePasswordPage () {
     
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { isLogin } = useSelector(state => {
-        return {
-            isLogin : state.auth.isLogin,
-        }
-    })
+    
 
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;
@@ -33,12 +29,6 @@ function ChangePasswordPage () {
             confirmPassword : confirmpasswordRef.current?.value
         }))
     }
-
-    console.log(`change password ${isLogin}`)
-    
-    // if (isLogin) {
-    //     return <Navigate to="/login" replace/>
-    // }
 
     return (
             <Formik

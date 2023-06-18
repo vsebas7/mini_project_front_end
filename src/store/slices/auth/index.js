@@ -21,12 +21,13 @@ const INITIAL_STATE = {
     imgProfile : null,
     isVerified : false,
     isLogin : false,
-    isResetPassword : false,
+    isResetPasswordLoading : false,
     isRegisterLoading : false,
     isLoginLoading : false,
     isKeepLoginLoading : false,
     isForgotLoading : false,
     isUpdateProfilePicLoading : false,
+    isUpdateProfileDetails : false,
     isLogoutLoading : false,
 }
 
@@ -137,49 +138,47 @@ const authSlice = createSlice({
             state.isForgotLoading = false
         },
         [reset_password.pending] : (state, action) => {
-            state.isResetPassword = false
+            state.isResetPasswordLoading = true
         },
         [reset_password.fulfilled] : (state, action) => {
-            state.isResetPassword = true
+            state.isResetPasswordLoading = false
         },
         [reset_password.rejected] : (state, action) => {
-            state.isResetPassword = false
+            state.isResetPasswordLoading = false
         },
         [changeUsername.pending] : (state, action) => {
-            state.loading = true
+            state.isUpdateProfileDetails = true
         },
         [changeUsername.fulfilled] : (state, action) => {
             state = Object.assign(state, {
-                isKeepLoginLoading : false,
-                username : action.payload?.username
+                isUpdateProfileDetails : false,
+                username : action.payload.newUsername,
             })
         },
         [changeUsername.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state.isUpdateProfileDetails = false
         },
         [changeEmail.pending] : (state, action) => {
-            state.isKeepLoginLoading = true
+            state.isUpdateProfileDetails = true
         },
         [changeEmail.fulfilled] : (state, action) => {
-            state = Object.assign(state, {
-                isKeepLoginLoading : false,
-                email : action.payload?.email
-            })
+            state.isUpdateProfileDetails = false
         },
         [changeEmail.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state.isUpdateProfileDetails = false
         },
         [changePhone.pending] : (state, action) => {
-            state.isKeepLoginLoading = true
+            state.isUpdateProfileDetails = true
         },
         [changePhone.fulfilled] : (state, action) => {
             state = Object.assign(state, {
-                isKeepLoginLoading : false,
-                phone : action.payload?.phone
+                isUpdateProfileDetails : false,
+                phone : action.payload.newPhone,
             })
         },
         [changePhone.rejected] : (state, action) => {
-            state.isKeepLoginLoading = false
+            state.isUpdateProfileDetails = false
+            
         },
         [changePass.pending] : (state, action) => {
             state.isResetPassword = false
@@ -190,8 +189,10 @@ const authSlice = createSlice({
                 username : "",
                 email : "",
                 phone : "",
+                password: "",
+                imgProfile : "",
                 isResetPassword : true,
-                password : ""
+                isLogin : false
             })
         },
         [changePass.rejected] : (state, action) => {
@@ -206,7 +207,7 @@ const authSlice = createSlice({
         [uploadProfilePic.fulfilled] : (state, action) => {
             state = Object.assign(state, {
                 sisUpdateProfilePicLoading : false,
-                imgProfile : action.payload
+                imgProfile : action.payload.imgProfile
             })
         },
         [uploadProfilePic.rejected] : (state, action) => {

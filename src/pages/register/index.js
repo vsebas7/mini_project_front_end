@@ -61,8 +61,8 @@ function RegisterPage () {
         >
         {({ errors, touched, isSubmitting }) => {
             return (
-            <div className="container">
-                <div className="form card w-4/12 bg-base-100 shadow-xl py-4">
+            <div className="container ">
+                <div className="form card w-4/12 bg-base-100 shadow-xl py-4 ">
                     <Form>
                     <h1>Sign up to continue</h1>
                     <a class="link link-hover" href="/login">Already have account?</a>
