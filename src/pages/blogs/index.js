@@ -7,7 +7,7 @@ import { getLikedArticles } from "../../store/slices/blogs/myLikedArticles/slice
 import RenderFavoriteBlogs from "./components/favoriteBlogs"
 import RenderCategoryBlogs from "./components/categoryBlogs"
 import RenderBlogCards from "./components/listArticles"
-import RenderTop3Articles from "./components/top3Articles"
+import RenderTop3Articles from "./components/top3articles"
 import Pagination from "./components/pagination"
 import Footer from "../../components/footer"
 
