@@ -18,7 +18,7 @@ export const getFavBlogs = createAsyncThunk(
             }
 
             let outputFilterFavBlogs = responseFavBlogs.filter(function (article) {
-                return article.Category.name == cat_name
+                return article.Category.name === cat_name
             })
 
             return { responseFavBlogs, outputFilterFavBlogs }

@@ -25,7 +25,7 @@ export const getArticles = createAsyncThunk(
             }
             
             let outputFilter = response.filter(function (article) {
-                return article.UserId == id
+                return article.UserId === id
             })
 
             return {data,response,outputFilter}
@@ -59,6 +59,7 @@ export const postBlog = createAsyncThunk(
         try {            
             const {data} = await api.post("/blog",payload)
             Toast.success("Success post an Article") 
+            return data
         } catch (error) {
             console.error(error)
             Toast.error(error.response.data)

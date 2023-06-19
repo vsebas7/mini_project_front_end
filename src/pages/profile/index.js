@@ -1,10 +1,10 @@
-import {React,useState,useRef, useEffect, } from "react";
+import {React,useState,useRef } from "react";
 import {useDropzone} from 'react-dropzone';
 import { useNavigate } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { editProfileSchema } from "../../store/slices/auth/validation"
 import { useDispatch, useSelector } from "react-redux"
-import { changeEmail, changePhone, changeUsername, keepLogin, uploadProfilePic } from "../../store/slices/auth/slices"
+import { changeEmail, changePhone, changeUsername, uploadProfilePic } from "../../store/slices/auth/slices"
 import bgimage from '../../assets/image.svg'
 import "../../Form.scss"
 
@@ -23,7 +23,7 @@ const ProfileUser = () => {
   const [file,setFile] = useState(null)
   
   const onDrop = (acceptedFiles,FileRejection) => {
-    FileRejection.length == 0 
+    FileRejection.length === 0 
     ?
     setFile(acceptedFiles[0])
     :
