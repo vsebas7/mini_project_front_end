@@ -22,6 +22,7 @@ function BlogCard ({
         }
     })
     return (
+
         <div className="card card-side bg-base-100 shadow-xl w-[100%]">
             <figure className="object-scale-down w-[30%] p-5">
                 <img 

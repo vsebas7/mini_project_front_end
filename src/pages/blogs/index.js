@@ -7,13 +7,15 @@ import { getLikedArticles } from "../../store/slices/blogs/myLikedArticles/slice
 import RenderFavoriteBlogs from "./components/favoriteBlogs"
 import RenderCategoryBlogs from "./components/categoryBlogs"
 import RenderBlogCards from "./components/listArticles"
-import RenderTop3Articles from "./components/top3articles"
+import RenderTop3Articles from "./components/top3Articles"
 import Pagination from "./components/pagination"
 import Footer from "../../components/footer"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowUpAZ, faArrowDownZA  } from "@fortawesome/free-solid-svg-icons"
 
 function BlogsPage () {
     const dispatch = useDispatch()
-    const { loading, currentPage, totalPage, articles, username, categories ,favorites, top3s} = useSelector(state => {
+    const { loading, loadingTop3, currentPage, totalPage, articles, username, categories ,favorites, top3s} = useSelector(state => {
         return {
             loading : state.blogs.isLoading,
             articles : state.blogs.articles,
@@ -22,7 +24,8 @@ function BlogsPage () {
             username : state.auth.username,
             categories : state.category.categories,
             favorites : state.favorites.favorites,
-            top3s :state.favorites.top3
+            top3s :state.favorites.top3,
+            loadingTop3 : state.favorites.isLoading
         }
     })
 
@@ -68,13 +71,26 @@ function BlogsPage () {
             cat_name:event.target.value
         }))
     }
+    
+    const sortingChange = (e)=>{
+        e.target.checked 
+        ? dispatch(getArticles({
+                id_cat : "", 
+                page : 1,
+                sort : "ASC",
+            }))
+        : dispatch(getArticles({
+                id_cat : "", 
+                page : 1,
+                sort : "DESC",
+            }))
+    }
 
-    if (loading) return (
-        <div className="h-screen w-screen flex flex-row align-bottom justify-center">
-            <span className="loading loading-dots loading-lg"></span>
-        </div>
-    )
-    console.log(valueCategory.name)
+    // if (loading) return (
+        // <div className="h-screen w-screen flex flex-row align-bottom justify-center">
+        //     <span className="loading loading-dots loading-lg"></span>
+        // </div>
+    // )
 
     return (
         <div>
@@ -89,6 +105,16 @@ function BlogsPage () {
                     <h2 className="text-bold text-[25pt] place-self-center flex-wrap">List of All Articles</h2>
                 <div className="flex flex-col place-self-center w-[35vw] flex-wrap">
                     <div className="flex flex-row w-full h-auto gap-5 justify-start">
+                        <div className="flex flex-col">
+                            <label className="swap pt-2">
+                                <input 
+                                    type="checkbox" 
+                                    onClick={sortingChange}
+                                />
+                                <div className="swap-on"><FontAwesomeIcon icon={faArrowUpAZ} size="2xl" /> </div>
+                                <div className="swap-off"><FontAwesomeIcon icon={faArrowDownZA} size="2xl"/></div>
+                            </label>
+                        </div>
                         <select 
                             value={valueCategory.name} 
                             onChange={handleChange}
@@ -115,11 +141,23 @@ function BlogsPage () {
                                 : `Top 3 Popular Articles by Category of ${valueCategory.name}`
                             } 
                         </a>
-                        <RenderTop3Articles top3s={top3s}/>
+                        {loadingTop3
+                            ?   <div>
+                                    <span className="loading loading-spinner loading-md"></span>
+                                </div>
+                            :   <RenderTop3Articles top3s={top3s}/>
+                        }
                     </div>
                     <div class="divider lg:divider-horizontal"></div> 
                     <div class="grid flex-grow card w-[100%] h-full carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 justify-between py-5">
+                     {loading 
+                     ? 
+                         <div className="h-screen w-screen flex flex-col align-middle">
+                             <span className="loading loading-dots loading-lg"></span>
+                         </div>
+                     :
                         <RenderBlogCards articles={articles} />
+                     }
                         <Pagination 
                             onChangePagination={onChangePagination}
                             disabledPrev={currentPage === 1}
