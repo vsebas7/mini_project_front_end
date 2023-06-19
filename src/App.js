@@ -2,8 +2,8 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Routes, Route } from "react-router-dom"
 import { Toaster } from "react-hot-toast"
-import ProtectedRoute from "./protected.routes"
 import { keepLogin } from "./store/slices/auth/slices"
+import ProtectedRoute from "./protected.routes"
 import LoginPage from "./pages/login"
 import RegisterPage from "./pages/register"
 import VerifyAccountPage from "./pages/verify-account"
@@ -18,6 +18,7 @@ import Navbar from "./components/navbar"
 import NotFoundPage from "./pages/not-found"
 
 function App() {
+	document.title = 'Vsebas7 Blogs'
 	const dispatch = useDispatch()
 	const { isKeepLoginLoading } = useSelector(state => {
 		return {
