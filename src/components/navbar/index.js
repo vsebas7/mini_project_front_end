@@ -16,8 +16,6 @@ export default function Navbar () {
     })
 	const id = localStorage.getItem("token")
 
-	console.log(username)
-
 	return (
 		<div className="navbar bg-base-100">
 			<div className={`${!id ? "flex-grow" : "w-[85%]" }`}>

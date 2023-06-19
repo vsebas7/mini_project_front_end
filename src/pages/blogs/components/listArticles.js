@@ -14,7 +14,6 @@ function BlogCard ({
     const dispatch = useDispatch()
     const likeButton = ()=>{
         dispatch(likeArticle({BlogId}))
-        dispatch(getFavBlogs({cat_name}))
     }
     const{isLogin} = useSelector(state =>{
         return{
