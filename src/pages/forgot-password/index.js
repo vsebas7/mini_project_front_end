@@ -48,7 +48,7 @@ function ForgotPasswordPage () {
                   type="button"
                   className={
                     `btn btn-neutral 
-                    ${(emailRef.current?.value == "")
+                    ${(emailRef.current?.value === "")
                         ? "btn-disabled btn-ghost" 
                         : ""
                     }

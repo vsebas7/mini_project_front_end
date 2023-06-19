@@ -15,8 +15,9 @@ import { faArrowUpAZ, faArrowDownZA  } from "@fortawesome/free-solid-svg-icons"
 
 function BlogsPage () {
     const dispatch = useDispatch()
-    const { loading, loadingTop3, currentPage, totalPage, articles, username, categories ,favorites, top3s} = useSelector(state => {
+    const { isLogoutLoading, loading, loadingTop3, currentPage, totalPage, articles, username, categories ,favorites, top3s} = useSelector(state => {
         return {
+            isLogoutLoading : state.auth.isLogoutLoading,
             loading : state.blogs.isLoading,
             articles : state.blogs.articles,
             currentPage : state.blogs.currentPage,
@@ -40,9 +41,7 @@ function BlogsPage () {
         }))
         dispatch(getCategories())
         dispatch(getFavBlogs(" "))
-        dispatch(getLikedArticles({
-            page : 1
-        }))
+        dispatch(getLikedArticles({page : 1}))
     }, [])
     
     
@@ -85,7 +84,11 @@ function BlogsPage () {
                 sort : "DESC",
             }))
     }
-
+    if(isLogoutLoading) return (
+        <div className="h-screen w-screen flex flex-col align-middle">
+            <span className="loading loading-dots loading-lg"></span>
+        </div>
+    )
     return (
         <div>
             <div className="flex flex-col gap-5 rounded">

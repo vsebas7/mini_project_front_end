@@ -14,6 +14,10 @@ export default function Navbar () {
         }
     })
 	const id = localStorage.getItem("token")
+	const onButtonLogout = () => {
+		navigate("/login")
+        dispatch(logout()) 
+    }
 
 	return (
 		<div className="navbar bg-base-100">
@@ -47,7 +51,7 @@ export default function Navbar () {
 						<ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-10">
 							<li><a className="cursor-pointer" onClick={() =>{navigate("/myblogs")}}>My Blogs</a></li>
 							<li><a className="cursor-pointer" onClick={() =>{navigate("/profile")}}>Profile</a></li>
-							<li><a className="cursor-pointer" onClick={() => {dispatch(logout())}}>Logout</a></li>
+							<li><a className="cursor-pointer" onClick={onButtonLogout}>Logout</a></li>
 						</ul>
 					}
 				</div>

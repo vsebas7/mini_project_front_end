@@ -54,29 +54,32 @@ const ProfileUser = () => {
   const phoneRef = useRef()
   
   const onButtonSaveProfile = () => {
-    if(usernameRef.current.value != {username} && usernameRef.current.value != "") {
+    if(usernameRef.current.value !== {username} && usernameRef.current.value !== "") {
       dispatch(changeUsername({
         currentUsername : username,
         newUsername : usernameRef.current.value,
       }))
+      navigate("/","replace")
     }
-    if(emailRef.current.value != {email} && emailRef.current.value != ""){
+    if(emailRef.current.value !== {email} && emailRef.current.value !== ""){
       dispatch(changeEmail({
         currentEmail : email,
         newEmail : emailRef.current.value,
       }))
+      navigate("/login","replace")
     }
-    if(phoneRef.current.value != {phone} && phoneRef.current.value != ""){
+    if(phoneRef.current.value !== {phone} && phoneRef.current.value !== ""){
       dispatch(changePhone({
         currentPhone : phone,
         newPhone : phoneRef.current.value,
       }))
+      navigate("/","replace")
     } 
     if(file?.name){
       dispatch(uploadProfilePic(formData))
+      navigate("/","replace")
     }
     onButtonCancelUpload()
-    navigate("/","replace")
   }
     
     return (

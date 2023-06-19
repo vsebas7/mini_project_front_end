@@ -61,7 +61,7 @@ function ChangePasswordPage () {
                                     setPasswordShown({value : passwordShown.value,field_name : ""})
                                 }}
                             >
-                                {passwordShown.value==true && passwordShown.field_name==="oldpassword" ? eye_slash : eye }
+                                {passwordShown.value===true && passwordShown.field_name==="oldpassword" ? eye_slash : eye }
                             </i>
                         </div>
                         <ErrorMessage
@@ -74,7 +74,7 @@ function ChangePasswordPage () {
                         <label>New Password</label>
                         <div className="form-row-pass">
                         <Field
-                            type={passwordShown.value && passwordShown.field_name=="password" ? "text" : "password"}
+                            type={passwordShown.value && passwordShown.field_name==="password" ? "text" : "password"}
                             name="password"
                             id="password"
                             innerRef={passwordRef}
@@ -90,7 +90,7 @@ function ChangePasswordPage () {
                                 setPasswordShown({value : !passwordShown.value,field_name : ""})
                             }}
                         >
-                            {passwordShown.value==true && passwordShown.field_name=="password" ? eye_slash : eye }
+                            {passwordShown.value===true && passwordShown.field_name==="password" ? eye_slash : eye }
                         </i>
                         </div>
                         <ErrorMessage
@@ -103,7 +103,7 @@ function ChangePasswordPage () {
                         <label htmlFor="password">Confirm Password</label>
                         <div className="form-row-pass">
                         <Field
-                            type={passwordShown.value && passwordShown.field_name=="confirm" ? "text" : "password"}
+                            type={passwordShown.value && passwordShown.field_name==="confirm" ? "text" : "password"}
                             name="confirm"
                             id="confirm"
                             innerRef={confirmpasswordRef}
@@ -119,7 +119,7 @@ function ChangePasswordPage () {
                                 setPasswordShown({value : !passwordShown.value,field_name : ""})
                             }}
                         >
-                            {passwordShown.value==true && passwordShown.field_name=="confirm" ? eye_slash : eye}
+                            {passwordShown.value===true && passwordShown.field_name==="confirm" ? eye_slash : eye}
                         </i>
                         </div>
                         <ErrorMessage

@@ -12,9 +12,8 @@ function LoginPage () {
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { id,loading,isLogin } = useSelector(state => {
+  const { loading,isLogin } = useSelector(state => {
     return {
-      id : state.auth.id,
       loading : state.auth.isLoginLoading,
       isLogin : state.auth.isLogin
     }
@@ -77,7 +76,7 @@ function LoginPage () {
                   <label>Password</label>
                   <div className="form-row-pass">
                     <Field
-                      type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}
+                      type={passwordShown.value && passwordShown.field_name === "password" ? "text" : "password"}
                       name="password"
                       id="password"
                       innerRef={passwordRef}
@@ -89,7 +88,7 @@ function LoginPage () {
                       onClick={()=>{
                         setPasswordShown({value : !passwordShown.value, field_name : "password"})
                       }}>
-                        {passwordShown.value && passwordShown.field_name == "password" ? eye_slash : eye}
+                        {passwordShown.value && passwordShown.field_name === "password" ? eye_slash : eye}
                     </i>
                   </div>
                   <ErrorMessage

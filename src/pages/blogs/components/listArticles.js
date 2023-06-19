@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { likeArticle } from "../../../store/slices/blogs/slices"
-import { getFavBlogs } from "../../../store/slices/blogs/favBlogs/slices"
 import dateFormat from 'dateformat'
 function BlogCard ({
     title = "",
