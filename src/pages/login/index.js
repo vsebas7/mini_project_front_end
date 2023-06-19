@@ -12,11 +12,10 @@ function LoginPage () {
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { id,loading,isResetPassword,isLogin } = useSelector(state => {
+  const { id,loading,isLogin } = useSelector(state => {
     return {
       id : state.auth.id,
       loading : state.auth.isLoginLoading,
-      isResetPassword : state.auth.isResetPassword,
       isLogin : state.auth.isLogin
     }
   })
@@ -45,7 +44,7 @@ function LoginPage () {
     
     
     // @redirect
-    if (isResetPassword || isLogin  ) {
+    if ( isLogin  ) {
         return <Navigate to="/" replace/>
     }
 

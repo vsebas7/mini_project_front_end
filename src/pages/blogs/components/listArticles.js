@@ -21,6 +21,7 @@ function BlogCard ({
             isLogin : state.auth.isLogin
         }
     })
+    const id = localStorage.getItem("token")
     return (
 
         <div className="card card-side bg-base-100 shadow-xl w-[100%]">
@@ -38,11 +39,11 @@ function BlogCard ({
                 <div className="card-actions justify-end">
                     <div 
                         className="tooltip" 
-                        data-tip={!isLogin ? "Please login first" : "Like me please"}
+                        data-tip={!id ? "Please login first" : "Like me please"}
                     >
                         <button 
                             className="btn"
-                            disabled={!isLogin}
+                            disabled={!id}
                             onClick={likeButton}
                         >
                             Like

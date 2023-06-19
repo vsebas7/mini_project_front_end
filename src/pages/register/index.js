@@ -28,13 +28,14 @@ function RegisterPage () {
 
 
     const dispatch = useDispatch()
-    const { id, isRegisterLoading } = useSelector(state => {
+    const { isRegisterLoading } = useSelector(state => {
         return {
             id : state.auth.id,
             isRegisterLoading : state.auth.isRegisterLoading
         }
     })
-
+    
+    const id = localStorage.getItem("token")
     
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;

@@ -12,9 +12,7 @@ import Footer from "../../../components/footer"
 
 
 function MyBlogsPage () {
-
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const { filteredArticles, likedArticles, currentLikedPages } = useSelector(state => {
         return {
@@ -42,13 +40,6 @@ function MyBlogsPage () {
             sort : "ASC"
         }))
     }, [])
-
-    // @render loading
-    // if ({loading}) return (
-    //     <div className="h-screen w-screen flex flex-row align-bottom justify-center">
-    //         <span className="loading loading-dots loading-lg"></span>
-    //     </div>
-    // )
 
     return (
         <div className="flex flex-col flex-wrap gap-5 pt-10 w-full">

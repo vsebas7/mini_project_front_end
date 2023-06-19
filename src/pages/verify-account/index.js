@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { verification } from "../../store/slices/auth/slices"
 import "../../Form.scss"
 
-
-
 function VerifyAccountPage () {    
-    // @hooks
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { isVerified, email } = useSelector(state => {
@@ -20,7 +17,7 @@ function VerifyAccountPage () {
       dispatch(verification())
     }
     
-    if ( isVerified) {
+    if ( isVerified ) {
       return <Navigate to="/profile" replace/>
     }
     

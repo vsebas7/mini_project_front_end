@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector} from "react-redux"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import {useDropzone} from 'react-dropzone';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {publishBlogSchema} from "../../store/slices/auth/validation.js"
@@ -35,10 +35,9 @@ function PublishBlog () {
 
     const [valueCategory, setValue] = useState({id:"",name:""});
 
-    const { categories, isLogin } = useSelector(state => {
+    const { categories } = useSelector(state => {
         return {
-            categories : state.category.categories,
-            isLogin : state.auth.isLogin
+            categories : state.category.categories
         }
     })
 
@@ -77,7 +76,7 @@ function PublishBlog () {
         dispatch(getArticles({
             id_cat : "", 
             page : 1,
-            sort : "ASC"
+            sort : "DESC"
         }))
     } 
 

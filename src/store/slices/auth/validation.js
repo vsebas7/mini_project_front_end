@@ -69,8 +69,6 @@ export const publishBlogSchema = Yup.object({
     // .required("Category is required"),
     content: Yup.string()
     .required("Content is required"),
-    video: Yup.string()
-    .required("Video is required"),
     keywords: Yup.string()
     .required("Keywords is required")
 });

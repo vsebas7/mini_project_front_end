@@ -53,10 +53,6 @@ const ProfileUser = () => {
   const usernameRef = useRef()
   const emailRef = useRef()
   const phoneRef = useRef()
-
-  // if (!isLogin) {
-  //   return <Navigate to="/login" replace/>
-  // }
   
   const onButtonSaveProfile = () => {
     if(usernameRef.current.value != {username} && usernameRef.current.value != "") {
@@ -82,7 +78,6 @@ const ProfileUser = () => {
     }
     onButtonCancelUpload()
     navigate("/","replace")
-    // dispatch(keepLogin())
   }
     
     return (

@@ -80,7 +80,6 @@ function App() {
 				<Route path="/verification-change-email/:token" element={<VerifyAccountPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 				<Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-				{/* <Route path="/profile" element={<ProfileUser />} /> */}
 			</Routes>
 			<Toaster/>
 		</div>

@@ -86,12 +86,6 @@ function BlogsPage () {
             }))
     }
 
-    // if (loading) return (
-        // <div className="h-screen w-screen flex flex-row align-bottom justify-center">
-        //     <span className="loading loading-dots loading-lg"></span>
-        // </div>
-    // )
-
     return (
         <div>
             <div className="flex flex-col gap-5 rounded">

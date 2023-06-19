@@ -14,14 +14,17 @@ export default function Navbar () {
 			username : state.auth.username
         }
     })
+	const id = localStorage.getItem("token")
+
+	console.log(username)
 
 	return (
 		<div className="navbar bg-base-100">
-			<div className={`${!isLogin ? "flex-grow" : "w-[85%]" }`}>
+			<div className={`${!id ? "flex-grow" : "w-[85%]" }`}>
 				<a className="link link-hover normal-case text-[35pt]" onClick={() =>{navigate("/")}}>Vsebas7 Blogs</a>
 			</div>
 			<div className="flex">
-				{!isLogin 
+				{!id 
 					?""
 					:
 						<div className="text-xl pr-5">
@@ -37,7 +40,7 @@ export default function Navbar () {
 							<span>{userAvatar}</span>
 						</div>
 					</label>
-					{!isLogin 
+					{!id 
 						?
 						<ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-10">
 							<li><a className="cursor-pointer" onClick={() =>{navigate("/login")}}>Login</a></li>
