@@ -7,7 +7,6 @@ import { getLikedArticles } from "../../../store/slices/blogs/myLikedArticles/sl
 import RenderMyBlogCards from "./listMyArticles"
 import RenderLikedBlogCards from "../components/userLikedBlog"
 import Pagination from "../components/pagination"
-import { useNavigate } from "react-router-dom"
 import Footer from "../../../components/footer"
 
 

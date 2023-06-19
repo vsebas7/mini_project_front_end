@@ -15,11 +15,6 @@ function BlogCard ({
     const likeButton = ()=>{
         dispatch(likeArticle({BlogId}))
     }
-    const{isLogin} = useSelector(state =>{
-        return{
-            isLogin : state.auth.isLogin
-        }
-    })
     const id = localStorage.getItem("token")
     return (
 

@@ -8,9 +8,8 @@ export default function Navbar () {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const userAvatar = <FontAwesomeIcon icon={faUser} />
-	const { isLogin, username } = useSelector(state => {
+	const { username } = useSelector(state => {
         return {
-            isLogin : state.auth.isLogin,
 			username : state.auth.username
         }
     })

@@ -117,7 +117,7 @@ function RegisterPage () {
                         <label >Password</label>
                         <div className="form-row-pass">
                         <Field
-                            type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}
+                            type={passwordShown.value && passwordShown.field_name === "password" ? "text" : "password"}
                             name="password"
                             id="password"
                             innerRef={passwordRef}
@@ -133,7 +133,7 @@ function RegisterPage () {
                                 setPasswordShown({value : !passwordShown.value, field_name : "" })
                             }}
                         >
-                            {passwordShown.value && passwordShown.field_name == "password" ? eye_slash : eye}
+                            {passwordShown.value && passwordShown.field_name === "password" ? eye_slash : eye}
                         </i>
                         </div>
                         <ErrorMessage
@@ -146,7 +146,7 @@ function RegisterPage () {
                         <label >Confirm Password</label>
                         <div className="form-row-pass">
                         <Field
-                            type={passwordShown.value && passwordShown.field_name =="confirm" ? "text" : "password"}
+                            type={passwordShown.value && passwordShown.field_name ==="confirm" ? "text" : "password"}
                             name="confirm"
                             id="confirm"
                             innerRef={confirmpasswordRef}
@@ -162,7 +162,7 @@ function RegisterPage () {
                                 setPasswordShown({value : !passwordShown.value, field_name : "" })
                             }}
                         >
-                            {passwordShown.value && passwordShown.field_name =="confirm" ? eye_slash : eye}
+                            {passwordShown.value && passwordShown.field_name ==="confirm" ? eye_slash : eye}
                         </i>
                         </div>
                         <ErrorMessage

@@ -1,6 +1,6 @@
 import {React,useState,useRef, useEffect, } from "react";
 import {useDropzone} from 'react-dropzone';
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { editProfileSchema } from "../../store/slices/auth/validation"
 import { useDispatch, useSelector } from "react-redux"
@@ -11,13 +11,12 @@ import "../../Form.scss"
 const ProfileUser = () => {
   const dispatch = useDispatch() 
   const navigate = useNavigate()
-  const {username, email, phone,imgProfile,isLogin} = useSelector(state=>{
+  const {username, email, phone,imgProfile} = useSelector(state=>{
     return {
       username : state.auth.username,
       phone : state.auth.phone,
       email : state.auth.email,
-      imgProfile : state.auth.imgProfile,
-      isLogin : state.auth.isLogin
+      imgProfile : state.auth.imgProfile
     }
   })
   
@@ -224,9 +223,9 @@ const ProfileUser = () => {
                       `btn btn-neutral 
                       ${
                           (
-                              usernameRef.current?.value == "" &&
-                              emailRef.current?.value == "" && 
-                              phoneRef.current?.value == "" && 
+                              usernameRef.current?.value === "" &&
+                              emailRef.current?.value === "" && 
+                              phoneRef.current?.value === "" && 
                               file?.name == null
                           )
                           ? "btn-disabled btn-ghost" 

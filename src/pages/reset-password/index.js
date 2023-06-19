@@ -1,12 +1,10 @@
 import { useRef, useState } from "react"
 import { useDispatch, useSelector} from "react-redux"
-import { Navigate } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { reset_password } from "../../store/slices/auth/slices"
 import {resetPasswordValidationSchema} from "../../store/slices/auth/validation.js"
-
 import "../../Form.scss"
 
 
@@ -15,14 +13,7 @@ function ResetPasswordPage () {
     const passwordRef = useRef()
     const confirmpasswordRef = useRef()
 
-
     const dispatch = useDispatch()
-    const { isResetPassword } = useSelector(state => {
-        return {
-            isResetPassword : state.auth.isResetPassword,
-        }
-    })
-
     
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash =<FontAwesomeIcon icon={faEyeSlash} />;
@@ -36,10 +27,6 @@ function ResetPasswordPage () {
         }))
     }
 
-    // @redirect
-    // if(!isResetPassword){
-    //     return <Navigate to="/login" replace/>
-    // }
     return (
         <Formik
             initialValues={{ password: "", confirm:""}}
@@ -55,7 +42,7 @@ function ResetPasswordPage () {
                         <label htmlFor="password">New Password</label>
                         <div className="form-row-pass">
                         <Field
-                            type={passwordShown.value && passwordShown.field_name == "password" ? "text" : "password"}
+                            type={passwordShown.value && passwordShown.field_name === "password" ? "text" : "password"}
                             name="password"
                             id="password"
                             innerRef={passwordRef}
@@ -71,7 +58,7 @@ function ResetPasswordPage () {
                                 setPasswordShown({value : !passwordShown.value, field_name : "" })
                             }}
                         >
-                            {passwordShown.value && passwordShown.field_name == "password" ? eye_slash : eye}
+                            {passwordShown.value && passwordShown.field_name === "password" ? eye_slash : eye}
                         </i>
                         </div>
                         <ErrorMessage
@@ -84,7 +71,7 @@ function ResetPasswordPage () {
                         <label htmlFor="password">Confirm Password</label>
                         <div className="form-row-pass">
                         <Field
-                            type={passwordShown.value && passwordShown.field_name == "confirm" ? "text" : "password"}
+                            type={passwordShown.value && passwordShown.field_name === "confirm" ? "text" : "password"}
                             name="confirm"
                             id="confirm"
                             innerRef={confirmpasswordRef}
@@ -100,7 +87,7 @@ function ResetPasswordPage () {
                                 setPasswordShown({value : !passwordShown.value, field_name : "" })
                             }}
                         >
-                            {passwordShown.value && passwordShown.field_name == "confirm" ? eye_slash : eye}
+                            {passwordShown.value && passwordShown.field_name === "confirm" ? eye_slash : eye}
                         </i>
                         </div>
                         <ErrorMessage

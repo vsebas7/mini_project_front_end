@@ -45,7 +45,7 @@ function ChangePasswordPage () {
                         <label>Old Password</label>
                         <div className="form-row-pass">
                             <Field
-                                type={passwordShown.value && passwordShown.field_name=="oldpassword" ? "text" : "password"}
+                                type={passwordShown.value && passwordShown.field_name==="oldpassword" ? "text" : "password"}
                                 name="oldpassword"
                                 id="oldpassword"
                                 innerRef={oldPasswordRef}
@@ -61,7 +61,7 @@ function ChangePasswordPage () {
                                     setPasswordShown({value : passwordShown.value,field_name : ""})
                                 }}
                             >
-                                {passwordShown.value==true && passwordShown.field_name=="oldpassword" ? eye_slash : eye }
+                                {passwordShown.value==true && passwordShown.field_name==="oldpassword" ? eye_slash : eye }
                             </i>
                         </div>
                         <ErrorMessage

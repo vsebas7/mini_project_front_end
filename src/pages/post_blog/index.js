@@ -162,7 +162,7 @@ function PublishBlog () {
                         <div className="form-row ">
                             <label>Picture</label>      
                             <div 
-                                className={`flex file-input-bordered file-input-md h-auto py-5 border-2 ${file.name == null && touched.picture ? "input-error" :"border-cyan-800" }  w-full rounded-md break-all`}
+                                className={`flex file-input-bordered file-input-md h-auto py-5 border-2 ${file.name === null && touched.picture ? "input-error" :"border-cyan-800" }  w-full rounded-md break-all`}
                             >
                                 <input {...getInputProps({name : 'image'})}/>
                                 <a 
@@ -176,7 +176,7 @@ function PublishBlog () {
                                     }
                                 </a>
                                 <button
-                                    className={`btn btn-square btn-outline p-0 ${!(file.name == null) ? "" : "hidden"}`} 
+                                    className={`btn btn-square btn-outline p-0 ${!(file.name === null) ? "" : "hidden"}`} 
                                       onClick={onButtonCancelUpload}
                                     >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -199,7 +199,7 @@ function PublishBlog () {
                                 value={valueCategory.name}
                                 onChange={handleChange}
                                 className={
-                                    valueCategory.name == "Select a Category" && touched.category
+                                    valueCategory.name === "Select a Category" && touched.category
                                     ? "notlisted-error select select-bordered select-lg w-full" 
                                     : "notlisted select select-bordered select-lg w-full"
                                 }
@@ -208,7 +208,7 @@ function PublishBlog () {
                                 <RenderCategoryBlogs categories={categories} />
                             </Field>
                             {
-                                valueCategory.name == "Select a Category" && touched.category
+                                valueCategory.name === "Select a Category" && touched.category
                                 ? <span className="error">Please Select a Category</span>
                                 : null
                             }
@@ -235,12 +235,12 @@ function PublishBlog () {
                                 `btn btn-neutral 
                                 ${
                                     (
-                                        titleRef.current?.value == "" || 
-                                        countryRef.current?.value == "" || 
-                                        contentRef.current?.value == "" || 
-                                        pictureRef.current?.value == "" ||
+                                        titleRef.current?.value === "" || 
+                                        countryRef.current?.value === "" || 
+                                        contentRef.current?.value === "" || 
+                                        pictureRef.current?.value === "" ||
                                         valueCategory.name == "Select a Category" ||
-                                        keywordsRef.current?.value == ""
+                                        keywordsRef.current?.value === ""
                                     )
                                     ? "btn-disabled btn-ghost" 
                                     : ""

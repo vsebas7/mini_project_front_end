@@ -1,7 +1,5 @@
-import { useNavigate  } from "react-router-dom"
 
 export default function Footer () {
-	const navigate = useNavigate()
 	return (
         <div className="flex flex-col pt-[50px]">
             <footer className="footer items-center p-4 bg-neutral text-neutral-content rounded-lg ">
