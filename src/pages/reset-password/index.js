@@ -19,11 +19,16 @@ function ResetPasswordPage () {
     const eye_slash =<FontAwesomeIcon icon={faEyeSlash} />;
     const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
     
+    const token = window.location.pathname.toString().replace('/reset-password/',"")
+
 
     const onButtonResetPassword = () => {
         dispatch(reset_password({
-            password : passwordRef.current?.value,
-            confirmPassword : confirmpasswordRef.current?.value
+            data : {
+                password : passwordRef.current?.value,
+                confirmPassword : confirmpasswordRef.current?.value
+            },
+            token : token
         }))
     }
 

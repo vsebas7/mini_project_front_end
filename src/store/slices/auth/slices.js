@@ -82,6 +82,8 @@ export const forgot = createAsyncThunk(
         try {
             const {data} = await api.put("/auth/forgotPass",payload)
             Toast.success(data.message) 
+            localStorage.setItem("token",data.data)
+            console.log(data)
         } catch (error) {
             Toast.error("Failed to verify account")
             return rejectWithValue(error.response.data)
@@ -93,12 +95,13 @@ export const reset_password = createAsyncThunk(
     "auth/reset_password",
     async (payload, { rejectWithValue }) => {
         try {
-            const {data} = await api.patch("/auth/resetPass",payload)
-            Toast.success(data.message) 
-            return <Navigate to="/login" replace/>
+            
+            localStorage.setItem("token",payload.token)
+            const response= await api.patch("/auth/resetPass",payload.data)
+            Toast.success(response?.data?.message) 
         } catch (error) {
-            Toast.error(error.response.data)
-            return rejectWithValue(error.response.data)
+            Toast.error(error?.data?.message)
+            // return rejectWithValue(error)
         }
     }
 )
