@@ -123,10 +123,8 @@ export const changeEmail = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {            
             const {data} = await api.patch("auth/changeEmail",payload)
-            localStorage.removeItem("token")
             localStorage.removeItem("id")
             Toast.success(data.message) 
-            localStorage.setItem("token",data.token)
             return data
         } catch (error) {
             Toast.error(error.response.data)
