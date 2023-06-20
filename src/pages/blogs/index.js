@@ -112,7 +112,7 @@ function BlogsPage () {
                             </label>
                         </div>
                         <select 
-                            value={valueCategory.name} 
+                            value={valueCategory?.name} 
                             onChange={handleChange}
                             className="select select-bordered w-full max-w-xs"
                         >
@@ -132,9 +132,9 @@ function BlogsPage () {
                     <div class="flex flex-grow-0 card w-[350px] carousel carousel-vertical rounded-box place-items-start flex-wrap gap-5 py-5">
                         <a className="text-bold text-[18pt]">
                             {
-                                valueCategory?.name == "allCategory" || valueCategory.name == "" 
+                                valueCategory?.name == "allCategory" || valueCategory?.name == "" 
                                 ? "Popular Article(s) by Category Will Appear Here" 
-                                : `Top 3 Popular Articles by Category of ${valueCategory.name}`
+                                : `Top 3 Popular Articles by Category of ${valueCategory?.name}`
                             } 
                         </a>
                         {loadingTop3

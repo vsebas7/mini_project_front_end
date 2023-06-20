@@ -23,7 +23,6 @@ const initialValuesPublishBlog = {
 function PublishBlog () {
     const titleRef = useRef()
     const countryRef = useRef()
-    const pictureRef = useRef()
     const categoryRef = useRef()
     const contentRef = useRef()
     const keywordsRef = useRef()
@@ -31,7 +30,7 @@ function PublishBlog () {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [file, setFile] = useState("")
+    const [file, setFile] = useState("null")
 
     const [valueCategory, setValue] = useState({id:"",name:""});
 
@@ -88,7 +87,9 @@ function PublishBlog () {
         setFile(FileRejection[0].errors[0])
     }
 
-    const {getInputProps , open} = useDropzone({onDrop , 
+    const {getInputProps , open} = useDropzone({
+        onDrop,
+        //  , 
         maxFiles:1 , 
         accept : {'image/*' : ['.jpg','.jpeg','.webp','.png']} ,
         maxSize :1000000,
@@ -97,9 +98,9 @@ function PublishBlog () {
     }) 
 
     const onButtonCancelUpload = () =>{
-        setFile([])
+        setFile("null")
       }
-
+      
     return (
         <Formik
             initialValues={initialValuesPublishBlog}
@@ -160,7 +161,11 @@ function PublishBlog () {
                         </div>
 
                         <div className="form-row ">
-                            <label>Picture</label>      
+                            <label>Picture</label>
+                            <div className={`alert alert-error ${file?.code ? "" : "hidden"}`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span>{file?.code}</span>
+                            </div>      
                             <div 
                                 className={`flex file-input-bordered file-input-md h-auto py-5 border-2 ${file.name === null && touched.picture ? "input-error" :"border-cyan-800" }  w-full rounded-md break-all`}
                             >
@@ -176,7 +181,7 @@ function PublishBlog () {
                                     }
                                 </a>
                                 <button
-                                    className={`btn btn-square btn-outline p-0 ${!(file.name === null) ? "" : "hidden"}`} 
+                                    className={`btn btn-square btn-outline p-0 ${(file === "null" || file?.code) ? "hidden" : ""}`} 
                                       onClick={onButtonCancelUpload}
                                     >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -229,7 +234,7 @@ function PublishBlog () {
                             />
                             <ErrorMessage name="keywords" component="span" className="error" />
                         </div>
-
+                                
                         <button 
                             className={
                                 `btn btn-neutral 
@@ -238,7 +243,7 @@ function PublishBlog () {
                                         titleRef.current?.value === "" || 
                                         countryRef.current?.value === "" || 
                                         contentRef.current?.value === "" || 
-                                        pictureRef.current?.value === "" ||
+                                        file === "null" ||
                                         valueCategory.name == "Select a Category" ||
                                         keywordsRef.current?.value === ""
                                     )

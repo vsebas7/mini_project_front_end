@@ -61,7 +61,7 @@ export default function RenderBlogCards ({
                 BlogId = {article.id}
                 author = {article.User.username}
                 createdAt = {article.createdAt}
-                cat_name = {article.Category.name}
+                cat_name = {article?.Category?.name}
             />
         )
     })
