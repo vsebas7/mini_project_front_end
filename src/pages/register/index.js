@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import { useDispatch, useSelector} from "react-redux"
-import { Navigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { register } from "../../store/slices/auth/slices"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -28,6 +28,7 @@ function RegisterPage () {
 
 
     const dispatch = useDispatch()
+    const navigate = useNavigate
     const { isRegisterLoading } = useSelector(state => {
         return {
             id : state.auth.id,
@@ -64,9 +65,9 @@ function RegisterPage () {
             return (
             <div className="container ">
                 <div className="form card w-4/12 bg-base-100 shadow-xl py-4 ">
-                    <Form>
                     <h1>Sign up to continue</h1>
-                    <a class="link link-hover" href="/login">Already have account?</a>
+                    <button onClick={() =>{navigate("/login")}} class="link link-hover" >Already have account?</button>
+                    <Form>
                     <div className="form-row mt-5">
                         <label >Username</label>
                         <Field

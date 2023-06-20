@@ -92,7 +92,7 @@ export default function RenderMyBlogCards ({
                 content={filteredArticle.content}
                 thumbnail={filteredArticle.imageURL}
                 BlogId = {filteredArticle.id}
-                category = {filteredArticle.Category.name}
+                category = {filteredArticle?.Category?.name}
             />
         )
     })

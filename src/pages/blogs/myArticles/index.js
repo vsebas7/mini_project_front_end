@@ -8,10 +8,12 @@ import RenderMyBlogCards from "./listMyArticles"
 import RenderLikedBlogCards from "../components/userLikedBlog"
 import Pagination from "../components/pagination"
 import Footer from "../../../components/footer"
+import { useNavigate } from "react-router-dom"
 
 
 function MyBlogsPage () {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { filteredArticles, likedArticles, currentLikedPages } = useSelector(state => {
         return {
@@ -49,7 +51,7 @@ function MyBlogsPage () {
                     <div className="flex flex-col w-full">
                         <a 
                             className="btn btn-ghost btn-lg justify-center w-[25%] place-self-center"
-                            href="/post-blog"
+                            onClick={() =>{navigate("/post-blog")}}
                         >
                             Please Publish a Article
                         </a>
@@ -57,7 +59,7 @@ function MyBlogsPage () {
                 :   
                     <div className="overflow-x-auto">
                     <a 
-                        href="/post-blog"
+                        onClick={() =>{navigate("/post-blog")}}
                         className="text-[14pt]"
                     >
                         Publish a New Article {writeIcon}

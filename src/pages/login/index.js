@@ -116,7 +116,7 @@ function LoginPage () {
                 </button>
               </div>
             </Form>
-            <a className="link link-hover" href="/forgot-password">Forgot Password</a>
+            <a className="link link-hover" onClick={() =>{navigate("/forgot-password")}}>Forgot Password</a>
             <br/>
           </div>
         </div>

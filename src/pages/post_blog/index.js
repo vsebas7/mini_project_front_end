@@ -260,11 +260,11 @@ function PublishBlog () {
                             Save Changes
                         </button>
                             <dialog id="modalConfirmation" className="modal">
-                            <Form method="dialog" className="modal-box">
+                            <div method="dialog" className="modal-box">
                                 <h3 className="font-bold text-lg">Confirmation!</h3>
                                 <p className="py-4">Are You Sure Wanna Publish This Blog?</p>
                                 <div className="modal-action">
-                                <button className="btn">Close</button>
+                                <button type="button" className="btn" onClick={()=>{window.modalConfirmation.close()}}>Close</button>
                                 <button
                                     type="button"
                                     className="btn btn-accent"
@@ -277,7 +277,7 @@ function PublishBlog () {
                                     Apply
                                 </button>
                                 </div>
-                            </Form>
+                            </div>
                             </dialog>
                         </Form>
                     </div>
