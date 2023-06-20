@@ -65,9 +65,8 @@ function RegisterPage () {
             return (
             <div className="container ">
                 <div className="form card w-4/12 bg-base-100 shadow-xl py-4 ">
-                    <h1>Sign up to continue</h1>
-                    <button onClick={() =>{navigate("/login")}} class="link link-hover" >Already have account?</button>
                     <Form>
+                    <h1>Sign up to continue</h1>
                     <div className="form-row mt-5">
                         <label >Username</label>
                         <Field
