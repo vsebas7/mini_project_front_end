@@ -26,7 +26,7 @@ export default function RenderLikedBlogCards ({
             <UserLike key={likedArticle.id}
                 title={likedArticle.Blog.title}
                 content={likedArticle.Blog.content}
-                category={likedArticle.Blog.Category.name}
+                category={likedArticle.Blog?.Category?.name}
             />
         )
     })
