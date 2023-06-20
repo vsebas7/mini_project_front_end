@@ -1,8 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../utils/api.instance"
 import Toast from "react-hot-toast";
-import { Navigate } from "react-router-dom";
-
 
 // @create async thunk
 export const login = createAsyncThunk(
@@ -67,7 +65,8 @@ export const verification = createAsyncThunk(
     "auth/verification",
     async (payload, { rejectWithValue }) => {
         try {
-            const {data} = await api.patch("/auth/verify",{},)
+            localStorage.setItem("token",payload)
+            const {data} = await api.patch("/auth/verify")
             Toast.success(data.message)
         } catch (error) {
             Toast.error(error.reponse.data)
@@ -101,7 +100,7 @@ export const reset_password = createAsyncThunk(
             Toast.success(response?.data?.message) 
         } catch (error) {
             Toast.error(error?.data?.message)
-            // return rejectWithValue(error)
+            // return rejectWithValue(error.response.data)
         }
     }
 )

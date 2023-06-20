@@ -21,7 +21,6 @@ function ResetPasswordPage () {
     
     const token = window.location.pathname.toString().replace('/reset-password/',"")
 
-
     const onButtonResetPassword = () => {
         dispatch(reset_password({
             data : {

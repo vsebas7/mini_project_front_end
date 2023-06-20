@@ -14,8 +14,10 @@ function VerifyAccountPage () {
     })
 
     const onButtonVerify = () => {
-      dispatch(verification())
+      dispatch(verification(token))
     }
+
+    const token = window.location.pathname.toString().replace('/verification/',"").replace('/verification-change-email/',"")
 
     if ( isVerified ) {
       return <Navigate to="/profile" replace/>
