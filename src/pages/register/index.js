@@ -35,7 +35,7 @@ function RegisterPage () {
         }
     })
     
-    const id = localStorage.getItem("token")
+    const id = localStorage.getItem("id")
     
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash = <FontAwesomeIcon icon={faEyeSlash} />;

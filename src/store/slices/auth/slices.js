@@ -17,7 +17,6 @@ export const login = createAsyncThunk(
             Toast.success("login success")
             return data?.isAccountExist
         } catch (error) {
-            console.error(error)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
@@ -58,7 +57,6 @@ export const register = createAsyncThunk(
             Toast.success(data?.message)
             return data?.data
         } catch (error) {
-            console.log(error.response.data)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
@@ -69,13 +67,9 @@ export const verification = createAsyncThunk(
     "auth/verification",
     async (payload, { rejectWithValue }) => {
         try {
-            localStorage.setItem("token", payload)
             const {data} = await api.patch("/auth/verify",{},)
             Toast.success(data.message)
-            localStorage.removeItem("token")
-            localStorage.removeItem("id")
         } catch (error) {
-            console.error(error.reponse.data)
             Toast.error(error.reponse.data)
             return rejectWithValue(error.response.data)
         }
@@ -89,7 +83,6 @@ export const forgot = createAsyncThunk(
             const {data} = await api.put("/auth/forgotPass",payload)
             Toast.success(data.message) 
         } catch (error) {
-            console.error(error)
             Toast.error("Failed to verify account")
             return rejectWithValue(error.response.data)
         }
@@ -100,16 +93,10 @@ export const reset_password = createAsyncThunk(
     "auth/reset_password",
     async (payload, { rejectWithValue }) => {
         try {
-            let tokenRef = window.location.pathname.toString();
-            tokenRef = tokenRef.replace("/reset-password/","")
-            localStorage.setItem("token",tokenRef)
             const {data} = await api.patch("/auth/resetPass",payload)
             Toast.success(data.message) 
-            localStorage.removeItem("token")
-            localStorage.removeItem("id")
             return <Navigate to="/login" replace/>
         } catch (error) {
-            console.error(error)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
@@ -125,7 +112,6 @@ export const changeUsername = createAsyncThunk(
             Toast.success("Change username success") 
             return payload
         } catch (error) {
-            console.error(error)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
@@ -138,11 +124,8 @@ export const changeEmail = createAsyncThunk(
         try {            
             const {data} = await api.patch("auth/changeEmail",payload)
             Toast.success("Change email address success") 
-            localStorage.removeItem("token")
-            localStorage.removeItem("id")
             return data
         } catch (error) {
-            console.error(error)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
@@ -157,7 +140,6 @@ export const changePhone = createAsyncThunk(
             Toast.success("Change phone number success") 
             return payload
         } catch (error) {
-            console.error(error)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
@@ -174,7 +156,6 @@ export const changePass = createAsyncThunk(
             localStorage.removeItem("id")
             return data
         } catch (error) {
-            console.error(error)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
@@ -189,7 +170,6 @@ export const uploadProfilePic = createAsyncThunk(
             Toast.success("Image Profile Uploaded") 
             return data
         } catch (error) {
-            console.error(error)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }

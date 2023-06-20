@@ -41,7 +41,6 @@ function BlogsPage () {
         }))
         dispatch(getCategories())
         dispatch(getFavBlogs(" "))
-        dispatch(getLikedArticles({page : 1}))
     }, [])
     
     

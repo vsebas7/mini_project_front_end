@@ -15,7 +15,6 @@ export const getLikedArticles = createAsyncThunk(
             return data
             
         } catch (error) {
-            console.error(error)
             Toast.error(error.response.data)
             return rejectWithValue(error.response.data)
         }
