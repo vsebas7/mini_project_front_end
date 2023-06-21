@@ -76,6 +76,7 @@ const ProfileUser = () => {
       navigate("/","replace")
     }
     onButtonCancelUpload()
+    window.modalConfirmation.close()
   }
     
     return (

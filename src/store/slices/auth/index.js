@@ -150,10 +150,7 @@ const authSlice = createSlice({
             state.isUpdateProfileDetails = true
         },
         [changeUsername.fulfilled] : (state, action) => {
-            state = Object.assign(state, {
-                isUpdateProfileDetails : false,
-                username : action.payload.newUsername,
-            })
+            state.isUpdateProfileDetails = false
         },
         [changeUsername.rejected] : (state, action) => {
             state.isUpdateProfileDetails = false
@@ -171,10 +168,7 @@ const authSlice = createSlice({
             state.isUpdateProfileDetails = true
         },
         [changePhone.fulfilled] : (state, action) => {
-            state = Object.assign(state, {
-                isUpdateProfileDetails : false,
-                phone : action.payload.newPhone,
-            })
+            state.isUpdateProfileDetails = false
         },
         [changePhone.rejected] : (state, action) => {
             state.isUpdateProfileDetails = false

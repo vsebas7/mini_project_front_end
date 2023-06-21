@@ -24,7 +24,7 @@ export const getFavBlogs = createAsyncThunk(
                 if(cat_name === undefined){
                     
                 }else{
-                    return article?.Category?.name === cat_name
+                    return article?.Category?.name == cat_name
                 }
             })
 

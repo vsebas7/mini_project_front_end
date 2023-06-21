@@ -62,9 +62,6 @@ function BlogsPage () {
             page : 1,
             sort : "DESC" 
         }))
-        dispatch(getLikedArticles({
-            page : 1
-        }))
         dispatch(getFavBlogs({
             cat_name:event.target.value
         }))

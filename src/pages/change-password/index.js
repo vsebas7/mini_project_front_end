@@ -42,7 +42,7 @@ function ChangePasswordPage () {
                     <Form>
                     <h1>Change Password</h1>
                     <div className="form-row mt-7">
-                        <label>Old Password</label>
+                        <label>Current Password</label>
                         <div className="form-row-pass">
                             <Field
                                 type={passwordShown.value && passwordShown.field_name==="oldpassword" ? "text" : "password"}

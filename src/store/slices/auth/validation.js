@@ -74,7 +74,8 @@ export const publishBlogSchema = Yup.object({
 });
 
 export const editProfileSchema = Yup.object().shape({
-  username : Yup.string(),
+  username : Yup.string()
+    .min(5,'Username minimum 5 characters'),
   email: Yup.string().email(),
   phone: Yup.string()
     .matches(/[0-9]/,'phone must be a number')

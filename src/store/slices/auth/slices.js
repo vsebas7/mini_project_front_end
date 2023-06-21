@@ -113,9 +113,9 @@ export const changeUsername = createAsyncThunk(
             Toast.success(data.message)             
             localStorage.removeItem("token")
             localStorage.removeItem("id")
-            return payload
+            return data
         } catch (error) {
-            Toast.error(error.response.data.err)
+            Toast.error(error.response.data)
             return rejectWithValue(error.response.data.err)
         }
     }
@@ -131,7 +131,7 @@ export const changeEmail = createAsyncThunk(
             localStorage.removeItem("id")
             return data
         } catch (error) {
-            Toast.error(error.response.data.err)
+            Toast.error(error.response.data)
             return rejectWithValue(error.response.data.err)
         }
     }
@@ -145,9 +145,9 @@ export const changePhone = createAsyncThunk(
             Toast.success(data.message) 
             localStorage.removeItem("token")
             localStorage.removeItem("id")
-            return payload
+            return data
         } catch (error) {
-            Toast.error(error.response.data.err)
+            Toast.error(error.response.data)
             return rejectWithValue(error.response.data.err)
         }
     }
@@ -163,7 +163,7 @@ export const changePass = createAsyncThunk(
             localStorage.removeItem("id")
             return data
         } catch (error) {
-            Toast.error(error.response.data)
+            Toast.error(error.response.data.err)
             return rejectWithValue(error.response.data)
         }
     }
@@ -174,7 +174,7 @@ export const uploadProfilePic = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {            
             const {data} = await api.post("/profile/single-uploaded",payload)
-            Toast.success("Image Profile Uploaded") 
+            Toast.success("Image Changed Success") 
             return data
         } catch (error) {
             Toast.error(error.response.data)
