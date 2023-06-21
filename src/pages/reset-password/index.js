@@ -1,5 +1,6 @@
 import { useRef, useState } from "react"
 import { useDispatch } from "react-redux"
+import { Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -18,8 +19,8 @@ function ResetPasswordPage () {
     const eye = <FontAwesomeIcon icon={faEye} />;
     const eye_slash =<FontAwesomeIcon icon={faEyeSlash} />;
     const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
-    
     const token = window.location.pathname.toString().replace('/reset-password/',"")
+    const id = localStorage.getItem("id")
     
     const onButtonResetPassword = () => {
         dispatch(reset_password({
@@ -31,6 +32,9 @@ function ResetPasswordPage () {
         }))
     }
 
+    // @redirect
+    if (id) return <Navigate to="/" replace/>
+    
     return (
         <Formik
             initialValues={{ password: "", confirm:""}}

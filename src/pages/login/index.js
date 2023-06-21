@@ -43,7 +43,7 @@ function LoginPage () {
   const id = localStorage.getItem("id")
   
   // @redirect
-  if (id !== "undefined" && id  ) {
+  if (id ) {
       return <Navigate to="/" replace/>
   }
 

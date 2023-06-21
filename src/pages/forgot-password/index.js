@@ -1,5 +1,6 @@
 import { useRef } from "react"
 import { useDispatch,useSelector } from "react-redux"
+import { Navigate } from "react-router-dom";
 import { forgot } from "../../store/slices/auth/slices"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { forgotValidationSchema } from "../../store/slices/auth/validation.js"
@@ -15,10 +16,15 @@ function ForgotPasswordPage () {
 
     const emailRef = useRef()
 
+    const id = localStorage.getItem("id")
+
     const onButtonSendLink = () => {
         const email = emailRef.current?.value.toString()
         dispatch(forgot({ email }))
     }
+
+    // @redirect
+    if (id) return <Navigate to="/" replace/>
 
     return (
         <Formik
