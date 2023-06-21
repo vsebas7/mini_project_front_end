@@ -10,7 +10,7 @@ export const getArticles = createAsyncThunk(
 
             const { id_cat, page, sort} = payload
             
-            const id = Number(localStorage.getItem("id"))
+            const id = localStorage.getItem("id")
             
             const PARAMETER = `id_cat=${id_cat}&sort=${sort}&page=${page}`
 
@@ -25,7 +25,7 @@ export const getArticles = createAsyncThunk(
             }
             
             let outputFilter = response.filter(function (article) {
-                return article.UserId === id
+                return article.UserId == id
             })
 
             return {data,response,outputFilter}
@@ -47,8 +47,8 @@ export const likeArticle = createAsyncThunk(
             Toast("Thankyou! You're Awesome")
         } catch (error) {
             console.error(error)
-            Toast.error(error.response.data)
-            return rejectWithValue(error.response.data)
+            Toast.error(error.response.data.err)
+            return rejectWithValue(error.response.data.err)
         }
     }
 )

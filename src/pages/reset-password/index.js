@@ -19,8 +19,8 @@ function ResetPasswordPage () {
     const eye_slash =<FontAwesomeIcon icon={faEyeSlash} />;
     const [passwordShown, setPasswordShown] = useState({value : false, field_name : ""});
     
-    const token = window.location.pathname.toString().replace('/reset-password/',"")
-
+    // const token = window.location.pathname.toString().replace('/reset-password/',"")
+    const token = ""
     const onButtonResetPassword = () => {
         dispatch(reset_password({
             data : {
@@ -103,8 +103,19 @@ function ResetPasswordPage () {
 
                     <button
                         type="button"
-                        className="btn btn-neutral" 
                         onClick={onButtonResetPassword}
+                        className={
+                                `btn btn-neutral 
+                                ${
+                                    (
+                                        passwordRef.current?.value === ""||
+                                        confirmpasswordRef.current?.value === ""
+                                    )
+                                    ? "btn-disabled btn-ghost" 
+                                    : ""
+                                }
+                                `
+                            } 
                     >
                         Reset Password
                     </button>

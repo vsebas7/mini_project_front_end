@@ -33,7 +33,6 @@ function VerifyAccountPage () {
           className="btn btn-neutral"
           onClick={()=>{
             onButtonVerify()
-            navigate("/login")
           }}
         >
           Verify My Account

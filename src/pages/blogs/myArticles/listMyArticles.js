@@ -9,11 +9,6 @@ function MyBlogCard ({
     BlogId = "",
     category = ""
 }) {
-    const { id} = useSelector(state => {
-        return {
-            id : state.auth.id
-        }
-    })
     const dispatch = useDispatch()
     const [deleting,deleteConfirm] = useState(false)
 
@@ -25,7 +20,6 @@ function MyBlogCard ({
             sort : "ASC"
         }))
     }
-    console.log(id)
 
     return (
         <tr>
